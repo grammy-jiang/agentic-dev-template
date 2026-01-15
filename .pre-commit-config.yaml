@@ -75,3 +75,7 @@ repos:
     rev: v3.12.0-2
     hooks:
       - id: shfmt
+  - repo: https://github.com/checkmake/checkmake
+    rev: v0.3.0
+    hooks:
+      - id: checkmake
