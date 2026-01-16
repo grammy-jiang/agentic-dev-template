@@ -73,8 +73,8 @@ ______________________________________________________________________
    • Threat model and security review
 
 3. UI/UX DESIGN STAGE
-   ui-scaffolder ──> a11y-guardian ──> test-drafter
-                                  └──> code-reviewer
+   ui-scaffolder ──> a11y-guardian ──┬──> test-drafter
+                                     └──> code-reviewer
 
    📥 INPUTS:
    • API contracts and data models (from Architecture)
@@ -91,8 +91,8 @@ ______________________________________________________________________
 
 4. IMPLEMENTATION STAGE
    implementation-driver ──┬──> test-drafter
-                          ├──> ci-quality-gate (on failures)
-                          └──> code-reviewer
+                           ├──> ci-quality-gate (on failures)
+                           └──> code-reviewer
 
    📥 INPUTS:
    • API contracts and data models (from Architecture)
@@ -139,7 +139,7 @@ ______________________________________________________________________
    • Approved PR ready for merge
                                                       │
 7. RELEASE & OPS STAGE                                ▼
-   release-pipeline-author <───────────────────────────┘
+   release-pipeline-author <──────────────────────────┘
           │
           ├──> prod-risk-and-rollback-gate
           │           │
