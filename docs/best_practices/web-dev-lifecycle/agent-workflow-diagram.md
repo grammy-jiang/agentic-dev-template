@@ -42,7 +42,7 @@ ______________________________________________________________________
                   ├──> ui-scaffolder                          │
                   └──> arch-spec-author <─────────────────────┘
 
-   � INPUTS:
+   📥 INPUTS:
    • Raw ideas, stakeholder requests, or problem statements
    • Business goals and success criteria
    • Existing documentation and domain context
@@ -99,6 +99,7 @@ ______________________________________________________________________
    • ADRs and architecture diagrams (from Architecture)
    • UI scaffolds and component contracts (from UI/UX Design)
    • User stories with acceptance criteria (from Requirements)
+   • **Failing tests from TDD Red phase** (from Testing)
 
    📤 OUTPUTS:
    • Production code changes (small, focused commits)
@@ -106,22 +107,37 @@ ______________________________________________________________________
    • Error handling and validation logic
    • Logging and observability hooks
    • PR-ready branches with clear descriptions
+   • **Tests passing (TDD Green phase)**
 
-5. TESTING STAGE
+   🔄 TDD LOOP (Red → Green → Refactor):
+   • test-drafter writes failing test (Red)
+   • implementation-driver implements minimal code (Green)
+   • implementation-driver refactors while tests stay green
+   • Repeat for each behavior
+
+5. TESTING STAGE (Supports TDD Red Phase)
    test-drafter ──> test-truth-and-stability-gate ──> code-reviewer
 
    📥 INPUTS:
-   • Production code changes (from Implementation)
+   • Acceptance criteria and edge cases (from Requirements) — **tests written first**
    • API contracts for contract testing (from Architecture)
-   • Acceptance criteria and edge cases (from Requirements)
    • UI components and states (from UI/UX Design)
+   • Production code changes (from Implementation) — **for validation in Green phase**
 
    📤 OUTPUTS:
-   • Unit tests for business logic
+   • Unit tests for business logic (≥95% coverage for core modules)
+   • Smoke tests for critical path checks
    • Integration tests for API contracts and DB boundaries
-   • E2E tests for critical user paths
+   • E2E tests for critical user paths (keep small)
    • Deterministic fixtures and test data
    • Coverage reports mapped to acceptance criteria
+
+   🔄 TDD INTEGRATION (Bidirectional with Implementation):
+   • Tests written BEFORE implementation (Red phase) — test-drafter initiates
+   • Tests follow AAA structure (Arrange → Act → Assert)
+   • Behavior over implementation testing
+   • Test pyramid: many unit, some integration, few E2E
+   • After Green phase, test-drafter may add edge cases and coverage
 
 6. REVIEW STAGE
    code-reviewer ──> review-comment-fixer ──> merge-readiness-auditor
@@ -191,7 +207,7 @@ flowchart TB
         UIS --> A11Y
     end
 
-    subgraph Implementation["4. Implementation Stage"]
+    subgraph Implementation["4. Implementation Stage (TDD)"]
         ID[implementation-design]
         IDR[implementation-driver]
         CQG[ci-quality-gate]
@@ -199,7 +215,7 @@ flowchart TB
         IDR --> CQG
     end
 
-    subgraph Testing["5. Testing Stage"]
+    subgraph Testing["5. Testing Stage (TDD Support)"]
         TD[test-drafter]
         TTSG[test-truth-and-stability-gate]
         TD --> TTSG
@@ -238,6 +254,10 @@ flowchart TB
     TTSG --> CR
     MRA --> RPA
     IS --> SB
+
+    %% TDD Loop (Red → Green → Refactor)
+    TD -.->|"Red: failing test"| IDR
+    IDR -.->|"Green: minimal code"| TD
 ```
 
 ______________________________________________________________________
@@ -251,9 +271,33 @@ The workflow supports iteration at multiple points:
 | Story Refinement    | Quality issues found        | `story-quality-gate` → `story-builder`                        |
 | Architecture Update | Risk/NFR gaps               | `risk-and-nfr-gate` → `arch-spec-author`                     |
 | Accessibility Fix   | A11y audit fails            | `a11y-guardian` → `ui-scaffolder`                            |
+| **TDD Red→Green**   | **Each behavior change**    | `test-drafter` → `implementation-driver` → `test-drafter`    |
 | Test Revision       | Low signal tests            | `test-truth-and-stability-gate` → `test-drafter`             |
 | Review Fix          | Comments to address         | `code-reviewer` → `review-comment-fixer` → `code-reviewer`   |
 | Incident Follow-up  | Post-incident actions       | `incident-scribe` → `story-builder`                          |
+
+### TDD Loop Detail (Red → Green → Refactor)
+
+> **Note on Stage Ordering**: While the lifecycle stages are numbered sequentially (4. Implementation, 5. Testing), TDD requires **tests to drive implementation**. The `test-drafter` and `implementation-driver` agents work in a tight loop across stages 4-5, with tests written first (Red), then code (Green), then improvement (Refactor).
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    TDD CYCLE                                │
+│                                                             │
+│   ┌──────────┐    ┌──────────┐    ┌──────────┐              │
+│   │   RED    │───>│  GREEN   │───>│ REFACTOR │──┐           │
+│   │  (test)  │    │  (code)  │    │ (improve)│  │           │
+│   └──────────┘    └──────────┘    └──────────┘  │           │
+│        ^                                        │           │
+│        └────────────────────────────────────────┘           │
+│                                                             │
+│   Agents:                                                   │
+│   • RED: test-drafter writes failing test                   │
+│   • GREEN: implementation-driver writes minimal code        │
+│   • REFACTOR: implementation-driver improves structure      │
+│   • Gate: test-truth-and-stability-gate validates tests     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ______________________________________________________________________
 
@@ -265,9 +309,10 @@ Different scenarios have different entry points:
 |-----------------------------|------------------------------------|-------------------|
 | New feature from idea       | `requirements`                      | Full lifecycle    |
 | Design-ready feature        | `ui-scaffolder` or `arch-spec-author` | Skip requirements |
-| Bug fix                     | `implementation-driver`             | Skip design stages|
+| **TDD-driven feature**      | `test-drafter`                      | Red → Green → Refactor loop with `implementation-driver` |
+| Bug fix                     | `test-drafter` (write failing test first) | TDD path: Red → Green |
 | Test coverage improvement   | `test-drafter`                      | Testing only      |
-| Hotfix/emergency            | `implementation-driver` → `code-reviewer` | Fast path    |
+| Hotfix/emergency            | `implementation-driver` → `code-reviewer` | Fast path (add tests after) |
 | Incident response           | `incident-scribe`                   | Ops path          |
 
 ______________________________________________________________________
@@ -277,12 +322,12 @@ ______________________________________________________________________
 ### Builder Agents (Create artifacts)
 
 - **requirements**: Feature one-pagers, acceptance criteria, risk analysis
-- **story-builder**: INVEST-compliant user stories
+- **story-builder**: INVEST-compliant user stories with **testable acceptance criteria**
 - **ui-scaffolder**: UI components, mock data, Storybook stories
-- **arch-spec-author**: API contracts, diagrams, ADRs, data models
+- **arch-spec-author**: API contracts, diagrams, ADRs, data models, **contract test stubs**
 - **implementation-design**: Technical specs without code
-- **implementation-driver**: Production code changes
-- **test-drafter**: Unit, integration, and E2E tests
+- **implementation-driver**: Production code using **TDD (Red→Green→Refactor)**
+- **test-drafter**: Unit, smoke, integration, and E2E tests; **supports TDD Red phase**
 - **review-comment-fixer**: Implements reviewer feedback
 - **release-pipeline-author**: CI/CD workflows, deployment scripts
 - **runbook-and-ops-docs**: Operational documentation
@@ -290,11 +335,11 @@ ______________________________________________________________________
 
 ### Gate Agents (Quality control)
 
-- **story-quality-gate**: INVEST validation, DoR checks
+- **story-quality-gate**: INVEST validation, DoR checks, **testability verification**
 - **a11y-guardian**: Accessibility audits
 - **risk-and-nfr-gate**: Security, threat model, NFR review
-- **ci-quality-gate**: CI failure analysis and fixes
-- **test-truth-and-stability-gate**: Test quality validation
+- **ci-quality-gate**: CI failure analysis and fixes; **coverage enforcement**
+- **test-truth-and-stability-gate**: Test quality validation, **AAA structure, determinism checks**
 - **code-reviewer**: Pre-merge code review
-- **merge-readiness-auditor**: Merge criteria verification
+- **merge-readiness-auditor**: Merge criteria verification, **coverage gate**
 - **prod-risk-and-rollback-gate**: Release safety review

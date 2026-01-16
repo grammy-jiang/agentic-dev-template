@@ -79,6 +79,21 @@ ______________________________________________________________________
 
 - Separation of concerns: build/test must complete before deploy
 - Promotions: dev → staging → prod (prod requires environment approval)
+  **CI pipeline phases (from TDD best practices):**
+
+1. **Format + Lint** (fast fail)
+1. **Unit tests** (high coverage, core modules ≥95%)
+1. **Smoke tests** (quick system sanity)
+1. **E2E tests** (critical journeys; strong artifacts)
+1. **Security scans** (dependency review, CodeQL)
+1. **Build + Package** (artifact creation)
+1. **Deploy** (progressive: dev → staging → prod)
+
+**Quality gates for merge:**
+
+- Phases 1–4 must pass before PR merge
+- No flaky tests tolerated in mainline
+- Coverage reports and test artifacts published
 
 ______________________________________________________________________
 

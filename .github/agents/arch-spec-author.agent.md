@@ -157,6 +157,34 @@ operations | | **Rate Limiting** | Headers and behavior |
 
 ______________________________________________________________________
 
+### Stage 4.5: Contract Tests → TDD for APIs (NEW)
+
+**Goal**: Write contract tests alongside contracts—tests exist before implementation.
+
+Following TDD principles, **contract tests are written when contracts are defined**,
+not after implementation. This ensures the contract is implementable and verifiable.
+
+**Contract Test Requirements**:
+
+| Test Type | Coverage |
+|-----------|----------|
+| **Success responses** | Each endpoint returns correct schema |
+| **Error responses** | Validation, auth, not found errors |
+| **Pagination** | Cursor/offset behavior, edge cases |
+| **Schema validation** | Required fields, types, constraints |
+
+**TDD Integration**:
+
+- Contract tests are the **Red phase** for API development
+- Tests fail until the API is implemented correctly (Green phase)
+- Tests are deterministic, isolated, and run in CI
+
+**Gate**: No implementation starts until contract tests exist for critical endpoints.
+
+**Test file location**: `tests/contract/` or `tests/integration/api/`
+
+______________________________________________________________________
+
 ### Stage 5: Data Model & Migrations → DB Contracts
 
 **Goal**: Make persistence changes explicit and reversible.
