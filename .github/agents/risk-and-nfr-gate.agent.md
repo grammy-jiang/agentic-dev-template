@@ -63,44 +63,64 @@ ______________________________________________________________________
 
 ### 1. Threat Model Review
 
-| Check | Question | |-------|----------| | **Assets Identified** | Are all
-sensitive data and critical functions listed? | | **Entry Points** | Are all
-APIs, UIs, and integrations documented? | | **Trust Boundaries** | Where do
-trust levels change? (user→API, API→DB, etc.) | | **STRIDE Coverage** | Is each
-threat category addressed? | | **Mitigations Complete** | Does every threat have
-a control? | | **Residual Risk** | Is accepted risk documented with rationale? |
+| Check | Question |
+|-------|----------|
+| **Assets Identified** | Are all sensitive data and critical functions listed? |
+| **Entry Points** | Are all APIs, UIs, and integrations documented? |
+| **Trust Boundaries** | Where do trust levels change? (user→API, API→DB, etc.) |
+| **STRIDE Coverage** | Is each threat category addressed? |
+| **Mitigations Complete** | Does every threat have a control? |
+| **Residual Risk** | Is accepted risk documented with rationale? |
 
 ### 2. Abuse Case Review
 
 **Required abuse cases** (minimum):
 
-| Scenario | Status | Notes | |----------|--------|-------| | Authentication
-bypass attempts | | | | Session hijacking/fixation | | | | Privilege escalation
-| | | | Rate limit evasion | | | | Data exfiltration | | | | Injection attacks
-(SQL, XSS, command) | | | | Denial of Service | | | | Business logic abuse | | |
+| Scenario | Status | Notes |
+|----------|--------|-------|
+| Authentication bypass attempts | | |
+| Session hijacking/fixation | | |
+| Privilege escalation | | |
+| Rate limit evasion | | |
+| Data exfiltration | | |
+| Injection attacks (SQL, XSS, command) | | |
+| Denial of Service | | |
+| Business logic abuse | | |
 
 ### 3. NFR Review
 
 | Category | Required Content | Target Specified? |
-|----------|------------------|-------------------| | **Availability** | SLO
-percentage | | | **Latency** | p50/p95/p99 in milliseconds | | | **Throughput**
-| RPS capacity | | | **Scalability** | Horizontal/vertical strategy | | |
-**Security** | Auth, encryption, audit controls | | | **Privacy** | PII
-handling, consent, retention | | | **Compliance** | Regulatory requirements | |
+|----------|------------------|-------------------|
+| **Availability** | SLO percentage | |
+| **Latency** | p50/p95/p99 in milliseconds | |
+| **Throughput** | RPS capacity | |
+| **Scalability** | Horizontal/vertical strategy | |
+| **Security** | Auth, encryption, audit controls | |
+| **Privacy** | PII handling, consent, retention | |
+| **Compliance** | Regulatory requirements | |
 
 ### 4. Observability Review
 
-| Element | Required? | Status | |---------|-----------|--------| | **Structured
-logging** | ✅ | | | **Request tracing** | ✅ | | | **Business metrics** | ✅ | | |
-**Health checks** | ✅ | | | **Alerting rules** | ✅ | | | **Dashboard
-requirements** | ✅ | | | **Error tracking** | ✅ | |
+| Element | Required? | Status |
+|---------|-----------|--------|
+| **Structured logging** | ✅ | |
+| **Request tracing** | ✅ | |
+| **Business metrics** | ✅ | |
+| **Health checks** | ✅ | |
+| **Alerting rules** | ✅ | |
+| **Dashboard requirements** | ✅ | |
+| **Error tracking** | ✅ | |
 
 ### 5. Operational Readiness Review
 
-| Element | Required? | Status | |---------|-----------|--------| | **Deployment
-strategy** | ✅ | | | **Rollback procedure** | ✅ | | | **Feature flags** |
-Recommended | | | **Canary/gradual rollout** | Recommended | | | **Runbook for
-incidents** | Recommended | | | **On-call escalation** | Recommended | |
+| Element | Required? | Status |
+|---------|-----------|--------|
+| **Deployment strategy** | ✅ | |
+| **Rollback procedure** | ✅ | |
+| **Feature flags** | Recommended | |
+| **Canary/gradual rollout** | Recommended | |
+| **Runbook for incidents** | Recommended | |
+| **On-call escalation** | Recommended | |
 
 ______________________________________________________________________
 

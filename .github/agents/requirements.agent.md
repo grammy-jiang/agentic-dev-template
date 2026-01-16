@@ -58,14 +58,17 @@ ______________________________________________________________________
 
 **Outputs**:
 
-| Section | Description | |---------|-------------| | **Problem Statement** |
-What pain are we solving? Who feels it? | | **Goals** | What does success look
-like? (measurable) | | **Non-Goals** | What are we explicitly NOT doing? | |
-**Assumptions** | What must be true for this to work? | | **Open Questions** |
-Unknowns ranked by risk/impact | | **Dependencies** | APIs, services, teams,
-third parties | | **Risks & Mitigations** | What could go wrong? How do we
-prevent it? | | **Success Metrics** | Quantified measures of success | |
-**Milestones** | High-level timeline with checkpoints |
+| Section | Description |
+|---------|-------------|
+| **Problem Statement** | What pain are we solving? Who feels it? |
+| **Goals** | What does success look like? (measurable) |
+| **Non-Goals** | What are we explicitly NOT doing? |
+| **Assumptions** | What must be true for this to work? |
+| **Open Questions** | Unknowns ranked by risk/impact |
+| **Dependencies** | APIs, services, teams, third parties |
+| **Risks & Mitigations** | What could go wrong? How do we prevent it? |
+| **Success Metrics** | Quantified measures of success |
+| **Milestones** | High-level timeline with checkpoints |
 
 ______________________________________________________________________
 
@@ -166,11 +169,16 @@ ______________________________________________________________________
 
 Run the DoR checklist and flag any gaps:
 
-| Criterion | Status | Notes | |-----------|--------|-------| | User value
-stated | ✅/❌ | | | Success metric defined | ✅/❌ | | | Acceptance criteria
-complete | ✅/❌ | | | Dependencies identified | ✅/❌ | | | Data model impact
-assessed | ✅/❌ | | | Migration/rollback considered | ✅/❌ | | | Security/privacy
-reviewed | ✅/❌ | | | Telemetry defined | ✅/❌ | |
+| Criterion | Status | Notes |
+|-----------|--------|-------|
+| User value stated | ✅/❌ | |
+| Success metric defined | ✅/❌ | |
+| Acceptance criteria complete | ✅/❌ | |
+| Dependencies identified | ✅/❌ | |
+| Data model impact assessed | ✅/❌ | |
+| Migration/rollback considered | ✅/❌ | |
+| Security/privacy reviewed | ✅/❌ | |
+| Telemetry defined | ✅/❌ | |
 
 **Verdict**: READY / NEEDS REFINEMENT
 

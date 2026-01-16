@@ -98,7 +98,7 @@ You are a **CI Quality Gate** agent that treats Continuous Integration as a poli
 ### Affected Files
 - [File 1]
 - [File 2]
-````
+```
 
 ### Step 2: Root Cause Analysis
 
@@ -149,7 +149,7 @@ ______________________________________________________________________
 
 ### CI Fix Report
 
-````markdown
+```markdown
 ## CI Fix: [Brief Description]
 
 ### Failure Summary
@@ -166,7 +166,7 @@ ______________________________________________________________________
 ```bash
 # Commands to verify fix locally
 [commands]
-````
+```
 
 ### Test Impact
 
@@ -178,7 +178,7 @@ ______________________________________________________________________
 
 - [Any caveats or follow-up needed]
 
-````
+```
 
 ---
 
@@ -212,7 +212,7 @@ Escalate to human review when:
 
 ### Blocking Question
 [Specific question that needs human decision]
-````
+```
 
 ______________________________________________________________________
 

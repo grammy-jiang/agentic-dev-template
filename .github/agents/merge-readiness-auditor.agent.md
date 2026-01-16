@@ -54,40 +54,49 @@ ______________________________________________________________________
 
 ### 1. Required Status Checks
 
-| Check Category | Items to Verify | |----------------|-----------------| |
-**CI/Build** | Build passes on all target platforms | | **Tests** | Unit,
-integration, E2E tests pass | | **Linting** | Code style checks pass (ESLint,
-Black, etc.) | | **Type Check** | TypeScript/mypy passes without errors | |
-**Security** | SAST/dependency scanning passes | | **Coverage** | Coverage
-thresholds met (if configured) |
+| Check Category | Items to Verify |
+|----------------|-----------------|
+| **CI/Build** | Build passes on all target platforms |
+| **Tests** | Unit, integration, E2E tests pass |
+| **Linting** | Code style checks pass (ESLint, Black, etc.) |
+| **Type Check** | TypeScript/mypy passes without errors |
+| **Security** | SAST/dependency scanning passes |
+| **Coverage** | Coverage thresholds met (if configured) |
 
 ### 2. Review Requirements
 
-| Requirement | Verification | |-------------|--------------| | **Minimum
-approvals** | Required number of approving reviews present | | **CODEOWNERS** |
-Required owners have approved (if configured) | | **Stale reviews** | No
-approvals invalidated by new commits | | **Dismissed reviews** | No unaddressed
-dismissed reviews |
+| Requirement | Verification |
+|-------------|-------------|
+| **Minimum approvals** | Required number of approving reviews present |
+| **CODEOWNERS** | Required owners have approved (if configured) |
+| **Stale reviews** | No approvals invalidated by new commits |
+| **Dismissed reviews** | No unaddressed dismissed reviews |
 
 ### 3. Conversation Resolution
 
-| Item | Status | |------|--------| | **Unresolved threads** | All review
-conversations resolved | | **Pending questions** | No unanswered questions from
-reviewers | | **Requested changes** | All "request changes" reviews addressed |
+| Item | Status |
+|------|--------|
+| **Unresolved threads** | All review conversations resolved |
+| **Pending questions** | No unanswered questions from reviewers |
+| **Requested changes** | All "request changes" reviews addressed |
 
 ### 4. PR Metadata
 
-| Item | Verification | |------|--------------| | **Description** | PR has
-meaningful description | | **Linked issues** | Related issues/stories linked | |
-**Labels** | Appropriate labels applied | | **Milestone** | Assigned to correct
-milestone (if applicable) |
+| Item | Verification |
+|------|-------------|
+| **Description** | PR has meaningful description |
+| **Linked issues** | Related issues/stories linked |
+| **Labels** | Appropriate labels applied |
+| **Milestone** | Assigned to correct milestone (if applicable) |
 
 ### 5. Branch Requirements
 
-| Item | Status | |------|--------| | **Up to date** | Branch is up to date with
-base branch | | **No conflicts** | No merge conflicts present | | **Linear
-history** | Commits are rebased (if required) | | **Signed commits** | Commits
-are signed (if required) |
+| Item | Status |
+|------|--------|
+| **Up to date** | Branch is up to date with base branch |
+| **No conflicts** | No merge conflicts present |
+| **Linear history** | Commits are rebased (if required) |
+| **Signed commits** | Commits are signed (if required) |
 
 ______________________________________________________________________
 
@@ -196,11 +205,15 @@ ______________________________________________________________________
 
 ## Status Indicators
 
-| Symbol | Meaning | |--------|---------| | 🟢 | All criteria met, no blockers |
-| 🟡 | Some items pending or warning-level issues | | 🔴 | Blockers present,
-cannot merge | | ✅ | Individual item passing | | ❌ | Individual item failing | |
-⚠️ | Warning, non-blocking but should address | | ❓ | Unknown, needs
-verification |
+| Symbol | Meaning |
+|--------|---------|
+| 🟢 | All criteria met, no blockers |
+| 🟡 | Some items pending or warning-level issues |
+| 🔴 | Blockers present, cannot merge |
+| ✅ | Individual item passing |
+| ❌ | Individual item failing |
+| ⚠️ | Warning, non-blocking but should address |
+| ❓ | Unknown, needs verification |
 
 ______________________________________________________________________
 

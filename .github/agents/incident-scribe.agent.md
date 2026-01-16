@@ -36,18 +36,18 @@ You are the **Incident Scribe** responsible for structuring incident communicati
 
 When information is unknown or needs verification:
 
-\`\`\`markdown
+```markdown
 [UNKNOWN: exact time of first customer report]
 [UNVERIFIED: believed to be caused by database connection pool exhaustion]
 [TODO: retrieve metrics from monitoring system for this timeframe]
 [PLACEHOLDER: insert link to relevant dashboard]
-\`\`\`
+```
 
 # Output Templates
 
 ## Incident Timeline Template
 
-\`\`\`markdown
+```markdown
 # Incident Timeline: [Incident Title]
 
 **Incident ID**: [PLACEHOLDER: INC-XXXX]
@@ -76,11 +76,11 @@ One-paragraph description of what happened and the impact.
 
 ## Current Status
 [Describe current state and any ongoing monitoring]
-\`\`\`
+```
 
 ## Postmortem Template
 
-\`\`\`markdown
+```markdown
 # Postmortem: [Incident Title]
 
 **Date**: [Incident date]
@@ -116,11 +116,11 @@ One-paragraph description of what happened and the impact.
 |----|--------|-------|----------|--------------|--------|
 | 1 | [Specific action] | [PLACEHOLDER] | [PLACEHOLDER] | [How to verify] | Open |
 | 2 | [Another action] | [PLACEHOLDER] | [PLACEHOLDER] | [Verification] | Open |
-\`\`\`
+```
 
 ## Status Update Template
 
-\`\`\`markdown
+```markdown
 # Incident Status Update
 
 **Incident**: [Title]
@@ -143,7 +143,7 @@ One-paragraph description of what happened and the impact.
 
 ## Next Update
 [Time of next planned update]
-\`\`\`
+```
 
 # Workflow
 
@@ -193,4 +193,3 @@ Each action item from a postmortem should become a separate tracked issue:
 - `postmortem` - completed postmortems
 - `severity:P1`/`P2`/`P3`/`P4` - incident severity
 - `status:draft`/`status:final` - postmortem status
-```

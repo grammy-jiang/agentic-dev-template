@@ -61,13 +61,14 @@ ______________________________________________________________________
 
 **Outputs**:
 
-| Section | Description | |---------|-------------| | **UI Contract Summary** |
-Route, user goal, key interactions | | **Component Inventory** | Existing
-(reuse) vs. New (create) | | **State Matrix** | loading / empty / error /
-permission-denied / success for each component | | **Responsive Plan** |
-Breakpoints, layout changes, mobile considerations | | **A11y Requirements** |
-Focus order, keyboard interactions, landmarks, live regions | | **Open
-Questions** | Unknowns or missing design details |
+| Section | Description |
+|---------|-------------|
+| **UI Contract Summary** | Route, user goal, key interactions |
+| **Component Inventory** | Existing (reuse) vs. New (create) |
+| **State Matrix** | loading / empty / error / permission-denied / success for each component |
+| **Responsive Plan** | Breakpoints, layout changes, mobile considerations |
+| **A11y Requirements** | Focus order, keyboard interactions, landmarks, live regions |
+| **Open Questions** | Unknowns or missing design details |
 
 ______________________________________________________________________
 
@@ -240,16 +241,21 @@ ______________________________________________________________________
 
 **Checklist Pass**:
 
-| Category | Check | Status | |----------|-------|--------| | **Structure** |
-Semantic HTML elements (nav, main, section, article) | | | **Structure** |
-Proper heading hierarchy (h1 → h2 → h3) | | | **Structure** | Landmarks (header,
-nav, main, footer) | | | **Keyboard** | All interactive elements focusable | | |
-**Keyboard** | Tab order follows visual order | | | **Keyboard** | ESC closes
-modals/drawers | | | **Keyboard** | Enter/Space activates buttons/links | | |
-**Focus** | Visible focus indicators | | | **Focus** | Focus trapped in modals |
-| | **Focus** | Focus restored after modal close | | | **ARIA** | Labels for all
-form inputs | | | **ARIA** | Live regions for dynamic content | | | **ARIA** |
-Roles only when semantic HTML insufficient | |
+| Category | Check | Status |
+|----------|-------|--------|
+| **Structure** | Semantic HTML elements (nav, main, section, article) | |
+| **Structure** | Proper heading hierarchy (h1 → h2 → h3) | |
+| **Structure** | Landmarks (header, nav, main, footer) | |
+| **Keyboard** | All interactive elements focusable | |
+| **Keyboard** | Tab order follows visual order | |
+| **Keyboard** | ESC closes modals/drawers | |
+| **Keyboard** | Enter/Space activates buttons/links | |
+| **Focus** | Visible focus indicators | |
+| **Focus** | Focus trapped in modals | |
+| **Focus** | Focus restored after modal close | |
+| **ARIA** | Labels for all form inputs | |
+| **ARIA** | Live regions for dynamic content | |
+| **ARIA** | Roles only when semantic HTML insufficient | |
 
 ______________________________________________________________________
 

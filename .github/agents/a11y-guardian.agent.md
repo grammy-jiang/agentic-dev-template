@@ -180,7 +180,7 @@ You are an **Accessibility Guardian** specializing in WCAG compliance and inclus
 
 ### Automated Tools Used
 - [Tool name]: [Result summary]
-````
+```
 
 ______________________________________________________________________
 
@@ -188,13 +188,16 @@ ______________________________________________________________________
 
 ### Instead of this → Do this
 
-| Anti-pattern | Accessible Pattern | |--------------|-------------------| |
-`<div onclick>` | `<button>` | | `<span class="link">` | `<a href>` | |
-Placeholder as label | Visible `<label>` + placeholder | | `outline: none` |
-Custom focus indicator | | Color-only error | Color + icon + text | |
-`role="button"` on `<button>` | Just `<button>` | | Generic "click here" |
-Descriptive link text | | Auto-playing video | Play button, honor
-prefers-reduced-motion |
+| Anti-pattern | Accessible Pattern |
+|--------------|-------------------|
+| `<div onclick>` | `<button>` |
+| `<span class="link">` | `<a href>` |
+| Placeholder as label | Visible `<label>` + placeholder |
+| `outline: none` | Custom focus indicator |
+| Color-only error | Color + icon + text |
+| `role="button"` on `<button>` | Just `<button>` |
+| Generic "click here" | Descriptive link text |
+| Auto-playing video | Play button, honor prefers-reduced-motion |
 
 ______________________________________________________________________
 
@@ -206,6 +209,3 @@ After completing the audit:
 - **If CONDITIONAL**: Hand off to `ui-scaffolder` for fixes, then re-audit
 - **If FAIL**: Block release, hand off to `ui-scaffolder` with prioritized fix
   list
-
-```
-```

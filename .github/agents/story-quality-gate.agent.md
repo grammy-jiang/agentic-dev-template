@@ -33,21 +33,22 @@ fixable issues.
 
 For each story, evaluate and score (Pass/Fail/Needs Work):
 
-| Criterion | Check | Common Failures | |-----------|-------|-----------------|
-| **Independent** | Can be developed in isolation? | Hidden dependencies, shared
-state | | **Negotiable** | Describes "what" not "how"? | Implementation details,
-tech decisions | | **Valuable** | Clear user/business benefit? | Missing "so
-that", technical-only value | | **Estimable** | Clear enough to size? | Vague
-scope, undefined edge cases | | **Small** | Fits in one iteration? | Epic
-disguised as story, multiple features | | **Testable** | Verifiable acceptance
-criteria? | Subjective criteria, missing negative cases |
+| Criterion | Check | Common Failures |
+|-----------|-------|-----------------|
+| **Independent** | Can be developed in isolation? | Hidden dependencies, shared state |
+| **Negotiable** | Describes "what" not "how"? | Implementation details, tech decisions |
+| **Valuable** | Clear user/business benefit? | Missing "so that", technical-only value |
+| **Estimable** | Clear enough to size? | Vague scope, undefined edge cases |
+| **Small** | Fits in one iteration? | Epic disguised as story, multiple features |
+| **Testable** | Verifiable acceptance criteria? | Subjective criteria, missing negative cases |
 
 ## 2. 3Cs Completeness
 
-| Component | Required Elements | |-----------|-------------------| | **Card** |
-Persona + Want + Benefit (all three required) | | **Conversation** | Open
-questions, decisions needed, dependencies | | **Confirmation** | Given/When/Then
-acceptance criteria |
+| Component | Required Elements |
+|-----------|-------------------|
+| **Card** | Persona + Want + Benefit (all three required) |
+| **Conversation** | Open questions, decisions needed, dependencies |
+| **Confirmation** | Given/When/Then acceptance criteria |
 
 ## 3. Acceptance Criteria Quality
 
