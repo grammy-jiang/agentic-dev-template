@@ -1,0 +1,201 @@
+# User Stories: Integrating GitHub Copilot + Custom Agents (Practical + Repeatable)
+
+If you want Copilot to *improve* story quality (not just generate text), treat user stories as **structured backlog assets** with **hard gates**: INVEST, 3Cs, acceptance criteria, and Definition of Ready. Copilot is best used as a **drafting + consistency engine**, not as the decision-maker.
+
+---
+
+## A. Baseline setup (so Copilot doesn’t produce fluffy stories)
+
+### 1) Repo instructions = “story policy”
+- Put global rules in `.github/copilot-instructions.md` (story template, DoR expectations, language/format consistency).
+- Add path-specific rules in `.github/instructions/*.instructions.md` with `applyTo` so story-related docs and templates get stricter constraints than normal code files.
+- Use `AGENTS.md` to define agent governance (what each agent may/may not do).
+
+**Non-negotiables to encode**
+- Stories must meet **INVEST** and include **acceptance criteria**.
+- Every story must include **edge/negative cases** (auth, empty, validation, error, concurrency if applicable).
+- **No “big-bang” stories**: if it can’t ship in an iteration, it must be sliced.
+- Explicit **out-of-scope** and **open questions** are mandatory.
+
+### 2) Prompt files = “SOP commands”
+- Store prompt files in `.github/prompts/*.prompt.md`.
+- Enable prompt files in VS Code settings (`"chat.promptFiles": true`) and run them via `/PROMPTNAME`.
+- Keep them small and versioned to tolerate upstream changes.
+
+### 3) Issue Forms = “structured intake that prevents garbage”
+- Use GitHub **Issue Forms** (`.github/ISSUE_TEMPLATE/*.yml`) to force required fields (persona, value, AC, DoR checkboxes).
+- Prefer the `ISSUE_TEMPLATE/` directory approach; don’t build new process on deprecated legacy templates.
+- Keep the form minimal: required fields + a DoR checklist + links to supporting docs.
+
+---
+
+## B. User-story workflow with Copilot embedded (end-to-end)
+
+### 1) Story intake → “Story Candidate Set”
+**Goal:** translate a requirement into multiple candidate stories (not one bloated story).
+
+**You provide:**
+- feature brief (problem, users, constraints, success metric)
+- any UX notes (links to designs if available)
+
+**Copilot outputs:**
+- a **candidate set**: 3–10 small stories mapped to a user journey
+- explicit **assumptions + open questions**
+- a recommended slicing strategy (MVP path first)
+
+**Gate:** if Copilot can’t propose a sliceable journey, your brief is likely under-specified.
+
+---
+
+### 2) INVEST enforcement → “Rewrite or reject”
+**Goal:** eliminate vague and oversized stories.
+
+**Copilot does:**
+- checks each story against INVEST
+- rewrites stories that fail (make it testable, reduce scope)
+- flags “epic disguised as story” (common failure mode)
+
+**Gate:** any story that fails “Testable” or “Small” goes back to refinement.
+
+---
+
+### 3) 3Cs completion → “Card → Conversation → Confirmation”
+**Goal:** ensure the story isn’t just a one-liner.
+
+**Copilot does:**
+- **Card**: crisp statement and business value
+- **Conversation**: clarification questions and decisions needed
+- **Confirmation**: acceptance criteria (BDD) + examples
+
+**Gate:** no AC = not ready.
+
+---
+
+### 4) Acceptance Criteria (BDD) → “Given/When/Then + negative cases”
+**Goal:** make the behavior verifiable.
+
+**Copilot outputs:**
+- Given/When/Then for the happy path
+- negative cases:
+  - auth/permission
+  - validation failures
+  - empty state
+  - partial failure / retry
+  - timeouts/network error
+  - concurrency/idempotency where relevant
+
+**Gate:** negative cases must be explicit; otherwise they will be “found” in production.
+
+---
+
+### 5) Story readiness (DoR) → “Backlog hygiene”
+**Goal:** prevent engineering churn caused by incomplete stories.
+
+**Copilot checks:**
+- Success metric present?
+- Dependencies identified?
+- UX states defined (loading/empty/error)?
+- Data implications known (new fields, migrations, privacy)?
+- Telemetry/observability expectations stated?
+- Rollout constraints (feature flags, canary) noted?
+
+**Gate:** failing DoR means it’s not schedulable.
+
+---
+
+### 6) Conversion to repo artifacts → “Issue Form-compliant output”
+**Goal:** avoid format drift across issues.
+
+**Copilot does:**
+- outputs story content in the exact fields required by your Issue Form
+- suggests labels (feature, ui, backend, a11y, needs-design, blocked)
+
+**Gate:** the story must be “Issue Form ready” before it enters sprint planning.
+
+---
+
+## C. Where Copilot CLI / Coding Agent fits
+
+This step is mostly content, but you can still use agents to **operationalize** your system:
+
+- Use the coding agent to generate and maintain:
+  - Issue forms (YAML), prompt files, and instruction files via PRs (reviewed by you).
+- Version custom agents as `.agent.md` files under `.github/agents/` to keep “story behavior” stable.
+
+---
+
+## D. Recommended custom agents for User Stories (keep it pragmatic)
+
+Mirror the structure you used for Requirements and UI/UX: **one builder agent + one gate agent**.
+
+### 1) `story-builder.agent.md` (primary agent)
+**Mission:** generate a high-quality, sliceable set of user stories from a feature brief.
+
+**Non-negotiables:**
+- produce multiple slices (not one mega story)
+- enforce INVEST and include open questions
+- output in Issue Form-friendly structure
+- include explicit out-of-scope
+
+### 2) `story-quality-gate.agent.md` (review/gate agent)
+**Mission:** reject weak stories and propose precise rewrites.
+
+**Non-negotiables:**
+- verify INVEST + 3Cs completeness
+- verify AC quality + negative cases
+- verify DoR readiness for scheduling
+- identify contradictions and hidden dependencies
+
+### Optional skills (extra modularity)
+- `gherkin-writer` — BDD Given/When/Then generation
+- `edge-case-enumerator` — systematic negative cases per feature type
+- `issue-form-normalizer` — converts free text into strict Issue Form sections
+
+---
+
+## E. Prompt file “command set” (what you actually run)
+
+Store in `.github/prompts/` and invoke with `/...` in chat:
+
+- `/story-candidates-from-brief` → generate journey + multiple story slices
+- `/invest-check-and-rewrite` → validate INVEST; rewrite failing stories
+- `/3cs-completion` → add conversation questions + confirmation
+- `/bdd-acceptance-criteria` → Given/When/Then + negative cases
+- `/dor-check` → DoR checklist pass + missing info
+- `/issue-form-output` → produce Issue Form-compliant final output
+
+---
+
+## Example prompt file skeleton (story candidates)
+
+```markdown
+---
+name: story-candidates-from-brief
+description: Generate a sliceable set of user stories (INVEST) from a feature brief
+---
+
+Input: ${input:brief:Paste the feature brief}
+
+Rules:
+- Output 3–10 stories mapped to a user journey.
+- Each story must be INVEST and include explicit value.
+- Include assumptions and open questions.
+- Include out-of-scope for the epic.
+- Do not invent system facts; call out unknowns.
+
+Output format:
+- Epic summary
+- Story list (ID, Title, As a/I want/So that)
+- Notes: assumptions, open questions, out-of-scope
+```
+
+---
+
+## Next step suggestion
+
+If you want to proceed one-by-one, the next concrete deliverable is to produce:
+
+- `.github/agents/story-builder.agent.md`
+- `.github/agents/story-quality-gate.agent.md`
+- Six `.github/prompts/*.prompt.md` files corresponding to the command set above
+- One `.github/ISSUE_TEMPLATE/user-story.yml` (Issue Form with required fields + DoR checklist)
