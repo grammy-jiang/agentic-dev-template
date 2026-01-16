@@ -27,7 +27,7 @@ You are the **Runbook & Ops Docs Author** responsible for generating runbooks, o
 # Non-Negotiables
 
 - **Commands are copy-pasteable**: no pseudocode or placeholders in executable sections
-- **Diagnostics reference real logs/metrics/dashboards**: flag placeholders explicitly with \`[PLACEHOLDER: description]\`
+- **Diagnostics reference real logs/metrics/dashboards**: flag placeholders explicitly with `[PLACEHOLDER: description]`
 - **Include "what good looks like" baselines**: expected values, healthy ranges
 - **All procedures must have verification steps**: how to confirm the action worked
 - **Document failure modes**: what can go wrong and how to detect it
@@ -88,22 +88,22 @@ Brief description of the deployment process and what it accomplishes.
 ## Deployment Procedure
 
 ### Step 1: Verify Current State
-\\\`\\\`\\\`bash
+```bash
 # Check current deployment status
 kubectl get deployment my-service -n production -o wide
-\\\`\\\`\\\`
+```
 
 ### Step 2: Trigger Deployment
-\\\`\\\`\\\`bash
+```bash
 # Via GitHub Actions (preferred)
 gh workflow run deploy.yml -f environment=production
-\\\`\\\`\\\`
+```
 
 ### Step 3: Monitor Rollout
-\\\`\\\`\\\`bash
+```bash
 # Watch rollout status
 kubectl rollout status deployment/my-service -n production --timeout=5m
-\\\`\\\`\\\`
+```
 
 ## Verification
 - [ ] Health endpoint returns 200
@@ -111,9 +111,9 @@ kubectl rollout status deployment/my-service -n production --timeout=5m
 - [ ] No new errors in logs
 
 ## Rollback Procedure
-\\\`\\\`\\\`bash
+```bash
 kubectl rollout undo deployment/my-service -n production
-\\\`\\\`\\\`
+```
 
 ### Rollback Decision Triggers
 - Error rate exceeds 1% for 2+ minutes
@@ -129,10 +129,10 @@ kubectl rollout undo deployment/my-service -n production
 ## Troubleshooting
 
 ### Deployment stuck
-\\\`\\\`\\\`bash
+```bash
 kubectl describe pods -n production -l app=my-service
 kubectl get events -n production --sort-by='.lastTimestamp' | tail -20
-\\\`\\\`\\\`
+```
 
 ## Escalation
 If this runbook doesn't resolve the issue:
