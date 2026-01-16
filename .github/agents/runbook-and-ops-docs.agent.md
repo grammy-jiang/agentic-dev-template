@@ -201,9 +201,9 @@ kubectl get pods -l app=myapp
 [1-2 sentence description]
 
 ## Key Dashboards
-- [Main Dashboard](link)
-- [Error Dashboard](link)
-- [Latency Dashboard](link)
+- Main Dashboard: `[PLACEHOLDER: URL]`
+- Error Dashboard: `[PLACEHOLDER: URL]`
+- Latency Dashboard: `[PLACEHOLDER: URL]`
 
 ## SLOs and Thresholds
 | Metric | Target | Alert Threshold |
@@ -217,7 +217,7 @@ kubectl get pods -l app=myapp
 ### Alert: HighErrorRate
 **Meaning**: Error rate exceeded 0.5%
 **Immediate Action**:
-1. Check recent deployments: [link]
+1. Check recent deployments: `[PLACEHOLDER: deployments URL]`
 2. Check error logs:
    ```bash
    kubectl logs -l app=myapp --since=10m | grep ERROR
@@ -227,8 +227,8 @@ kubectl get pods -l app=myapp
 ### Alert: HighLatency
 **Meaning**: P99 > 750ms
 **Immediate Action**:
-1. Check database: [link]
-2. Check downstream services: [link]
+1. Check database: `[PLACEHOLDER: database dashboard URL]`
+2. Check downstream services: `[PLACEHOLDER: services dashboard URL]`
 3. Consider scaling:
    ```bash
    kubectl scale deployment/myapp --replicas=5

@@ -181,9 +181,9 @@ Compatible with `08-incident-report.yml`:
 ### Appendix
 
 #### Related Links
-- [Monitoring dashboard](link)
-- [Incident channel](link)
-- [Related PRs](links)
+- Monitoring dashboard: `[PLACEHOLDER: dashboard URL]`
+- Incident channel: `[PLACEHOLDER: Slack/Teams channel]`
+- Related PRs: `[PLACEHOLDER: PR links]`
 
 #### Unknowns / Follow-up Investigation
 - [ ] [Item needing further investigation]
