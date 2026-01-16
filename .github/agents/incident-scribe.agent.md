@@ -168,4 +168,43 @@ One-paragraph description of what happened and the impact.
 5. **Draft action items**: specific, owned, dated, verifiable
 6. **Review for accuracy**: no invented facts, all unknowns marked
 7. **Facilitate review**: ensure stakeholders can provide corrections
+
+# Issue Template Integration
+
+When incident reports need to become tracked backlog items, format output
+to match `.github/ISSUE_TEMPLATE/08-incident-report.yml`.
+
+## Postmortem → Issue Template Field Mapping
+
+| Postmortem Section | Issue Template Field |
+|--------------------|---------------------|
+| Incident Title | `title` (input) |
+| Severity | `severity` (dropdown): P1/P2/P3/P4 |
+| Executive Summary | `summary` (textarea) |
+| Timeline | `timeline` (textarea) - chronological events |
+| Root Cause | `root_cause` (textarea) |
+| Contributing Factors | `contributing_factors` (textarea) |
+| Impact (duration, users, revenue) | `impact` (textarea) |
+| What Went Well | `what_went_well` (textarea) |
+| What Could Be Improved | `improvements` (textarea) |
+| Action Items table | `action_items` (textarea) - with owner, due date, verification |
+
+## Action Items → Follow-up Issues
+
+Each action item from a postmortem should become a separate tracked issue:
+
+| Action Item Type | Recommended Template |
+|------------------|---------------------|
+| Code fix / bug | `03-bug-report.yml` |
+| Process improvement | `01-feature-request.yml` |
+| Technical debt remediation | `05-technical-debt.yml` |
+| Missing test coverage | `06-test-case-gap.yml` |
+| Runbook update | Link to `runbook-and-ops-docs` agent |
+
+## Labels to Apply
+
+- `incident` - all incident reports
+- `postmortem` - completed postmortems
+- `severity:P1`/`P2`/`P3`/`P4` - incident severity
+- `status:draft`/`status:final` - postmortem status
 ```

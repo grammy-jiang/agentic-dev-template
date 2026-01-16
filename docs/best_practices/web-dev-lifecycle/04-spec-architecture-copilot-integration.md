@@ -247,9 +247,16 @@ ______________________________________________________________________
 
 ## Next step suggestion
 
-If you want to proceed one-by-one, the next concrete deliverable is to produce:
+The following artifacts are now available in this repository:
 
-- `.github/agents/arch-spec-author.agent.md`
-- `.github/agents/risk-and-nfr-gate.agent.md`
-- Seven `.github/prompts/*.prompt.md` files corresponding to the command set above
-- A minimal policy layer in `.github/copilot-instructions.md` + path-specific `.github/instructions/*.instructions.md`
+- `.github/agents/arch-spec-author.agent.md` ✅
+- `.github/agents/risk-and-nfr-gate.agent.md` ✅
+- `.github/copilot-instructions.md` ✅ With architecture output rules
+- `.github/instructions/issue-output.instructions.md` ✅ With ADR format
+
+### Issue Templates for Architecture Stage
+
+| Template | Use When | Key Fields |
+|----------|----------|------------|
+| `04-architecture-decision.yml` | Documenting ADRs | Context, Options, Decision, Consequences, NFR Impact |
+| `05-technical-debt.yml` | Tracking tech debt | Risk Level, NFR Impact, Refactor Scope |

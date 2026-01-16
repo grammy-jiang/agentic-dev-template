@@ -245,13 +245,17 @@ ______________________________________________________________________
 
 ## Next step suggestion
 
-If you want to proceed one-by-one, the next concrete deliverable is to produce
-repo-ready artifacts:
+The following artifacts are now available in this repository:
 
-- `.github/agents/release-pipeline-author.agent.md`
-- `.github/agents/prod-risk-and-rollback-gate.agent.md`
-- `.github/agents/runbook-and-ops-docs.agent.md`
-- `.github/agents/incident-scribe.agent.md`
-- 6 prompt files under `.github/prompts/`
-- A recommended `.github/workflows/` structure (prod environment gates + OIDC
-  template)
+- `.github/agents/release-pipeline-author.agent.md` ✅
+- `.github/agents/prod-risk-and-rollback-gate.agent.md` ✅
+- `.github/agents/runbook-and-ops-docs.agent.md` ✅
+- `.github/agents/incident-scribe.agent.md` ✅
+- `.github/copilot-instructions.md` ✅ With release and ops rules
+
+### Issue Templates for Release & Ops Stage
+
+| Template | Use When | Key Fields |
+|----------|----------|------------|
+| `07-release-request.yml` | Requesting releases | Version, Changelog, Rollback Plan, Monitoring, Deployment Strategy |
+| `08-incident-report.yml` | Post-incident reviews | Timeline, Root Cause, Impact, Action Items, Lessons Learned |

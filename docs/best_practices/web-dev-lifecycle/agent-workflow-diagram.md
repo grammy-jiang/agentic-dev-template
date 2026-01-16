@@ -54,6 +54,10 @@ ______________________________________________________________________
    • Risk register and non-functional requirements (NFRs)
    • Definition of Ready (DoR) validated backlog items
 
+   📋 ISSUE TEMPLATES:
+   • `01-feature-request.yml` ← Feature one-pagers
+   • `02-user-story.yml` ← User stories with DoR checklist
+
 2. ARCHITECTURE STAGE
    arch-spec-author ──> risk-and-nfr-gate ──┬──> implementation-driver
                                             └──> ui-scaffolder
@@ -71,6 +75,10 @@ ______________________________________________________________________
    • Mermaid/C4 diagrams (context, container, sequence)
    • Architecture Decision Records (ADRs)
    • Threat model and security review
+
+   📋 ISSUE TEMPLATES:
+   • `04-architecture-decision.yml` ← ADRs
+   • `05-technical-debt.yml` ← Tech debt tracking
 
 3. UI/UX DESIGN STAGE
    ui-scaffolder ──> a11y-guardian ──┬──> test-drafter
@@ -132,7 +140,10 @@ ______________________________________________________________________
    • Deterministic fixtures and test data
    • Coverage reports mapped to acceptance criteria
 
-   🔄 TDD INTEGRATION (Bidirectional with Implementation):
+   � ISSUE TEMPLATES:
+   • `06-test-case-gap.yml` ← Missing test coverage
+
+   �🔄 TDD INTEGRATION (Bidirectional with Implementation):
    • Tests written BEFORE implementation (Red phase) — test-drafter initiates
    • Tests follow AAA structure (Arrange → Act → Assert)
    • Behavior over implementation testing
@@ -179,6 +190,57 @@ ______________________________________________________________________
    • Deployment runbooks with copy-pasteable commands
    • On-call notes and troubleshooting guides
    • Incident timelines and postmortem documents (when needed)
+
+   📋 ISSUE TEMPLATES:
+   • `07-release-request.yml` ← Release requests with rollback plan
+   • `08-incident-report.yml` ← Post-incident reports
+```
+
+______________________________________________________________________
+
+## Issue Template to Agent Mapping
+
+Agents output content compatible with GitHub Issue Forms in `.github/ISSUE_TEMPLATE/`:
+
+| Issue Template | Primary Agent | Gate Agent | Lifecycle Stage |
+|----------------|---------------|------------|-----------------|
+| `01-feature-request.yml` | `requirements` | — | Requirements |
+| `02-user-story.yml` | `story-builder` | `story-quality-gate` | Requirements |
+| `03-bug-report.yml` | `implementation-driver` | `code-reviewer` | Implementation |
+| `04-architecture-decision.yml` | `arch-spec-author` | `risk-and-nfr-gate` | Architecture |
+| `05-technical-debt.yml` | `arch-spec-author` | `risk-and-nfr-gate` | Architecture |
+| `06-test-case-gap.yml` | `test-drafter` | `test-truth-and-stability-gate` | Testing |
+| `07-release-request.yml` | `release-pipeline-author` | `prod-risk-and-rollback-gate` | Release & Ops |
+| `08-incident-report.yml` | `incident-scribe` | — | Release & Ops |
+
+### Workflow: Agent Output → Issue Creation
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    AGENT TO ISSUE WORKFLOW                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+  Agent Drafting (VS Code Chat)          Issue Persistence (GitHub)
+  ─────────────────────────────          ─────────────────────────────
+
+  @requirements                          ┌─────────────────────────┐
+       │                                 │  01-feature-request.yml │
+       │ handoff                         └─────────────────────────┘
+       ▼                                           ▲
+  @story-builder ──────────────────────────────────┼── copy/paste or
+       │                                           │   MCP tool
+       │ handoff                         ┌─────────────────────────┐
+       ▼                                 │  02-user-story.yml      │
+  @story-quality-gate                    └─────────────────────────┘
+       │                                           ▲
+       │ validated output ─────────────────────────┘
+       ▼
+  Ready for backlog entry
+
+  Options for issue creation:
+  1. Manual: Copy agent output → Paste into GitHub Issue Form
+  2. Prompt: Use /story-to-issue-form to format output
+  3. MCP: Agent calls GitHub API to create issue directly
 ```
 
 ______________________________________________________________________
@@ -343,3 +405,17 @@ ______________________________________________________________________
 - **code-reviewer**: Pre-merge code review
 - **merge-readiness-auditor**: Merge criteria verification, **coverage gate**
 - **prod-risk-and-rollback-gate**: Release safety review
+
+______________________________________________________________________
+
+## Configuration Files
+
+The agent workflow is governed by these configuration files:
+
+| File | Purpose | Used By |
+|------|---------|---------|
+| `.github/copilot-instructions.md` | Universal rules (INVEST, DoR, output format) | VS Code Chat, Coding Agent |
+| `.github/instructions/issue-output.instructions.md` | Issue-specific output formatting | VS Code Chat, Coding Agent |
+| `.github/prompts/story-to-issue-form.prompt.md` | Interactive `/story-to-issue-form` command | VS Code Chat |
+| `.github/ISSUE_TEMPLATE/*.yml` | Structured issue intake forms | GitHub Issues |
+| `.github/agents/*.agent.md` | Agent definitions with handoffs | VS Code Chat |

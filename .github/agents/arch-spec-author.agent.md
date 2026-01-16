@@ -324,6 +324,43 @@ docs/
 
 ______________________________________________________________________
 
+## Issue Template Integration
+
+When architecture artifacts need to become tracked backlog items, format output
+to match the corresponding issue templates in `.github/ISSUE_TEMPLATE/`:
+
+| Artifact Type | Issue Template | Key Fields to Include |
+|---------------|----------------|----------------------|
+| Architecture Decision | `04-architecture-decision.yml` | Context, Options Considered, Decision, Consequences, References |
+| Technical Debt | `05-technical-debt.yml` | Description, Risk Level, NFR Impact, Refactor Scope, Proposed Solution |
+
+### ADR → Issue Template Field Mapping
+
+When an ADR needs to be tracked as an issue:
+
+| ADR Section | Issue Template Field |
+|-------------|---------------------|
+| Context | `context` (textarea) |
+| Alternatives Considered | `options_considered` (textarea) |
+| Decision | `decision` (textarea) |
+| Consequences | `consequences` (textarea) |
+| References | `references` (textarea) |
+| Status | Labels: `adr`, `status:proposed`/`status:accepted` |
+
+### Technical Debt → Issue Template Field Mapping
+
+When identifying technical debt during architecture review:
+
+| Identified Issue | Issue Template Field |
+|------------------|---------------------|
+| What needs refactoring | `description` (textarea) |
+| Why it's problematic | `risk_level` (dropdown) + `nfr_impact` (checkboxes) |
+| Affected code/systems | `refactor_scope` (textarea) |
+| Recommended approach | `proposed_solution` (textarea) |
+| Effort estimate | `effort_estimate` (dropdown) |
+
+______________________________________________________________________
+
 ## Guardrails
 
 ### DO

@@ -165,3 +165,45 @@ When drafting tests, provide:
 1. **Verify**: Run tests—they should **FAIL** (Red phase) if implementation doesn't exist
 1. **Hand off**: Pass to `implementation-driver` for Green phase
 1. **Iterate**: As implementation progresses, verify tests turn Green
+
+# Issue Template Integration
+
+When test gaps or missing coverage need to become tracked backlog items,
+format output to match `.github/ISSUE_TEMPLATE/06-test-case-gap.yml`.
+
+## Test Gap → Issue Template Field Mapping
+
+| Identified Gap | Issue Template Field |
+|----------------|---------------------|
+| Related story/feature | `related_story` (input) - issue number or title |
+| Untested acceptance criteria | `untested_criteria` (textarea) - list AC not covered |
+| Proposed tests | `proposed_tests` (textarea) - test names + descriptions |
+| Test layer | `test_layer` (dropdown): Unit/Integration/E2E |
+| Priority | `priority` (dropdown): High/Medium/Low |
+| Blocking release? | `blocking` (checkbox) |
+
+## When to Create Test Gap Issues
+
+Create a `06-test-case-gap.yml` issue when:
+
+1. **Coverage analysis** reveals untested acceptance criteria
+1. **Code review** identifies missing edge case tests
+1. **Bug report** exposes untested scenario (regression prevention)
+1. **Refactoring** requires tests before safe modification
+1. **CI failures** reveal flaky or missing tests
+
+## Test Gap Issue Best Practices
+
+- **Link to original story**: Always reference the user story or feature
+- **Be specific**: List exact scenarios, not "add more tests"
+- **Include expected behavior**: What should the test assert?
+- **Suggest test layer**: Unit vs integration vs E2E
+- **Estimate effort**: Small (1 test), Medium (test suite), Large (new fixture setup)
+
+## Labels to Apply
+
+- `test-gap` - all test coverage issues
+- `tdd` - tests needed before implementation
+- `regression` - tests to prevent bug recurrence
+- `layer:unit`/`layer:integration`/`layer:e2e` - test pyramid layer
+- `priority:high`/`medium`/`low` - urgency

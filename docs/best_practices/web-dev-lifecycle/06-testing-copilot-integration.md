@@ -242,9 +242,14 @@ ______________________________________________________________________
 
 ## Next step suggestion
 
-If you want to proceed one-by-one, the next concrete deliverable is to produce repo-ready artifacts:
+The following artifacts are now available in this repository:
 
-- `.github/agents/test-drafter.agent.md`
-- `.github/agents/test-truth-and-stability-gate.agent.md`
-- 6 prompt files under `.github/prompts/`
-- A CI checklist for tests (unit/integration/e2e) aligned to required checks
+- `.github/agents/test-drafter.agent.md` ✅
+- `.github/agents/test-truth-and-stability-gate.agent.md` ✅
+- `.github/copilot-instructions.md` ✅ With TDD and test standards
+
+### Issue Template for Testing Stage
+
+| Template | Use When | Key Fields |
+|----------|----------|------------|
+| `06-test-case-gap.yml` | Missing test coverage | Related Story, Untested AC, Proposed Tests, Determinism Concerns |

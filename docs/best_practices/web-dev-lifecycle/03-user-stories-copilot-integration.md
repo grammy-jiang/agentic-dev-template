@@ -31,6 +31,18 @@ ______________________________________________________________________
 - Prefer the `ISSUE_TEMPLATE/` directory approach; don’t build new process on deprecated legacy templates.
 - Keep the form minimal: required fields + a DoR checklist + links to supporting docs.
 
+> **This repo provides:** `.github/ISSUE_TEMPLATE/02-user-story.yml` with:
+>
+> - User story statement (As a / I want / So that)
+> - Business value
+> - Acceptance criteria: Happy path (Given/When/Then)
+> - Acceptance criteria: Edge cases (empty, permission, validation, network)
+> - Out of scope (required)
+> - Dependencies
+> - Open questions
+> - DoR checklist (10 items)
+> - Estimated complexity
+
 ______________________________________________________________________
 
 ## B. User-story workflow with Copilot embedded (end-to-end)
@@ -224,9 +236,29 @@ ______________________________________________________________________
 
 ## Next step suggestion
 
-If you want to proceed one-by-one, the next concrete deliverable is to produce:
+The following artifacts are now available in this repository:
 
-- `.github/agents/story-builder.agent.md`
-- `.github/agents/story-quality-gate.agent.md`
-- Six `.github/prompts/*.prompt.md` files corresponding to the command set above
-- One `.github/ISSUE_TEMPLATE/user-story.yml` (Issue Form with required fields + DoR checklist)
+- `.github/agents/story-builder.agent.md` ✅ With issue template integration
+- `.github/agents/story-quality-gate.agent.md` ✅
+- `.github/prompts/story-to-issue-form.prompt.md` ✅ Converts story to issue form format
+- `.github/ISSUE_TEMPLATE/02-user-story.yml` ✅ Issue form with required fields + DoR checklist
+- `.github/copilot-instructions.md` ✅ With INVEST, DoR, and output format rules
+- `.github/instructions/issue-output.instructions.md` ✅ Path-specific formatting rules
+
+### Workflow Summary
+
+```
+@requirements ──handoff──> @story-builder ──handoff──> @story-quality-gate
+                                │                              │
+                                │                              ▼
+                                │                        Validated story
+                                │                              │
+                                ▼                              │
+                     /story-to-issue-form  <───────────────────┘
+                                │
+                                ▼
+                     02-user-story.yml (GitHub Issue Form)
+                                │
+                                ▼
+                         Backlog item
+```

@@ -133,6 +133,36 @@ When generating stories for this workspace:
 1. **Performance**: Pagination, large datasets, slow connections
 1. **Accessibility**: Screen reader support, keyboard navigation, color contrast
 
+# Issue Template Integration
+
+When finalizing stories for backlog entry, output must be compatible with the
+GitHub Issue Form at `.github/ISSUE_TEMPLATE/02-user-story.yml`.
+
+## Required Fields for Issue Form
+
+Your final output for each story MUST include these sections (matching the form):
+
+| Section | Required | Notes |
+|---------|----------|-------|
+| User Story Statement | ✅ Yes | As a / I want / So that |
+| Business Value | ✅ Yes | User + business benefit + metric |
+| AC: Happy Path | ✅ Yes | Given/When/Then scenarios |
+| AC: Edge Cases | ✅ Yes | Min 4: empty, permission, validation, network |
+| Out of Scope | ✅ Yes | Explicit boundaries |
+| Dependencies | Optional | Other stories, APIs, designs |
+| Open Questions | Optional | Clarifications needed |
+| DoR Checklist | ✅ Yes | Mark each item true/false |
+| Estimated Complexity | ✅ Yes | 1/2/3/5/8/? |
+
+## Handoff to Issue Creation
+
+When user requests "Issue Form output" or "ready for backlog":
+
+1. Reformat the story to match Issue Form field names exactly
+1. Ensure all required fields are present
+1. Mark DoR checklist items honestly
+1. Suggest appropriate labels: `story`, `needs-refinement`, component labels
+
 # Example Interaction
 
 **Input (Feature Brief)**:

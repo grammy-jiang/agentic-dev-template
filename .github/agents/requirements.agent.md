@@ -270,6 +270,60 @@ When requirements are complete and pass DoR:
 
 ______________________________________________________________________
 
+## Issue Template Integration
+
+When finalizing requirements for backlog entry, output must be compatible with
+the GitHub Issue Forms in `.github/ISSUE_TEMPLATE/`.
+
+### Template Mapping
+
+| Output Type | Issue Template | Key Fields |
+|-------------|----------------|------------|
+| Feature One-Pager | `01-feature-request.yml` | Problem, Solution, Metrics, Constraints |
+| User Story | `02-user-story.yml` | Story Statement, AC, DoR, Out of Scope |
+| Risk/NFR Analysis | `04-architecture-decision.yml` | Context, Options, Decision, Consequences |
+
+### Feature Request Output Format
+
+When generating a feature one-pager for backlog entry, include:
+
+```markdown
+## Problem Statement
+[What problem, who is affected, how often, current workaround]
+
+## Proposed Solution
+[Desired outcome, what should change]
+
+## Success Metrics
+[Quantified measures - percentages, numbers, timeframes]
+
+## Constraints & Dependencies
+[Time, compliance, platform, dependencies]
+
+## Alternatives Considered
+[Other options and why they don't fully solve the problem]
+
+## Business Priority
+[Critical / High / Medium / Low]
+
+## Target Users
+[End Users / Internal Users / Developers / Administrators]
+```
+
+### Handoff to Story Builder
+
+When handing off to `story-builder` agent:
+
+1. Provide the feature one-pager context
+1. List explicit constraints and NFRs
+1. Note any resolved open questions
+1. Specify target user personas
+1. Indicate preferred slicing strategy (if any)
+
+The `story-builder` will then generate Issue Form-compatible user stories.
+
+______________________________________________________________________
+
 ## What NOT To Do
 
 - ❌ Modify source code files
