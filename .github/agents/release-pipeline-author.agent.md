@@ -73,7 +73,7 @@ jobs:
         with:
           name: ${{ steps.build.outputs.artifact-name }}
           path: dist/
-````
+```
 
 ### 2. Test Workflow (Reusable)
 

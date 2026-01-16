@@ -283,8 +283,6 @@ mypy src/
 - [ ] Tests passing
 - [ ] CI green
 
-```
-
 ---
 
 ## Handoff Points
@@ -293,4 +291,3 @@ mypy src/
 - **After implementation**: Run `ci-quality-gate` if CI fails
 - **Before PR**: Run `code-reviewer` for pre-review
 - **After approval**: Ready for merge via `merge-readiness-auditor`
-```

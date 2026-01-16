@@ -117,4 +117,3 @@ When reviewing a release, ensure these questions are answered:
 3. **How fast can we rollback?** Minutes? Hours? Never?
 4. **What data is at risk?** User data, transactions, configuration?
 5. **Who needs to approve?** Are the right reviewers configured?
-```
