@@ -36,7 +36,7 @@ repos:
     rev: 1.0.0
     hooks:
       - id: mdformat
-        args: [--wrap, "no"]
+        exclude: agent-workflow-diagram.md
   - repo: https://github.com/pappasam/toml-sort
     rev: v0.24.3
     hooks:
