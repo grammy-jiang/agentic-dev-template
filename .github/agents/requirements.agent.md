@@ -4,9 +4,9 @@ description: Transform ideas into structured requirements with acceptance criter
 tools: ["read", "search", "edit"]
 infer: true
 handoffs:
-  - label: Start Implementation Planning
-    agent: agent
-    prompt: "Based on the requirements analysis above, please create an implementation plan with component boundaries, data model, API contracts, key flows, and milestones."
+  - label: Start UI/UX Scaffolding
+    agent: ui-scaffolder
+    prompt: "Based on the requirements analysis above, please create a UI contract with component inventory, state matrix, responsive requirements, and accessibility expectations."
     send: false
 ---
 
