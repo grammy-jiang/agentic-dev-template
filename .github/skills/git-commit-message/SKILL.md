@@ -1,25 +1,26 @@
 ---
 name: git-commit-message
-description: Creates high-quality git commit messages following Conventional Commits format. Use when user asks to commit changes, commit the code, create a commit, write a commit message, commit staged files, save changes to git, or any variation of committing code with proper commit messaging. Also use for commit message review and suggestions.
+description: Create a well-formatted Conventional Commits message and commit it. Trigger when the user asks to write a commit message and/or commit the changes (e.g., "write well formatted git commit message", "commit with this message", "commit these changes", "commit now", "commit staged files").
 license: MIT
 metadata:
   author: grammy-jiang
-  version: "1.2"
+   version: "1.3"
 ---
 
-# Git Commit Message Skill
+# Git Commit + Message Skill
 
-Create well-structured, meaningful commit messages for staging and committing code changes.
+Create a well-structured commit message and, with user approval, run `git commit` using that message.
 
 ## When to Activate This Skill
 
-This skill automatically activates when the user requests any of the following:
+Trigger this skill for any request to write a commit message and/or commit code, including:
 
-- **Commit actions:** "commit", "commit these changes", "commit this", "commit the code", "commit my changes", "commit the staged changes"
-- **Message creation:** "write a commit message", "create a commit message", "generate a commit message", "draft a commit message"
-- **Git operations:** "save to git", "check in", "commit and push", "git commit"
-- **Multi-part requests:** "commit with a message", "stage and commit", "commit changes with a proper message"
-- **Message review:** "review my commit message", "is this a good commit message", "check my commit message"
+- "write well formatted git commit message"
+- "commit with this message" / "commit using this message"
+- "commit these changes" / "commit now" / "commit the staged files"
+- "create a commit message" / "generate a commit message"
+- "save to git" / "check in" / "git commit" / "commit and push"
+- "review my commit message" / "is this a good commit message"
 
 ## Commit Message Structure
 
@@ -48,52 +49,36 @@ and **footer** (optional).
 1. Note breaking changes: `BREAKING CHANGE: description`
 1. Add co-authors: `Co-authored-by: name <email@example.com>`
 
-## Steps to Create a Commit
+## Steps to Create and Apply a Commit
 
-Follow this workflow whenever a user requests a commit:
+Follow this workflow when asked to write a commit message and/or commit the changes:
 
-1. **View staged changes** to understand what's being committed:
-   - Run: `git diff --cached` to see all staged changes
-   - If no output, inform user and suggest `git add` first
+1. **Check staged changes**
+   - Run `git diff --cached` to see staged changes.
+   - If empty: tell the user nothing is staged and suggest `git add <files>`.
 
-2. **Analyze the diff** to identify:
-   - Primary purpose: Is this a feature, fix, docs update, refactor, etc.?
-   - Scope/component: What module or area is affected?
-   - Impact: Is this a breaking change?
-   - Related issues: Any issue numbers mentioned or context provided?
+2. **Analyze the diff**
+   - Purpose: feature, fix, docs, refactor, etc.
+   - Scope: module/area touched.
+   - Impact: any breaking change?
+   - Issues: any referenced tickets?
 
-3. **Select the commit type** (Conventional Commits):
-   - `feat`: new feature or capability
-   - `fix`: bug fix or corrections
-   - `refactor`: restructuring without behavior change
-   - `docs`: documentation changes
-   - `style`: formatting, whitespace, linting (no logic change)
-   - `test`: test additions or updates
-   - `chore`: maintenance, dependencies, build config
-   - `perf`: performance improvements
-   - `ci`: CI/CD pipeline changes
-   - `revert`: reverting a previous commit
+3. **Pick the commit type** (Conventional Commits)
+   - `feat`, `fix`, `refactor`, `docs`, `style`, `test`, `chore`, `perf`, `ci`, `revert`
 
-4. **Craft the commit message** in three parts:
-   - **Header (required):** `<type>(<scope>): <description>` - max 50 characters
-   - **Body (if needed):** Blank line, then explain *what* and *why* - wrap at 72 chars
-   - **Footer (if needed):** Blank line, then add issue refs, breaking changes, co-authors
+4. **Draft the commit message**
+   - **Header:** `<type>(<scope>): <description>` (≤50 chars)
+   - **Body (optional):** what + why, wrapped at 72 chars
+   - **Footer (optional):** issue refs, breaking change notice, co-authors
 
-5. **Present the message** to user for approval before executing
+5. **Show the message** to the user for approval
 
-6. **Execute the commit** once approved:
-   ```bash
-   git commit -m "header" -m "body" -m "footer"
-   ```
-   Or use multi-line if multiple sections:
-   ```bash
-   git commit
-   ```
+6. **Commit when approved**
+   - Single-line: `git commit -m "header"` (and add `-m "body" -m "footer"` if present)
+   - Or open editor: `git commit`
 
-7. **Confirm success** by showing the new commit:
-   ```bash
-   git log -1 --pretty=format:"%h - %s"
-   ```
+7. **Confirm success**
+   - Show latest commit: `git log -1 --pretty=format:"%h - %s"`
 
 ## Format and Examples
 
@@ -119,6 +104,7 @@ Follow this workflow whenever a user requests a commit:
 - **No vague messages:** Avoid "Fix stuff", "Update", "Changes" without context
 - **No meta-commentary:** Don't say "this commit" or "in this PR"
 - **No personal pronouns:** Avoid "I fixed" – use imperative instead
+ - **Ready to apply:** Ensure the message is final before running `git commit`
 
 ### Example Commits
 
@@ -195,45 +181,28 @@ Every commit message must follow these rules:
 
 ## Workflow and Common Scenarios
 
-### Scenario 1: User says "commit these changes"
+### Scenario 1: "write well formatted git commit message"
+1. Check `git diff --cached`.
+2. Draft the message (type/scope/description, optional body/footer).
+3. Show the message for approval.
+4. On approval, run `git commit -m ...` and confirm.
 
-1. Run `git diff --cached` to see what's staged
-2. Analyze the changes to understand the primary purpose
-3. Generate an appropriate commit message
-4. Present it to the user for review
-5. Once approved, execute: `git commit -m "..."`
-6. Show confirmation: `git log -1`
+### Scenario 2: "commit with this message <text>"
+1. Validate the provided message against the format (type(scope): description).
+2. Suggest any fixes (imperative, ≤50 chars header, etc.).
+3. On approval, run `git commit -m ...` and confirm.
 
-### Scenario 2: User provides changes but no staged files
+### Scenario 3: "commit these changes" / "commit now"
+1. Check staged changes. If none, ask user to stage.
+2. Draft the message following the steps.
+3. Show for approval, then commit and confirm.
 
-1. Inform the user: "I don't see staged changes. Let's stage them first."
-2. Suggest: "Run `git add <files>` to stage the changes"
-3. Then proceed with commit message generation
+### Scenario 4: No staged changes
+1. Run `git status`.
+2. Inform: "No staged changes to commit."
+3. Suggest: `git add <files>` then continue.
 
-### Scenario 3: User says "write a commit message for these changes"
-
-1. If changes are provided, analyze them
-2. If not, check `git diff --cached` for context
-3. Generate the message following conventions
-4. Present for approval
-5. Do not commit until user confirms
-
-### Scenario 4: User says "commit the staged changes with a good message"
-
-1. Check `git diff --cached`
-2. Analyze and generate message
-3. Show the message and ask: "Does this look good?"
-4. Execute commit on approval
-
-### Scenario 5: User has no staged changes
-
-1. Run `git status` to verify
-2. Inform user: "No staged changes to commit."
-3. Suggest next steps: "Would you like to stage some files first?"
-
-### Scenario 6: Multiple unrelated changes are staged
-
-1. Alert user: "These staged changes appear to affect different areas"
-2. Suggest: "Consider breaking this into separate commits: one for X, one for Y"
-3. Offer to create multiple commit messages if desired
-4. Or proceed with single commit if user confirms intention
+### Scenario 5: Multiple unrelated changes
+1. Note that changes span different areas.
+2. Offer: split into separate commits (X, Y) with separate messages.
+3. Proceed per user choice.
