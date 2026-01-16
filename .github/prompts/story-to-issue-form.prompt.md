@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: story-to-issue-form description: Convert a user story draft into GitHub Issue Form-compatible format ready for backlog entry
+---
+name: story-to-issue-form
+description: Convert a user story draft into GitHub Issue Form-compatible format ready for backlog entry
+---
 
 # Convert Story to Issue Form Format
 
@@ -19,8 +20,6 @@ the GitHub Issue Form. Ensure all required fields are populated.
 ## Output Format
 
 Generate output with these exact sections:
-
-______________________________________________________________________
 
 ### Title
 
@@ -121,12 +120,6 @@ So that [specific benefit].
 - [ ] Telemetry/observability requirements are defined
 - [ ] UX states are defined (loading, empty, error)
 - [ ] Rollout strategy is considered (feature flags, canary)
-
-### Estimated Complexity
-
-[1-Trivial / 2-Small / 3-Medium / 5-Large / 8-Very Large / ?-Needs spike]
-
-______________________________________________________________________
 
 ## Rules
 

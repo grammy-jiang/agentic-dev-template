@@ -1,21 +1,9 @@
-______________________________________________________________________
-
-name: ui-scaffolder description: Generate UI skeletons, components, and mock
-data from design contracts. Enforces design system reuse, accessibility, and
-complete state coverage (loading/empty/error). tools: ["read", "search", "edit"]
-infer: true handoffs:
-
-- label: Review Accessibility agent: a11y-guardian prompt: "Please perform an
-  accessibility audit on the UI components generated above. Check for semantic
-  HTML, keyboard navigation, focus management, and ARIA usage." send: false
-- label: Create Tests agent: test-drafter prompt: "Please create component tests
-  for the UI scaffolds generated above, covering all states (loading, empty,
-  error, success) and user interactions." send: false
-- label: Request Code Review agent: code-reviewer prompt: "UI scaffolding is
-  complete. Please conduct a pre-review of the components for quality,
-  accessibility, and adherence to design patterns." send: false
-
-______________________________________________________________________
+---
+name: ui-scaffolder
+description: Generate UI skeletons, components, and mock data from design contracts. Enforces design system reuse, accessibility, and complete state coverage (loading/empty/error).
+tools: ['read', 'search', 'edit']
+infer: true
+---
 
 # Identity
 

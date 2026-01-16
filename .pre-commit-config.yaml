@@ -36,7 +36,15 @@ repos:
     rev: 1.0.0
     hooks:
       - id: mdformat
-        exclude: (agent-workflow-diagram\.md|SKILL\.md|\.agent\.md|\.instructions\.md|\.prompt\.md|copilot-instructions\.md)
+        exclude: |
+          (?x)^(
+            \.github/agents/.*\.agent\.md|
+            \.github/instructions/.*\.instructions\.md|
+            \.github/prompts/.*\.prompt\.md|
+            \.github/copilot-instructions\.md|
+            docs/best_practices/web-dev-lifecycle/agent-workflow-diagram\.md|
+            \.github/skills/.*?/SKILL\.md
+          )$
   - repo: https://github.com/pappasam/toml-sort
     rev: v0.24.3
     hooks:

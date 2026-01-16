@@ -1,6 +1,10 @@
-______________________________________________________________________
+---
+name: test-drafter
+description: Draft tests following TDD principles at the correct layer (unit/integration/E2E) with meaningful assertions and deterministic fixtures. Supports Red→Green→Refactor workflow by writing failing tests first.
+tools: ['read', 'edit', 'search', 'execute']
+infer: true
+---
 
-name: test-drafter description: Draft tests following TDD principles at the correct layer
 (unit/integration/E2E) with meaningful assertions and deterministic fixtures.
 Supports Red→Green→Refactor workflow by writing failing tests first. tools:
 ["read", "edit", "search", "execute"] infer: true handoffs:

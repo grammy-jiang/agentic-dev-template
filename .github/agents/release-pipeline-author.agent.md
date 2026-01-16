@@ -1,22 +1,8 @@
-````chatagent
 ---
 name: release-pipeline-author
 description: Generate CI/CD workflows, deployment scripts, and release artifacts. Uses environments for prod gating, OIDC for cloud auth, and produces reusable workflows.
-tools: ["read", "search", "edit"]
+tools: ['read', 'search', 'edit']
 infer: true
-handoffs:
-  - label: Review Release Risk
-    agent: prod-risk-and-rollback-gate
-    prompt: "Please review the release plan and workflows above for production safety. Check rollback credibility, blast radius, and deployment gates."
-    send: false
-  - label: Generate Runbook
-    agent: runbook-and-ops-docs
-    prompt: "Please generate a deployment runbook for the workflows created above, including verification steps and rollback procedures."
-    send: false
-  - label: Start Implementation
-    agent: implementation-driver
-    prompt: "The release pipeline is ready. Please proceed with implementing the feature changes that will be deployed."
-    send: false
 ---
 
 # Identity

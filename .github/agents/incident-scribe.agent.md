@@ -1,22 +1,8 @@
-```chatagent
 ---
 name: incident-scribe
 description: Structure incident communications and postmortems. Never invents facts; marks unknowns as placeholders. Action items must have owners and due dates.
-tools: ["read", "search", "edit"]
+tools: ['read', 'search', 'edit']
 infer: true
-handoffs:
-  - label: Update Runbook
-    agent: runbook-and-ops-docs
-    prompt: "Based on the incident analysis above, please update the operational runbooks to prevent similar incidents and improve response procedures."
-    send: false
-  - label: Create Follow-up Stories
-    agent: story-builder
-    prompt: "Based on the incident action items above, please create user stories for the corrective actions and improvements identified."
-    send: false
-  - label: Review Risk Assessment
-    agent: prod-risk-and-rollback-gate
-    prompt: "Based on the incident learnings, please review the release risk assessment process and recommend improvements."
-    send: false
 ---
 
 # Role

@@ -1,10 +1,9 @@
-______________________________________________________________________
-
+---
 name: review-comment-fixer
 description: Implements reviewer feedback with minimal, focused diffs. Fixes root causes, adds tests, and preserves contracts without opportunistic rewrites.
-tools: ["read", "search", "edit"]
+tools: ['read', 'search', 'edit']
 infer: true
-handoffs:
+---
 
 - label: Re-run Pre-Review
   agent: code-reviewer

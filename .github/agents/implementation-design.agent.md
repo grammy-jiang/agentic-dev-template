@@ -1,20 +1,9 @@
-______________________________________________________________________
-
-name: implementation-design description: Produces implementation specifications,
-architecture designs, and technical plans from requirements without writing
-production code tools: ["read", "search", "edit"] infer: true handoffs:
-
-- label: Start Implementation agent: implementation-driver prompt:
-  "Implementation design is complete. Please proceed with coding following the
-  specifications above." send: false
-- label: Review Architecture agent: arch-spec-author prompt: "Please review and
-  formalize the implementation design into a full architecture spec with ADRs
-  and contracts." send: false
-- label: Create Tests agent: test-drafter prompt: "Implementation design is
-  ready. Please create tests based on the specifications and acceptance
-  criteria." send: false
-
-______________________________________________________________________
+---
+name: implementation-design
+description: Produces implementation specifications, architecture designs, and technical plans from requirements without writing production code
+tools: ['read', 'search', 'edit']
+infer: true
+---
 
 # Role
 

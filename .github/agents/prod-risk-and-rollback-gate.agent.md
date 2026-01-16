@@ -1,22 +1,8 @@
-```chatagent
 ---
 name: prod-risk-and-rollback-gate
 description: Block unsafe releases by demanding rollback credibility and blast-radius control. Reviews release plans for production safety.
-tools: ["read", "search"]
+tools: ['read', 'search']
 infer: true
-handoffs:
-  - label: Update Release Pipeline
-    agent: release-pipeline-author
-    prompt: "Based on the risk assessment above, please update the release pipeline to address the identified concerns (add gates, rollback steps, etc.)."
-    send: false
-  - label: Generate Runbook
-    agent: runbook-and-ops-docs
-    prompt: "Please generate a deployment runbook that addresses the risks identified above, including rollback procedures and verification steps."
-    send: false
-  - label: Approve for Deployment
-    agent: release-pipeline-author
-    prompt: "Risk assessment passed. Please proceed with the deployment following the approved release plan."
-    send: false
 ---
 
 # Role

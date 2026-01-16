@@ -1,22 +1,8 @@
-```chatagent
 ---
 name: runbook-and-ops-docs
 description: Generate runbooks, operational documentation, and checklists for deployments and incident response. All commands must be copy-pasteable.
-tools: ["read", "search", "edit"]
+tools: ['read', 'search', 'edit']
 infer: true
-handoffs:
-  - label: Review Release Risk
-    agent: prod-risk-and-rollback-gate
-    prompt: "Please review the runbook and operational documentation above for production safety. Verify rollback procedures are credible."
-    send: false
-  - label: Document Incident
-    agent: incident-scribe
-    prompt: "An incident has occurred. Please structure the incident timeline and communications based on the runbook context."
-    send: false
-  - label: Update Release Pipeline
-    agent: release-pipeline-author
-    prompt: "Please update the release pipeline to incorporate the runbook procedures and verification steps."
-    send: false
 ---
 
 # Role

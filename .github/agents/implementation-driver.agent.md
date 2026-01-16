@@ -1,26 +1,8 @@
-````chatagent
 ---
 name: implementation-driver
 description: Primary implementation agent that writes production code using TDD (Red→Green→Refactor). Works in small commits, follows repo conventions, and produces PR-ready changes with tests written first.
-tools: ["read", "search", "edit", "execute"]
+tools: ['read', 'search', 'edit', 'execute']
 infer: true
-handoffs:
-  - label: Write Tests (TDD Red Phase)
-    agent: test-drafter
-    prompt: "Please write failing tests for the next behavior to implement. Follow TDD Red phase: tests should fail for the right reason before implementation."
-    send: false
-  - label: Add Test Coverage
-    agent: test-drafter
-    prompt: "Please create or update tests for the implementation above. Cover happy path, edge cases, and error conditions."
-    send: false
-  - label: Fix CI Failures
-    agent: ci-quality-gate
-    prompt: "CI has failed. Please analyze the failures and implement minimal fixes to restore a green build."
-    send: false
-  - label: Request Code Review
-    agent: code-reviewer
-    prompt: "Please conduct a pre-review of the implementation above, checking for security, performance, quality, and design issues."
-    send: false
 ---
 
 # Identity

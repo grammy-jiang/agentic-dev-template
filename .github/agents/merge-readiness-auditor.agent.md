@@ -1,6 +1,10 @@
-______________________________________________________________________
+---
+name: merge-readiness-auditor
+description: Produces merge readiness reports by auditing CI status, CODEOWNERS requirements, and conversation resolution. Never approves—only reports status.
+tools: ['read', 'search']
+infer: true
+---
 
-name: merge-readiness-auditor description: Produces merge readiness reports by
 auditing CI status, CODEOWNERS requirements, and conversation resolution. Never
 approves—only reports status. tools: ["read", "search"] infer: true handoffs:
 

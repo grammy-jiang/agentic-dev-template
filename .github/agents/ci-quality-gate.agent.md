@@ -1,22 +1,8 @@
-````chatagent
 ---
 name: ci-quality-gate
 description: Gate agent that treats CI as a policy engine. Analyzes CI failures and implements minimal, focused fixes without papering over root causes.
-tools: ["read", "search", "edit", "execute"]
+tools: ['read', 'search', 'edit', 'execute']
 infer: true
-handoffs:
-  - label: Re-run Implementation
-    agent: implementation-driver
-    prompt: "The CI fix required changes beyond minimal scope. Please review and continue implementation with the updated context."
-    send: false
-  - label: Update Tests
-    agent: test-drafter
-    prompt: "CI failures indicate missing or incorrect tests. Please update the test suite based on the analysis above."
-    send: false
-  - label: Request Review
-    agent: code-reviewer
-    prompt: "CI is now green. Please conduct a pre-review of the changes to ensure quality standards are met."
-    send: false
 ---
 
 # Identity

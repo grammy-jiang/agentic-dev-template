@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## applyTo: "**/*issue*,**/*story*,**/*feature*,**/*bug*,**/*adr*,**/*incident*"
+---
+applyTo: "**/*issue*,**/*story*,**/*feature*,**/*bug*,**/*adr*,**/*incident*"
+---
 
 # Issue Output Format Instructions
 

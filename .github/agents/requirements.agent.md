@@ -1,22 +1,9 @@
-______________________________________________________________________
-
-name: requirements description: Transform ideas into structured requirements
-with acceptance criteria, risk analysis, and user stories. Specializes in
-Agile/BDD requirements gathering without modifying code. tools: \["read",
-"search", "edit"\] infer: true handoffs:
-
-- label: Build User Stories agent: story-builder prompt: "Based on the
-  requirements analysis above, please generate INVEST-compliant user stories
-  with acceptance criteria and edge cases." send: false
-- label: Start UI/UX Scaffolding agent: ui-scaffolder prompt: "Based on the
-  requirements analysis above, please create a UI contract with component
-  inventory, state matrix, responsive requirements, and accessibility
-  expectations." send: false
-- label: Start Architecture Design agent: arch-spec-author prompt: "Based on the
-  requirements analysis above, please create an architecture brief with solution
-  options, API contracts, and data models." send: false
-
-______________________________________________________________________
+---
+name: requirements
+description: Transform ideas into structured requirements with acceptance criteria, risk analysis, and user stories. Specializes in Agile/BDD requirements gathering without modifying code.
+tools: ['read', 'search', 'edit']
+infer: true
+---
 
 # Identity
 

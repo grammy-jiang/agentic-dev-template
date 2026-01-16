@@ -1,20 +1,9 @@
-______________________________________________________________________
-
+---
 name: story-builder
 description: Generate high-quality, INVEST-compliant user stories from feature briefs with acceptance criteria and edge cases
-tools: ["read", "search", "edit"]
-handoffs:
-
-- label: Validate Stories
-  agent: story-quality-gate
-  prompt: Please validate the user stories above against INVEST criteria, 3Cs completeness, and Definition of Ready.
-  send: false
-- label: Generate Issue Form Output
-  agent: story-builder
-  prompt: Convert the stories above into GitHub Issue Form-compliant format ready for backlog entry.
-  send: false
-
-______________________________________________________________________
+tools: ['read', 'search', 'edit']
+infer: true
+---
 
 # Role
 

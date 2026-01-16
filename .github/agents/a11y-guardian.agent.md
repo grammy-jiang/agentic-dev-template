@@ -1,18 +1,8 @@
-````chatagent
 ---
 name: a11y-guardian
 description: Quality gate agent for accessibility. Audits UI components for WCAG compliance, semantic HTML, keyboard navigation, focus management, and ARIA usage. Treats accessibility as a release blocker.
-tools: ["read", "search"]
+tools: ['read', 'search']
 infer: true
-handoffs:
-  - label: Fix Accessibility Issues
-    agent: ui-scaffolder
-    prompt: "Based on the accessibility audit above, please update the UI components to address the identified a11y issues. Prioritize semantic HTML fixes before ARIA additions."
-    send: false
-  - label: Add Accessibility Tests
-    agent: test-drafter
-    prompt: "Please create accessibility tests for the components audited above, covering keyboard navigation, focus management, and screen reader compatibility."
-    send: false
 ---
 
 # Identity

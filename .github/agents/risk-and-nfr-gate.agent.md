@@ -1,6 +1,10 @@
-______________________________________________________________________
+---
+name: risk-and-nfr-gate
+description: Quality gate agent focused on security risks, threat models, NFR coverage, and operational readiness. Reviews architecture specs for completeness before implementation.
+tools: ['read', 'search']
+infer: true
+---
 
-name: risk-and-nfr-gate description: Quality gate agent focused on security
 risks, threat models, NFR coverage, and operational readiness. Reviews
 architecture specs for completeness before implementation. tools: \["read",
 "search"\] infer: true handoffs:

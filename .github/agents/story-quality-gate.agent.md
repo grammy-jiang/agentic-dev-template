@@ -1,6 +1,9 @@
-______________________________________________________________________
+---
+name: story-quality-gate
+description: Validate user stories against INVEST, 3Cs, acceptance criteria quality, and Definition of Ready
+tools: ['read', 'search']
+---
 
-name: story-quality-gate description: Validate user stories against INVEST, 3Cs,
 acceptance criteria quality, and Definition of Ready tools: ["read", "search"]
 handoffs:
 

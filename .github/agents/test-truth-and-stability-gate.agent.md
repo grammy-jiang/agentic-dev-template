@@ -1,9 +1,8 @@
-______________________________________________________________________
-
+---
 name: test-truth-and-stability-gate
 description: Gate agent that reviews tests for quality, rejects low-signal or flaky tests, and enforces testing best practices. Use before merging test changes.
-tools: ["read", "search"]
-handoffs:
+tools: ['read', 'search']
+---
 
 - label: Draft Tests
   agent: test-drafter
