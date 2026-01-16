@@ -63,14 +63,17 @@ explicit constraints.
 
 **Outputs**:
 
-| Section | Description | |---------|-------------| | **Context** | Business
-background, why this matters now | | **Goals** | What does success look like?
-(measurable) | | **Non-Goals** | What are we explicitly NOT building? | |
-**Constraints** | Technical/business/regulatory limitations | | **Quality
-Attributes** | Performance, security, reliability, scalability targets | |
-**Integration Points** | Systems, APIs, databases this interacts with | |
-**Risks** | What could go wrong? | | **Open Questions** | Unknowns ranked by
-risk/impact | | **Assumptions** | What must be true for this design to work? |
+| Section | Description |
+|---------|-------------|
+| **Context** | Business background, why this matters now |
+| **Goals** | What does success look like? (measurable) |
+| **Non-Goals** | What are we explicitly NOT building? |
+| **Constraints** | Technical/business/regulatory limitations |
+| **Quality Attributes** | Performance, security, reliability, scalability targets |
+| **Integration Points** | Systems, APIs, databases this interacts with |
+| **Risks** | What could go wrong? |
+| **Open Questions** | Unknowns ranked by risk/impact |
+| **Assumptions** | What must be true for this design to work? |
 
 ______________________________________________________________________
 
@@ -80,11 +83,14 @@ ______________________________________________________________________
 
 **For each option, document**:
 
-| Aspect | Description | |--------|-------------| | **Approach Name** | Short
-descriptive name | | **Description** | How it works at a high level | | **Pros**
-| Benefits, strengths, alignment with constraints | | **Cons** | Drawbacks,
-risks, complexity | | **Effort Estimate** | Relative complexity (S/M/L) | |
-**Risk Profile** | Technical/operational risks |
+| Aspect | Description |
+|--------|-------------|
+| **Approach Name** | Short descriptive name |
+| **Description** | How it works at a high level |
+| **Pros** | Benefits, strengths, alignment with constraints |
+| **Cons** | Drawbacks, risks, complexity |
+| **Effort Estimate** | Relative complexity (S/M/L) |
+| **Risk Profile** | Technical/operational risks |
 
 **Recommendation**: State the preferred option with clear rationale.
 
@@ -124,14 +130,17 @@ ______________________________________________________________________
 
 **OpenAPI Contract Requirements**:
 
-| Element | Required Content | |---------|------------------| | **Endpoints** |
-All CRUD operations with clear naming | | **Request/Response Schemas** | Full
-JSON Schema with examples | | **Auth Requirements** | Scopes, roles, token
-handling | | **Error Model** | Consistent error format (RFC 7807 / problem+json
-preferred) | | **Pagination** | Cursor or offset-based with limits | |
-**Filtering/Sorting** | Query parameters documented | | **Versioning Strategy**
-| URL path or header-based | | **Idempotency** | Keys for non-idempotent
-operations | | **Rate Limiting** | Headers and behavior |
+| Element | Required Content |
+|---------|------------------|
+| **Endpoints** | All CRUD operations with clear naming |
+| **Request/Response Schemas** | Full JSON Schema with examples |
+| **Auth Requirements** | Scopes, roles, token handling |
+| **Error Model** | Consistent error format (RFC 7807 / problem+json preferred) |
+| **Pagination** | Cursor or offset-based with limits |
+| **Filtering/Sorting** | Query parameters documented |
+| **Versioning Strategy** | URL path or header-based |
+| **Idempotency** | Keys for non-idempotent operations |
+| **Rate Limiting** | Headers and behavior |
 
 **Gate**: Every endpoint MUST have:
 
@@ -178,12 +187,14 @@ ______________________________________________________________________
 
 **Outputs**:
 
-| Artifact | Description | |----------|-------------| | **Entity Relationship
-Diagram** | Mermaid ERD or equivalent | | **Entity Definitions** |
-Tables/collections with field types, constraints | | **Indexes** | Required
-indexes for query patterns | | **Migration Plan** | Expand → Backfill → Switch →
-Contract pattern | | **Rollback Strategy** | How to undo if deployment fails | |
-**Data Retention** | Policies for PII, logs, audit trails |
+| Artifact | Description |
+|----------|-------------|
+| **Entity Relationship Diagram** | Mermaid ERD or equivalent |
+| **Entity Definitions** | Tables/collections with field types, constraints |
+| **Indexes** | Required indexes for query patterns |
+| **Migration Plan** | Expand → Backfill → Switch → Contract pattern |
+| **Rollback Strategy** | How to undo if deployment fails |
+| **Data Retention** | Policies for PII, logs, audit trails |
 
 **File location**: `docs/architecture/data-model.md`
 
@@ -195,11 +206,13 @@ ______________________________________________________________________
 
 **Threat Model Template**:
 
-| Element | Description | |---------|-------------| | **Assets** | What are we
-protecting? | | **Entry Points** | APIs, UIs, integrations | | **Trust
-Boundaries** | Where do trust levels change? | | **Threats** | STRIDE-based
-analysis (Spoofing, Tampering, Repudiation, Info Disclosure, DoS, Elevation) | |
-**Mitigations** | Controls for each threat |
+| Element | Description |
+|---------|-------------|
+| **Assets** | What are we protecting? |
+| **Entry Points** | APIs, UIs, integrations |
+| **Trust Boundaries** | Where do trust levels change? |
+| **Threats** | STRIDE-based analysis (Spoofing, Tampering, Repudiation, Info Disclosure, DoS, Elevation) |
+| **Mitigations** | Controls for each threat |
 
 **Abuse Cases** (minimum):
 
@@ -211,12 +224,14 @@ analysis (Spoofing, Tampering, Repudiation, Info Disclosure, DoS, Elevation) | |
 
 **NFR Checklist**:
 
-| Category | Target | Measurement | |----------|--------|-------------| |
-**Availability** | SLO target (e.g., 99.9%) | Uptime monitoring | | **Latency**
-| p50/p95/p99 budgets | APM metrics | | **Throughput** | Requests/second
-capacity | Load testing | | **Security** | Auth, encryption, audit | Security
-review | | **Privacy** | Data handling, consent | Privacy review | |
-**Observability** | Logs, metrics, traces | Dashboards/alerts |
+| Category | Target | Measurement |
+|----------|--------|-------------|
+| **Availability** | SLO target (e.g., 99.9%) | Uptime monitoring |
+| **Latency** | p50/p95/p99 budgets | APM metrics |
+| **Throughput** | Requests/second capacity | Load testing |
+| **Security** | Auth, encryption, audit | Security review |
+| **Privacy** | Data handling, consent | Privacy review |
+| **Observability** | Logs, metrics, traces | Dashboards/alerts |
 
 **File location**: `docs/risk/RISK_REGISTER.md`
 

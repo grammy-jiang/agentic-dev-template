@@ -169,12 +169,11 @@ ______________________________________________________________________
 
 ### Required Environments
 
-| Environment | Required Reviewers | Self-Review | Wait Timer | Protection Rules
-|
+| Environment | Required Reviewers | Self-Review | Wait Timer | Protection Rules |
 |-------------|-------------------|-------------|------------|------------------|
-| **development** | None | Allowed | None | Branch: `develop` | | **staging** |
-Optional | Allowed | None | Branch: `main` | | **production** | 1+ required |
-Prevented | Optional 15m | Branch: `main`, tags only |
+| **development** | None | Allowed | None | Branch: `develop` |
+| **staging** | Optional | Allowed | None | Branch: `main` |
+| **production** | 1+ required | Prevented | Optional 15m | Branch: `main`, tags only |
 
 ### Environment Secrets Structure
 
