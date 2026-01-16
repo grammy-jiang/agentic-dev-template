@@ -4,7 +4,7 @@ This document summarizes best practices for designing **multiple custom GitHub C
 
 > Scope assumptions: Solo developer; Python backend + JavaScript/TypeScript frontend; git-based workflow.
 
----
+______________________________________________________________________
 
 ## Executive Summary
 
@@ -18,11 +18,12 @@ Modern GitHub Copilot supports **custom agents** (specialized AI personas define
 
 Store agent files at repo and/or user scope so they are discoverable by VS Code Chat and Copilot CLI.
 
----
+______________________________________________________________________
 
 ## Core Best Practices
 
 ### 1) Design for Modularity and Handoffs
+
 Use a multi-agent “assembly line” model:
 
 - **Requirements agent** produces acceptance criteria and non-functional requirements.
@@ -36,6 +37,7 @@ Use a multi-agent “assembly line” model:
 **Handoffs** reduce context sprawl and enforce stage boundaries: each agent gets only the context it needs.
 
 ### 2) Least-Privilege Tooling
+
 For each agent profile, explicitly control `tools:`:
 
 - Planning/design agents: `read`, `search`, `edit` (docs only)
@@ -46,6 +48,7 @@ For each agent profile, explicitly control `tools:`:
 Avoid enabling everything by default—treat tools as permissions.
 
 ### 3) Repo-Level + User-Level Agent Strategy
+
 Use both scopes:
 
 - **Repo-level** for project-specific conventions: `.github/agents/*.agent.md`
@@ -54,6 +57,7 @@ Use both scopes:
 This allows cross-repo reuse while keeping per-project nuances in-repo.
 
 ### 4) Git as the Spine of the Workflow
+
 Make git the canonical source of truth:
 
 - Use branches/commits as “checkpoints”
@@ -65,6 +69,7 @@ Make git the canonical source of truth:
 - Treat agent output as PR-ready (even as a solo developer)
 
 ### 5) Offline-First: Optimize for Local Context + Local Tools
+
 Offline-first is practical for most SDLC work if you can:
 
 - run tests locally
@@ -74,23 +79,25 @@ Offline-first is practical for most SDLC work if you can:
 
 Where internet is required, isolate those steps (see Offline vs Online section).
 
----
+______________________________________________________________________
 
 ## SDLC Agents: What Each Agent Should Do
 
 ### Requirements Gathering Agent
+
 **Goal:** turn informal ideas into structured requirements.
 
 - Inputs: issue text, user stories, local docs
 - Outputs: acceptance criteria, constraints, edge cases, non-functional requirements
 - Tools: `read`, `search`, `edit` (avoid code changes)
 
-**Offline:** works well using local documents and existing repo context.  
+**Offline:** works well using local documents and existing repo context.
 **Online-only use cases:** web research, standards lookups, competitor analysis.
 
----
+______________________________________________________________________
 
 ### Architecture Design Agent
+
 **Goal:** propose system structure and interfaces.
 
 - Outputs:
@@ -100,12 +107,13 @@ Where internet is required, isolate those steps (see Offline vs Online section).
   - milestones / implementation sequencing
 - Tools: `read`, `search`, `edit` (optional `shell` for diagram tooling)
 
-**Offline:** can generate diagrams and architecture docs using local context.  
+**Offline:** can generate diagrams and architecture docs using local context.
 **Online-only use cases:** fetching external architecture references, cloud service docs.
 
----
+______________________________________________________________________
 
 ### Coding / Implementation Agent(s)
+
 **Goal:** write code changes safely and incrementally.
 
 Recommended split (at minimum):
@@ -115,12 +123,13 @@ Recommended split (at minimum):
 
 Tools: `read`, `edit`, `shell` (build/test/lint), plus git operations via shell.
 
-**Offline:** strong, as long as you have local models and local toolchains.  
+**Offline:** strong, as long as you have local models and local toolchains.
 **Online-only use cases:** using cloud-run coding agent; accessing hosted APIs or remote environments.
 
----
+______________________________________________________________________
 
 ### Testing Agent
+
 **Goal:** improve quality gates and reduce regressions.
 
 - Outputs:
@@ -130,12 +139,13 @@ Tools: `read`, `edit`, `shell` (build/test/lint), plus git operations via shell.
 - Tools: `read`, `edit`, `shell` (pytest, npm test, playwright, etc.)
 - Policy: avoid editing production code unless explicitly permitted
 
-**Offline:** excellent (local test runners).  
+**Offline:** excellent (local test runners).
 **Online-only use cases:** if CI pipelines or remote test environments are required.
 
----
+______________________________________________________________________
 
 ### Documentation Agent
+
 **Goal:** keep docs accurate and usable.
 
 - Outputs:
@@ -145,12 +155,13 @@ Tools: `read`, `edit`, `shell` (build/test/lint), plus git operations via shell.
   - code comments/docstrings (selectively)
 - Tools: `read`, `edit` (optionally `search`)
 
-**Offline:** strong (local codebase is primary source).  
+**Offline:** strong (local codebase is primary source).
 **Online-only use cases:** linking to external references; style guide lookups.
 
----
+______________________________________________________________________
 
 ### Deployment / DevOps Agent
+
 **Goal:** packaging, CI/CD, releases.
 
 - Outputs:
@@ -159,12 +170,13 @@ Tools: `read`, `edit`, `shell` (build/test/lint), plus git operations via shell.
   - deployment scripts and runbooks
 - Tools: `read`, `edit`, `shell`
 
-**Offline:** building artifacts and validating configs works.  
+**Offline:** building artifacts and validating configs works.
 **Online-only use cases:** pushing images, deploying to cloud, running remote CI, creating releases.
 
----
+______________________________________________________________________
 
 ### Maintenance Agent
+
 **Goal:** ongoing hygiene and evolution.
 
 - Outputs:
@@ -174,14 +186,15 @@ Tools: `read`, `edit`, `shell` (build/test/lint), plus git operations via shell.
   - security remediation
 - Tools: `read`, `edit`, `search`, `shell`
 
-**Offline:** static analysis and refactors work well.  
+**Offline:** static analysis and refactors work well.
 **Online-only use cases:** CVE feeds, upstream changelogs, remote dependency metadata.
 
----
+______________________________________________________________________
 
 ## Extensibility and Control Plane
 
 ### Agent Profiles
+
 Define each agent in an `.agent.md` file with:
 
 - identity + mission
@@ -190,6 +203,7 @@ Define each agent in an `.agent.md` file with:
 - output formats (checklists, PR-ready summaries, etc.)
 
 ### Skills (Reusable Packs)
+
 Use **skills** to standardize recurring practices:
 
 - commit message conventions
@@ -199,13 +213,15 @@ Use **skills** to standardize recurring practices:
 - documentation templates
 
 ### MCP Servers (Optional)
+
 If you later want agents to talk to external systems (GitHub issues/PRs, internal APIs, etc.), MCP servers are the extensibility mechanism. In offline-first mode, keep MCP optional and disabled by default.
 
----
+______________________________________________________________________
 
 ## Security and Performance Considerations (Offline-First)
 
 ### Security
+
 Offline inference reduces IP leakage risk because code stays local. Still:
 
 - **Sandbox shell execution** (container/VM) if you grant `shell` tools.
@@ -213,34 +229,36 @@ Offline inference reduces IP leakage risk because code stays local. Still:
 - Prefer least-privilege tools per agent.
 
 ### Performance
+
 Local models may be less capable than frontier cloud models, but often “good enough” for SDLC automation. Plan compute capacity for:
 
 - large codebases (context management)
 - test execution time
 - LLM inference latency
 
----
+______________________________________________________________________
 
 ## Offline vs Online Use Cases (Practical Matrix)
 
 | Capability | Offline-Friendly | Cloud/Online Only |
 |---|---:|---:|
-| Local code analysis & edits | ✅ |  |
-| Local tests/builds/linting | ✅ |  |
-| git commits/branches locally | ✅ |  |
-| Push/pull to remote repo |  | ✅ |
-| CI/CD (hosted runners) |  | ✅ |
-| Web research / live docs lookup |  | ✅ |
-| External APIs (live calls) |  | ✅ |
-| “Coding agent” on GitHub Actions |  | ✅ |
+| Local code analysis & edits | ✅ | |
+| Local tests/builds/linting | ✅ | |
+| git commits/branches locally | ✅ | |
+| Push/pull to remote repo | | ✅ |
+| CI/CD (hosted runners) | | ✅ |
+| Web research / live docs lookup | | ✅ |
+| External APIs (live calls) | | ✅ |
+| “Coding agent” on GitHub Actions | | ✅ |
 
----
+______________________________________________________________________
 
 ## Appendix: Starter Agent Templates (Minimal)
 
 > These are intentionally minimal. Add your repo conventions in a shared `copilot-instructions.md` or a “skill” pack.
 
 ### A) Requirements Agent (`.github/agents/requirements.agent.md`)
+
 ```yaml
 ---
 name: requirements
@@ -264,6 +282,7 @@ You are the Requirements Analyst.
 ```
 
 ### B) Architecture Agent (`.github/agents/architecture.agent.md`)
+
 ```yaml
 ---
 name: architecture
@@ -286,6 +305,7 @@ You are the Software Architect.
 ```
 
 ### C) Testing Agent (`.github/agents/testing.agent.md`)
+
 ```yaml
 ---
 name: testing
@@ -306,9 +326,10 @@ You are the Test Engineer.
 - Coverage notes
 ```
 
----
+______________________________________________________________________
 
 ## References (non-exhaustive)
+
 - GitHub Docs: Custom Copilot agents, tools scoping, repo/user-level placement
 - GitHub Copilot changelog: CLI SDK, Agent Skills
 - Microsoft AI Toolkit: local model workflows for offline use

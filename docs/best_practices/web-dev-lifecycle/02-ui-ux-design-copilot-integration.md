@@ -2,11 +2,12 @@
 
 If you want custom agents to reliably produce **front-end scaffolds that match your UX intent** (and don’t quietly degrade accessibility), you need: **(1) a design-to-code contract**, **(2) strict repo instructions**, and **(3) prompt playbooks**.
 
----
+______________________________________________________________________
 
 ## A. Baseline setup (so Copilot doesn’t freestyle your UI)
 
 ### 1) Repo instructions = “policy + guardrails”
+
 Use both, because they target different surfaces:
 
 - **VS Code Copilot custom instructions**: `.github/copilot-instructions.md` (workspace-wide behavior).
@@ -14,25 +15,30 @@ Use both, because they target different surfaces:
 - **Agent roster / boundaries**: `AGENTS.md` (your internal governance doc: what each agent is allowed to do, and what it must never do).
 
 Concrete “policy” items to encode:
+
 - **Design-system first**: use existing components/tokens before introducing new UI patterns.
 - **A11y baseline**: semantic HTML, keyboard navigation, focus management; ARIA only when needed; never ship inaccessible defaults.
 - **State completeness**: loading/empty/error/permission-denied states are mandatory.
 - **No new deps by default**: adding UI libraries needs explicit approval (prevents dependency sprawl).
 
 ### 2) Prompt files = “standard operating procedures”
+
 Put reusable prompts in `.github/prompts/*.prompt.md` so you can run them consistently in chat.
 
 ### 3) Grounding = “work from the real codebase”
+
 Use `@workspace` so Copilot understands your current component architecture, routing, styling, and patterns (instead of inventing a new framework inside your repo).
 
----
+______________________________________________________________________
 
 ## B. UI/UX-to-code workflow with Copilot embedded (end-to-end)
 
 ### 1) Design intake → “UI contract”
+
 **Goal:** turn design artifacts into a code-ready brief.
 
 **Inputs you provide:**
+
 - target route(s), user goal, interactions
 - required components + variants
 - responsive requirements
@@ -40,52 +46,61 @@ Use `@workspace` so Copilot understands your current component architecture, rou
 - a11y expectations (keyboard flow, focus order, ARIA expectations)
 
 **Copilot outputs (drafts):**
+
 - a **UI contract** (structured spec) + open questions list
 - a component inventory: what exists vs what must be created
 
 **Gate:** if responsive + states + a11y aren’t specified, it’s not “design-ready.”
 
----
+______________________________________________________________________
 
 ### 2) Component mapping → “reuse vs build”
+
 **Goal:** prevent parallel component systems.
 
 **Copilot does:**
+
 - discovers existing components/design tokens (via `@workspace`)
 - proposes reuse plan + minimal new components
 
 **Gate:** any new component must justify why an existing one cannot be extended.
 
----
+______________________________________________________________________
 
 ### 3) UI skeleton generation → “scaffold + stories”
+
 **Goal:** generate maintainable scaffolding, not finished UI art.
 
 **Copilot does:**
+
 - scaffolds React/TS components, routing, layout structure
 - creates **Storybook stories** (or equivalent) per state/variant
 - adds placeholder styling hooks tied to tokens (not hard-coded magic numbers)
 
 **Gate:** PR must include loading/empty/error states by default.
 
----
+______________________________________________________________________
 
 ### 4) Mock data + fixtures → “realistic, typed, repeatable”
+
 **Goal:** unblock UI development without backend coupling.
 
 **Copilot does:**
+
 - generates **typed mock models** (TS types aligned to API contracts)
 - creates fixtures for: happy path + edge cases
 - optionally generates MSW handlers / mock endpoints
 
 **Gate:** mocks must be deterministic and cover negative states (permission denied, validation error, network error, empty list).
 
----
+______________________________________________________________________
 
 ### 5) A11y enforcement → “audit + fixes”
+
 **Goal:** ship accessible-by-default components.
 
 **Copilot does:**
+
 - runs a checklist pass and proposes code-level fixes:
   - semantic structure (headings, landmarks)
   - keyboard interactions (tab order, ESC to close, etc.)
@@ -94,12 +109,14 @@ Use `@workspace` so Copilot understands your current component architecture, rou
 
 **Gate:** anything interactive must be keyboard-usable and have visible focus states.
 
----
+______________________________________________________________________
 
 ### 6) Handoff evidence → “prove it works”
+
 **Goal:** reduce review friction and rework.
 
 **Copilot does:**
+
 - generates a “verification evidence” section:
   - Storybook links / screenshots
   - key flows exercised
@@ -108,7 +125,7 @@ Use `@workspace` so Copilot understands your current component architecture, rou
 
 **Gate:** reviewers shouldn’t need to guess what was validated.
 
----
+______________________________________________________________________
 
 ## C. Where Copilot CLI / Coding Agent fits
 
@@ -116,35 +133,40 @@ Use `@workspace` so Copilot understands your current component architecture, rou
 - Define **custom agents** (frontmatter + prompt body) to standardize behavior across VS Code / CLI / coding agent.
 - Keep governance strict: the agent produces PRs; humans approve merges.
 
----
+______________________________________________________________________
 
 ## D. Recommended custom agents for this stage (keep it pragmatic)
 
 If you prefer “agent for the big step + prompt files for repeatable tasks”, this structure is high ROI:
 
 ### 1) `ui-scaffolder.agent.md` (primary agent)
+
 **Mission:** generate UI skeletons that match the UI contract, reuse existing components, and include all states.
 
 **Non-negotiables:**
+
 - reuse design system first
 - create states (loading/empty/error/permission-denied)
 - no new dependencies unless asked
 - produce Storybook stories (or documented demo pages)
 
 ### 2) `a11y-guardian.agent.md` (quality gate agent)
+
 **Mission:** treat accessibility as a release blocker; propose concrete fixes.
 
 **Non-negotiables:**
+
 - keyboard usable interactions
 - focus management for overlays
 - semantic HTML before ARIA
 
 ### Optional skills (useful, not mandatory)
-- `mock-data-factory` — fixtures + MSW handlers + edge cases  
-- `storybook-writer` — story variants for states  
-- `a11y-checklist` — a11y audit checklist + required evidence  
 
----
+- `mock-data-factory` — fixtures + MSW handlers + edge cases
+- `storybook-writer` — story variants for states
+- `a11y-checklist` — a11y audit checklist + required evidence
+
+______________________________________________________________________
 
 ## E. Prompt file “command set” (what you actually run day-to-day)
 
@@ -157,7 +179,7 @@ Store these under `.github/prompts/`:
 - `/storybook-states` → stories for loading/empty/error variants
 - `/handoff-evidence` → verification evidence template
 
----
+______________________________________________________________________
 
 ## Example prompt file skeleton (UI scaffolding)
 
@@ -184,7 +206,7 @@ Deliverables:
 4) Open questions and assumptions (explicit)
 ```
 
----
+______________________________________________________________________
 
 ## Next step suggestion
 
