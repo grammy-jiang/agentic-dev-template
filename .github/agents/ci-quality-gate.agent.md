@@ -256,6 +256,3 @@ style: fix linting errors in auth module
 
 No logic changes.
 ```
-
-```
-```

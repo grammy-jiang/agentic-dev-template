@@ -163,5 +163,3 @@ If this runbook doesn't resolve the issue:
 **Symptoms**: Error rate alert, 5xx responses in logs
 **First response**: Check recent deployments, review error logs
 **Runbook**: See Deployment Runbook > Rollback section
-\`\`\`
-```

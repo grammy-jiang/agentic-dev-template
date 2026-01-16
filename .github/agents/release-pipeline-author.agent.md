@@ -338,6 +338,3 @@ ______________________________________________________________________
 - **After workflow creation**: Hand to `runbook-and-ops-docs` for operational
   docs
 - **On deploy failure**: Hand to `incident-scribe` for incident documentation
-
-```
-```
