@@ -4,6 +4,8 @@ description: Gate agent that audits UI components for accessibility compliance (
 tools:
   - read
   - search
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "← Fix Accessibility Issues (if rejected)"
     agent: ui-scaffolder
@@ -213,3 +215,50 @@ Before producing an accessibility audit:
 - **Never hide focus indicators**: Visible focus is required
 - **Test with keyboard**: Every interactive element must be reachable
 - **Provide code fixes**: Don't just report problems — show solutions
+
+# Live Browser Accessibility Testing (MCP)
+
+Use browser MCP tools (Playwright, Chrome, Firefox) for live accessibility verification:
+
+## Keyboard Navigation Testing
+- [ ] **Tab order**: Focus moves in logical order through interactive elements
+- [ ] **Focus visibility**: Focus indicator is clearly visible at all times
+- [ ] **Keyboard traps**: User can always escape (no stuck states)
+- [ ] **Skip links**: Skip to content links work correctly
+- [ ] **Modal focus**: Focus is trapped within open modals
+
+## Screen Reader Verification
+- [ ] **Landmarks**: Page regions are announced correctly
+- [ ] **Headings**: Heading hierarchy is logical (h1 → h2 → h3)
+- [ ] **Form labels**: All inputs have associated labels
+- [ ] **Button/link text**: Announced text is meaningful
+- [ ] **Live regions**: Dynamic content updates are announced
+
+## Automated Accessibility Audits
+
+```typescript
+// Example: Run axe-core accessibility audit via Playwright
+import { injectAxe, checkA11y } from 'axe-playwright';
+
+await page.goto('/dashboard');
+await injectAxe(page);
+const violations = await checkA11y(page);
+// Assert no critical/serious violations
+
+// Example: Keyboard navigation test
+await page.keyboard.press('Tab');
+await expect(page.locator(':focus')).toHaveAttribute('data-testid', 'first-focusable');
+
+// Example: Focus trap verification for modal
+await page.getByRole('button', { name: 'Open Modal' }).click();
+await page.keyboard.press('Tab');
+await page.keyboard.press('Tab');
+// Verify focus stays within modal
+await expect(page.locator(':focus')).toBeVisible();
+await expect(page.locator(':focus')).toBeWithin(page.getByRole('dialog'));
+```
+
+## Chrome DevTools Accessibility Panel
+- Use Chrome MCP to access the Accessibility panel
+- Verify computed accessible names and roles
+- Check color contrast ratios in real rendered styles

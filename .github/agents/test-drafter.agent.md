@@ -6,6 +6,8 @@ tools:
   - search
   - edit
   - execute
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "→ Implement Code (TDD Green)"
     agent: implementation-driver
@@ -334,3 +336,57 @@ Create GitHub Issues when test coverage gaps are identified:
 - **Never use real randomness or time** — determinism is required
 - **Never skip edge cases** — they are where bugs hide
 - **Never write assertion-less tests** — every test must verify behavior
+
+# Live Browser Testing (MCP)
+
+Use browser MCP tools (Playwright, Chrome, Firefox) for E2E test development and verification:
+
+## UX Behavior Testing
+- [ ] **User flows**: Critical paths work end-to-end in real browser
+- [ ] **Interactions**: Click, type, hover, drag actions work correctly
+- [ ] **Visual feedback**: Loading spinners, success messages, error alerts appear
+- [ ] **Navigation**: Page transitions and routing work as expected
+- [ ] **Responsive**: Tests pass at different viewport sizes
+
+## Frontend-Backend Integration Testing
+- [ ] **API requests**: Verify correct endpoints are called
+- [ ] **Request payloads**: Data sent to backend matches contract
+- [ ] **Response handling**: UI updates correctly with API responses
+- [ ] **Error scenarios**: Network errors, 4xx, 5xx responses handled gracefully
+- [ ] **Authentication flow**: Login, logout, session handling works
+
+## Live Testing Workflow
+
+```typescript
+// 1. Use browser MCP to explore the running app
+await page.goto('http://localhost:3000');
+
+// 2. Capture network requests to verify backend communication
+const [request] = await Promise.all([
+  page.waitForRequest('/api/users'),
+  page.getByRole('button', { name: 'Load Users' }).click(),
+]);
+expect(request.method()).toBe('GET');
+
+// 3. Verify response is rendered correctly
+await expect(page.getByTestId('user-count')).toHaveText('10 users');
+
+// 4. Test error handling with network interception
+await page.route('/api/data', route => route.abort());
+await page.getByRole('button', { name: 'Fetch Data' }).click();
+await expect(page.getByText('Network error')).toBeVisible();
+
+// 5. Verify form submission to backend
+const [submitRequest] = await Promise.all([
+  page.waitForRequest('/api/submit'),
+  page.getByRole('button', { name: 'Submit' }).click(),
+]);
+expect(submitRequest.postDataJSON()).toMatchObject({
+  email: 'user@example.com',
+});
+```
+
+## Browser DevTools Integration
+- **Network panel**: Inspect API calls, headers, payloads, timing
+- **Console**: Check for JavaScript errors during test runs
+- **Performance**: Verify no memory leaks or performance regressions

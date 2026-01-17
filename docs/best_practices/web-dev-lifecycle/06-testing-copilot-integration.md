@@ -145,6 +145,65 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+### 6) Live browser testing with MCP → "real browser validation"
+
+**Goal:** verify UX behavior and frontend-backend integration in a real browser.
+
+Use **browser MCP tools** (Playwright, Chrome, Firefox) for live testing:
+
+**UX Behavior Testing:**
+
+- user flows work end-to-end in real browser
+- interactions (click, type, hover, drag) work correctly
+- visual feedback (spinners, alerts, toasts) appears as expected
+- navigation and routing work across the app
+- responsive behavior at different viewport sizes
+
+**Frontend-Backend Integration Testing:**
+
+- API requests are made to correct endpoints
+- request payloads match the API contract
+- UI updates correctly with API responses
+- error scenarios (network errors, 4xx, 5xx) handled gracefully
+- authentication flow works (login, logout, session handling)
+
+**Live testing workflow:**
+
+```typescript
+// Capture network requests to verify backend communication
+const [request] = await Promise.all([
+  page.waitForRequest('/api/users'),
+  page.getByRole('button', { name: 'Load Users' }).click(),
+]);
+expect(request.method()).toBe('GET');
+
+// Verify response is rendered
+await expect(page.getByTestId('user-count')).toHaveText('10 users');
+
+// Test error handling
+await page.route('/api/data', route => route.abort());
+await page.getByRole('button', { name: 'Fetch Data' }).click();
+await expect(page.getByText('Network error')).toBeVisible();
+
+// Verify form submission
+const [submitRequest] = await Promise.all([
+  page.waitForRequest('/api/submit'),
+  page.getByRole('button', { name: 'Submit' }).click(),
+]);
+expect(submitRequest.postDataJSON()).toMatchObject({ email: 'user@example.com' });
+```
+
+**Browser DevTools integration:**
+
+- **Network panel**: Inspect API calls, headers, payloads, timing
+- **Console**: Check for JavaScript errors during test runs
+- **Accessibility panel**: Verify computed ARIA names and roles
+
+**Gate:** before E2E tests are committed, verify they pass in a real browser
+using MCP tools.
+
+______________________________________________________________________
+
 ## C. CI enforcement (the quality floor you don’t negotiate)
 
 - Use branch protection/rulesets to require **status checks** before merge and

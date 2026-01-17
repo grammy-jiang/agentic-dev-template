@@ -5,6 +5,8 @@ tools:
   - read
   - search
   - edit
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "→ Review Accessibility (REQUIRED)"
     agent: a11y-guardian
@@ -194,6 +196,44 @@ Before handing off:
 - [ ] Storybook stories exist for each state
 - [ ] data-testid attributes are included for testability
 - [ ] No new dependencies added without explicit approval
+
+# Live Browser Verification (MCP)
+
+Use browser MCP tools (Playwright, Chrome, Firefox) to verify UI in a real browser:
+
+## UX Behavior Verification
+- [ ] **Navigation flows**: User can navigate between pages as designed
+- [ ] **Interactive elements**: Buttons, links, forms respond correctly
+- [ ] **State transitions**: Loading → Success → Error states render properly
+- [ ] **Responsive behavior**: Layout adapts correctly at breakpoints
+- [ ] **Animations/transitions**: Visual feedback works as expected
+
+## Frontend-Backend Communication
+- [ ] **API calls**: Network requests are made correctly (check Network panel)
+- [ ] **Data binding**: API responses render correctly in UI
+- [ ] **Error handling**: API errors display appropriate user feedback
+- [ ] **Loading states**: UI shows loading indicators during API calls
+- [ ] **Authentication**: Protected routes redirect appropriately
+
+## Verification Commands
+
+```typescript
+// Example: Verify navigation flow with Playwright MCP
+await page.goto('/dashboard');
+await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+
+// Example: Verify API integration
+await page.route('/api/users', route => {
+  // Intercept and verify request format
+});
+await page.getByRole('button', { name: 'Load Users' }).click();
+await expect(page.getByTestId('user-list')).toBeVisible();
+
+// Example: Verify error state
+await page.route('/api/data', route => route.fulfill({ status: 500 }));
+await page.reload();
+await expect(page.getByTestId('error-state')).toBeVisible();
+```
 
 # Issue Creation
 

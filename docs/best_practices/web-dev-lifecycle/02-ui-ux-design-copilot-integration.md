@@ -143,6 +143,52 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+### 7) Live browser verification → "real UX validation with MCP"
+
+**Goal:** verify UI behavior and backend integration in a real browser.
+
+Use **browser MCP tools** (Playwright, Chrome, Firefox) to validate:
+
+**UX Behavior Verification:**
+
+- navigation flows work as designed
+- interactive elements respond correctly (buttons, forms, modals)
+- state transitions render properly (loading → success → error)
+- responsive layouts adapt at breakpoints
+- animations and visual feedback behave as expected
+
+**Frontend-Backend Communication:**
+
+- API calls are made correctly (verify in Network panel)
+- API responses render correctly in the UI
+- error states display appropriate user feedback
+- loading indicators appear during async operations
+- authentication flows work (login, logout, protected routes)
+
+**Verification workflow:**
+
+```typescript
+// 1. Navigate and verify UX
+await page.goto('/dashboard');
+await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+
+// 2. Verify API integration
+const [request] = await Promise.all([
+  page.waitForRequest('/api/users'),
+  page.getByRole('button', { name: 'Load Users' }).click(),
+]);
+await expect(page.getByTestId('user-list')).toBeVisible();
+
+// 3. Verify error handling
+await page.route('/api/data', route => route.fulfill({ status: 500 }));
+await page.reload();
+await expect(page.getByTestId('error-state')).toBeVisible();
+```
+
+**Gate:** critical user flows must be verified in a real browser before PR.
+
+______________________________________________________________________
+
 ## C. Where Copilot CLI / Coding Agent fits
 
 - Use **Copilot CLI** to delegate scaffolding work to the coding agent and get a
