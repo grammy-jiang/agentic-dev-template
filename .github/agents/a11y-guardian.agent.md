@@ -7,6 +7,7 @@ tools:
   - edit
   - microsoft/playwright-mcp
   - io.github.anthropics/chrome-devtools-mcp
+  - io.github.github/github-mcp-server
 handoffs:
   - label: "← Fix Accessibility Issues (if rejected)"
     agent: ui-scaffolder

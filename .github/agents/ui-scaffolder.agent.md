@@ -5,6 +5,7 @@ tools:
   - read
   - search
   - edit
+  - execute
   - microsoft/playwright-mcp
   - io.github.anthropics/chrome-devtools-mcp
 handoffs:
