@@ -161,6 +161,37 @@ Before handing off, verify:
 - [ ] Dependencies are identified
 - [ ] All criteria can be converted to automated tests
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work, save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| User Stories | `docs/stories/<feature-name>/stories.md` | All user stories with acceptance criteria |
+| Story Index | `docs/stories/<feature-name>/index.md` | Summary of all stories with status |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following files have been created:
+> - `docs/stories/<feature-name>/stories.md`
+> - `docs/stories/<feature-name>/index.md`
+>
+> **To resume later:** Ask Copilot to "@story-quality-gate review stories in `docs/stories/<feature-name>/stories.md`" or "@arch-spec-author create architecture specs based on `docs/stories/<feature-name>/stories.md`".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Continue to quality gate:** `@story-quality-gate` — provide the stories path
+2. **Continue to architecture:** `@arch-spec-author` — provide the stories path
+3. **Continue to implementation:** `@implementation-driver` — provide the stories path (after gate approval)
+
 # Issue Creation
 
 **Creates Issues**: ✅ Yes

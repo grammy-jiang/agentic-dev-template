@@ -163,6 +163,39 @@ Before handing off, verify:
 ⚠️ **Gate Reminder**: Stories MUST pass through `story-quality-gate` before implementation.
 - [ ] All acceptance criteria are **testable**
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work, save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| Feature One-Pager | `docs/requirements/<feature-name>/one-pager.md` | Problem, solution, metrics, constraints |
+| Risk Register | `docs/requirements/<feature-name>/risks.md` | Identified risks with mitigations |
+| NFR Summary | `docs/requirements/<feature-name>/nfrs.md` | Non-functional requirements |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following files have been created:
+> - `docs/requirements/<feature-name>/one-pager.md`
+> - `docs/requirements/<feature-name>/risks.md` (if risks identified)
+> - `docs/requirements/<feature-name>/nfrs.md` (if NFRs defined)
+>
+> **To resume later:** Ask Copilot to "@story-builder read `docs/requirements/<feature-name>/one-pager.md` and generate user stories" or "@arch-spec-author read `docs/requirements/<feature-name>/one-pager.md` and create architecture specs".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Continue to stories:** `@story-builder` — provide the one-pager path
+2. **Continue to architecture:** `@arch-spec-author` — provide the one-pager and NFRs paths
+3. **Continue to UI:** `@ui-scaffolder` — provide the one-pager path
+
 # Issue Creation
 
 **Creates Issues**: ✅ Yes

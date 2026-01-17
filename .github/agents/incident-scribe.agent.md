@@ -277,6 +277,39 @@ Before publishing incident documentation:
 3. [Create tracking issues for action items]
 ```
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work, save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| Incident Timeline | `docs/incidents/<incident-id>/timeline.md` | Chronological event sequence |
+| Postmortem | `docs/incidents/<incident-id>/postmortem.md` | Root cause, impact, action items |
+| Action Items | `docs/incidents/<incident-id>/action-items.md` | Prioritized follow-up tasks |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following files have been created:
+> - `docs/incidents/<incident-id>/timeline.md`
+> - `docs/incidents/<incident-id>/postmortem.md`
+> - `docs/incidents/<incident-id>/action-items.md`
+>
+> **To resume later:** Ask Copilot to "@story-builder create stories from action items in `docs/incidents/<incident-id>/action-items.md`" or "@incident-scribe continue postmortem from `docs/incidents/<incident-id>/postmortem.md`".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Create follow-up stories:** `@story-builder` — provide the action items path
+2. **Continue incident documentation:** `@incident-scribe` — provide the timeline/postmortem paths
+3. **Update runbooks:** `@runbook-and-ops-docs` — provide learnings from postmortem
+
 # Issue Creation
 
 **Creates Issues**: ✅ Yes

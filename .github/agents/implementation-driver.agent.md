@@ -311,6 +311,40 @@ Before handing off for review:
 ⚠️ **TDD Rule**: Never write production code without a failing test first.
 - [ ] PR description is ready
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work (or pause mid-implementation), save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| Implementation Status | `docs/implementation/<feature-name>/status.md` | What's done, what's pending, TDD phase |
+| Code Changes | `src/backend/` or `src/frontend/` | Production code files |
+| Test Status | `docs/implementation/<feature-name>/test-status.md` | Which tests pass/fail |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following files have been created/modified:
+> - Production code in `src/backend/` or `src/frontend/`
+> - Implementation status in `docs/implementation/<feature-name>/status.md`
+> - Test status in `docs/implementation/<feature-name>/test-status.md`
+>
+> **To resume later:** Ask Copilot to "@implementation-driver continue implementation from `docs/implementation/<feature-name>/status.md`" or "@code-reviewer review changes in `src/`".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Continue implementation:** `@implementation-driver` — provide the status.md path
+2. **Continue to code review:** `@code-reviewer` — provide the changed file paths
+3. **Add more tests:** `@test-drafter` — provide the current test status
+4. **Fix CI issues:** `@ci-quality-gate` — provide the failing test output
+
 # Issue Creation
 
 **Creates Issues**: ✅ Yes (bugs only)

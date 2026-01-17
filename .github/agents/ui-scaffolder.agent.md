@@ -246,6 +246,41 @@ await page.reload();
 await expect(page.getByTestId('error-state')).toBeVisible();
 ```
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work, save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| UI Contract | `docs/ui/<feature-name>/ui-contract.md` | Routes, components, states, responsive requirements |
+| Component Scaffolds | `src/frontend/components/<FeatureName>/` | React/TS component files |
+| Mock Data | `src/frontend/mocks/<feature-name>.ts` | Typed mock data for development |
+| Storybook Stories | `src/frontend/stories/<FeatureName>.stories.tsx` | Component state stories |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following files have been created:
+> - `docs/ui/<feature-name>/ui-contract.md`
+> - `src/frontend/components/<FeatureName>/` (component scaffolds)
+> - `src/frontend/mocks/<feature-name>.ts`
+> - `src/frontend/stories/<FeatureName>.stories.tsx`
+>
+> **To resume later:** Ask Copilot to "@a11y-guardian audit components in `src/frontend/components/<FeatureName>/`" or "@test-drafter write component tests for `src/frontend/components/<FeatureName>/`".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Continue to accessibility audit:** `@a11y-guardian` — provide the component folder path
+2. **Continue to testing:** `@test-drafter` — provide the component folder path
+3. **Continue to implementation:** `@implementation-driver` — provide the UI contract path
+
 # Issue Creation
 
 **Creates Issues**: ❌ No

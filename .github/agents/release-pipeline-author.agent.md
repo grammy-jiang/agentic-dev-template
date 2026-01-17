@@ -297,6 +297,40 @@ Before handing off:
 - [ ] Rollback procedure is defined
 - [ ] All secrets are documented (not values, just names)
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work, save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| CI Workflow | `.github/workflows/ci.yml` | Main CI pipeline |
+| CD Workflow | `.github/workflows/deploy.yml` | Deployment pipeline |
+| Release Notes | `docs/releases/<version>/release-notes.md` | Changelog and version info |
+| Deployment Docs | `docs/releases/<version>/deployment-guide.md` | Deployment procedure |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following files have been created:
+> - CI/CD workflows in `.github/workflows/`
+> - Release notes in `docs/releases/<version>/release-notes.md`
+> - Deployment guide in `docs/releases/<version>/deployment-guide.md`
+>
+> **To resume later:** Ask Copilot to "@prod-risk-and-rollback-gate review release plan in `docs/releases/<version>/`" or "@runbook-and-ops-docs create runbooks for `docs/releases/<version>/`".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Continue to risk review:** `@prod-risk-and-rollback-gate` — provide the release docs path
+2. **Continue to runbooks:** `@runbook-and-ops-docs` — provide the deployment guide path
+3. **Update workflows:** `@release-pipeline-author` — provide the existing workflow paths
+
 # Issue Creation
 
 **Creates Issues**: ✅ Yes

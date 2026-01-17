@@ -286,6 +286,43 @@ Before handing off:
 - [ ] Tests can run in isolation
 - [ ] Tests trace to acceptance criteria
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work, save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| Unit Tests | `src/backend/tests/<feature>/test_*.py` or `src/frontend/__tests__/<feature>/*.test.ts` | Unit test files |
+| Integration Tests | `tests/integration/<feature>/` | API and DB boundary tests |
+| E2E Tests | `tests/e2e/<feature>.spec.ts` | End-to-end Playwright tests |
+| Test Fixtures | `tests/fixtures/<feature>/` | Deterministic test data |
+| Coverage Map | `docs/testing/<feature-name>/coverage-map.md` | Acceptance criteria to test mapping |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following test files have been created:
+> - Unit tests in `src/*/tests/` or `src/*/__tests__/`
+> - Integration tests in `tests/integration/`
+> - E2E tests in `tests/e2e/`
+> - Fixtures in `tests/fixtures/`
+> - Coverage map in `docs/testing/<feature-name>/coverage-map.md`
+>
+> **To resume later:** Ask Copilot to "@implementation-driver make tests pass in `tests/`" (TDD Green) or "@test-truth-and-stability-gate review tests in `tests/`".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Continue to implementation (TDD Green):** `@implementation-driver` — provide the test file paths
+2. **Continue to test review:** `@test-truth-and-stability-gate` — provide the test folder path
+3. **Add more tests:** `@test-drafter` — provide the coverage map and acceptance criteria
+
 # Issue Creation
 
 **Creates Issues**: ✅ Yes (test gaps only)

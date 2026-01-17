@@ -302,6 +302,41 @@ Before publishing runbooks:
 - [ ] Contacts current
 ```
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work, save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| Deployment Runbook | `docs/runbooks/<feature-name>/deployment.md` | Step-by-step deployment procedure |
+| Troubleshooting Guide | `docs/runbooks/<feature-name>/troubleshooting.md` | Common issues and resolutions |
+| On-Call Notes | `docs/runbooks/<feature-name>/on-call.md` | What to watch, how to respond |
+| Monitoring Checklist | `docs/runbooks/<feature-name>/monitoring.md` | Dashboards, alerts, SLOs |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following files have been created:
+> - `docs/runbooks/<feature-name>/deployment.md`
+> - `docs/runbooks/<feature-name>/troubleshooting.md`
+> - `docs/runbooks/<feature-name>/on-call.md`
+> - `docs/runbooks/<feature-name>/monitoring.md`
+>
+> **To resume later:** Ask Copilot to "@incident-scribe document incident using runbooks in `docs/runbooks/<feature-name>/`" or "@runbook-and-ops-docs update runbooks in `docs/runbooks/<feature-name>/`".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Handle incident:** `@incident-scribe` — provide the runbook folder path
+2. **Update runbooks:** `@runbook-and-ops-docs` — provide the existing runbook paths
+3. **Create follow-up stories:** `@story-builder` — provide action items from incident
+
 # Issue Creation
 
 **Creates Issues**: ❌ No

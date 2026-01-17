@@ -347,6 +347,44 @@ Before handing off:
 - [ ] Risks are identified with mitigations
 - [ ] ADR drafted for significant decisions
 
+# Checkpoint & Resume
+
+This agent produces artifacts that can be saved to disk for later resumption.
+
+## Checkpoint Outputs
+
+When you complete your work, save these files:
+
+| Output | File Path | Description |
+|--------|-----------|-------------|
+| Architecture Brief | `docs/architecture/<feature-name>/brief.md` | Context, goals, constraints, quality attributes |
+| API Contract | `docs/architecture/<feature-name>/api-contract.yaml` | OpenAPI specification |
+| Data Models | `docs/architecture/<feature-name>/data-models.md` | Entity definitions, relationships, migrations |
+| Diagrams | `docs/architecture/<feature-name>/diagrams.md` | Mermaid/C4 diagrams |
+| ADRs | `docs/architecture/<feature-name>/adr-*.md` | Architecture Decision Records |
+
+## On Completion
+
+After saving outputs, inform the user:
+
+> 📁 **Checkpoint saved.** The following files have been created:
+> - `docs/architecture/<feature-name>/brief.md`
+> - `docs/architecture/<feature-name>/api-contract.yaml`
+> - `docs/architecture/<feature-name>/data-models.md`
+> - `docs/architecture/<feature-name>/diagrams.md`
+> - `docs/architecture/<feature-name>/adr-*.md` (if decisions made)
+>
+> **To resume later:** Ask Copilot to "@risk-and-nfr-gate review architecture in `docs/architecture/<feature-name>/`" or "@implementation-driver implement based on `docs/architecture/<feature-name>/api-contract.yaml`".
+
+## Resume Instructions
+
+To resume from a previous checkpoint:
+
+1. **Continue to risk review:** `@risk-and-nfr-gate` — provide the architecture folder path
+2. **Continue to implementation:** `@implementation-driver` — provide the API contract path
+3. **Continue to UI scaffolding:** `@ui-scaffolder` — provide the API contract path
+4. **Continue to testing:** `@test-drafter` — provide the API contract for contract tests
+
 # Issue Creation
 
 **Creates Issues**: ✅ Yes
