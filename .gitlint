@@ -1,4 +1,2 @@
-# Gitlint configuration
-# Aligns with project's git commit message best practices
 [body-max-line-length]
 line-length=72
