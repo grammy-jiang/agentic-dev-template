@@ -1,6 +1,8 @@
 # Review Stage: Copilot Pre-Review + Human Gate; Accountability Stays with Humans (Practical + Repeatable)
 
-The objective is not “AI review replaces humans.” The objective is **shift-left quality**: Copilot catches obvious defects early, while **branch governance + human approvals** remain the merge gate.
+The objective is not “AI review replaces humans.” The objective is **shift-left
+quality**: Copilot catches obvious defects early, while **branch governance +
+human approvals** remain the merge gate.
 
 ______________________________________________________________________
 
@@ -8,9 +10,12 @@ ______________________________________________________________________
 
 ### 1) Repo instructions = “review policy”
 
-- Put review expectations in `.github/copilot-instructions.md` (what reviewers should look for; what authors must provide).
-- Use `.github/instructions/*.instructions.md` for review-related docs/templates if you want tighter rules for PR templates/checklists than general code.
-- Maintain `AGENTS.md` as governance: what your agents can touch, and what requires human approval.
+- Put review expectations in `.github/copilot-instructions.md` (what reviewers
+  should look for; what authors must provide).
+- Use `.github/instructions/*.instructions.md` for review-related docs/templates
+  if you want tighter rules for PR templates/checklists than general code.
+- Maintain `AGENTS.md` as governance: what your agents can touch, and what
+  requires human approval.
 
 ### 2) Merge gate = branch protection / rulesets
 
@@ -19,13 +24,16 @@ Your “quality floor” should be enforced by GitHub, not by reviewer heroics:
 - Require **pull requests** before merging
 - Require **approving reviews**
 - Require **status checks** (tests/lint/typecheck/security scanning)
-- Optionally require conversation resolution, signed commits, linear history, merge queue, etc.
+- Optionally require conversation resolution, signed commits, linear history,
+  merge queue, etc.
 
 ### 3) CODEOWNERS = targeted human responsibility
 
-Use `CODEOWNERS` for “domain ownership,” and (where relevant) require review from code owners as part of protected-branch settings.
+Use `CODEOWNERS` for “domain ownership,” and (where relevant) require review
+from code owners as part of protected-branch settings.
 
-**Bottom line:** Copilot can pre-review everything; humans remain accountable for approvals.
+**Bottom line:** Copilot can pre-review everything; humans remain accountable
+for approvals.
 
 ______________________________________________________________________
 
@@ -37,7 +45,9 @@ ______________________________________________________________________
 
 **Copilot does**
 
-- Runs a structured pre-review using a prompt file (e.g., `/review-code`) to produce a comprehensive report: security, performance, quality, design, testing, docs.
+- Runs a structured pre-review using a prompt file (e.g., `/review-code`) to
+  produce a comprehensive report: security, performance, quality, design,
+  testing, docs.
 - Produces a **PR readiness pack**:
   - risk hotspots
   - “what I tested” evidence
@@ -46,7 +56,8 @@ ______________________________________________________________________
 
 **Human gate (you)**
 
-- Validate that the report ties back to spec/contracts and that the PR has real test evidence (not “looks fine”).
+- Validate that the report ties back to spec/contracts and that the PR has real
+  test evidence (not “looks fine”).
 
 ______________________________________________________________________
 
@@ -88,7 +99,8 @@ ______________________________________________________________________
 **Copilot does**
 
 - Converts review comments into a fix plan
-- Implements small, mechanical changes (refactors, typing, missing tests) with minimal diffs
+- Implements small, mechanical changes (refactors, typing, missing tests) with
+  minimal diffs
 - Keeps fixes scoped to the review feedback (no opportunistic rewrites)
 
 **Human gate**
@@ -102,8 +114,10 @@ ______________________________________________________________________
 
 You want **two roles**:
 
-1. **Pre-review agent (AI)**: produces a structured report and PR readiness artifacts.
-1. **Gate agent (human policy proxy)**: enforces that merge criteria are met, but does **not** “approve” on your behalf.
+1. **Pre-review agent (AI)**: produces a structured report and PR readiness
+   artifacts.
+1. **Gate agent (human policy proxy)**: enforces that merge criteria are met,
+   but does **not** “approve” on your behalf.
 
 ______________________________________________________________________
 
@@ -111,11 +125,13 @@ ______________________________________________________________________
 
 ### 1) `pr-pre-reviewer.agent.md` (primary agent)
 
-**Mission:** generate a high-signal pre-review report *before* human review time is spent.
+**Mission:** generate a high-signal pre-review report *before* human review time
+is spent.
 
 **Non-negotiables**
 
-- Use the same review taxonomy every time: Security / Perf / Quality / Design / Testing / Docs
+- Use the same review taxonomy every time: Security / Perf / Quality / Design /
+  Testing / Docs
 - Produce a “PR readiness pack” (risk list + evidence + reviewer focus)
 - No “confidence theater”: explicitly list unknowns and assumptions
 - No dependency additions unless explicitly allowed
@@ -133,7 +149,8 @@ ______________________________________________________________________
 
 ### 3) `merge-readiness-auditor.agent.md` (gate-support agent)
 
-**Mission:** produce a merge readiness report (CI status + checklist) but never “approves.”
+**Mission:** produce a merge readiness report (CI status + checklist) but never
+“approves.”
 
 **Non-negotiables**
 
@@ -193,4 +210,5 @@ If you want to proceed one-by-one, the next concrete deliverable is to produce:
 - `.github/agents/review-comment-fixer.agent.md`
 - `.github/agents/merge-readiness-auditor.agent.md`
 - 5 prompt files under `.github/prompts/_topics`
-- A PR template and review checklist aligned with your required checks and branch protections
+- A PR template and review checklist aligned with your required checks and
+  branch protections

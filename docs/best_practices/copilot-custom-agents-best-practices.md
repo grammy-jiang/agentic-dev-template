@@ -1,22 +1,33 @@
 # Building Custom GitHub Copilot Agents for the Full SDLC (Offline‑First)
 
-This document summarizes best practices for designing **multiple custom GitHub Copilot agents** (one per SDLC stage) that work across **VS Code**, **Copilot CLI**, and the **Copilot Coding Agent**, with a strong bias toward **offline-first** workflows.
+This document summarizes best practices for designing **multiple custom GitHub
+Copilot agents** (one per SDLC stage) that work across **VS Code**, **Copilot
+CLI**, and the **Copilot Coding Agent**, with a strong bias toward
+**offline-first** workflows.
 
-> Scope assumptions: Solo developer; Python backend + JavaScript/TypeScript frontend; git-based workflow.
+> Scope assumptions: Solo developer; Python backend + JavaScript/TypeScript
+> frontend; git-based workflow.
 
 ______________________________________________________________________
 
 ## Executive Summary
 
-Modern GitHub Copilot supports **custom agents** (specialized AI personas defined by YAML/Markdown profiles) that can automate tasks across the software development lifecycle (SDLC). The most scalable operating model is **modular, multi-agent**:
+Modern GitHub Copilot supports **custom agents** (specialized AI personas
+defined by YAML/Markdown profiles) that can automate tasks across the software
+development lifecycle (SDLC). The most scalable operating model is **modular,
+multi-agent**:
 
-- **One agent per SDLC stage** (requirements → architecture → coding → testing → docs → deployment → maintenance).
-- **Tight tool-scoping per agent** (least-privilege tools; avoid accidental edits).
+- **One agent per SDLC stage** (requirements → architecture → coding → testing →
+  docs → deployment → maintenance).
+- **Tight tool-scoping per agent** (least-privilege tools; avoid accidental
+  edits).
 - **Composable workflows** using:
   - **Handoffs** (explicit “next-step” transitions between agents)
-  - **Skills** (reusable instruction packs/templates/scripts that auto-load when relevant)
+  - **Skills** (reusable instruction packs/templates/scripts that auto-load when
+    relevant)
 
-Store agent files at repo and/or user scope so they are discoverable by VS Code Chat and Copilot CLI.
+Store agent files at repo and/or user scope so they are discoverable by VS Code
+Chat and Copilot CLI.
 
 ______________________________________________________________________
 
@@ -26,7 +37,8 @@ ______________________________________________________________________
 
 Use a multi-agent “assembly line” model:
 
-- **Requirements agent** produces acceptance criteria and non-functional requirements.
+- **Requirements agent** produces acceptance criteria and non-functional
+  requirements.
 - **Architecture agent** produces design artifacts and module breakdown.
 - **Implementation agent(s)** produce code changes.
 - **Testing agent** produces tests and coverage improvements.
@@ -34,14 +46,16 @@ Use a multi-agent “assembly line” model:
 - **Deployment agent** produces CI/CD and release artifacts.
 - **Maintenance agent** produces refactors and dependency hygiene.
 
-**Handoffs** reduce context sprawl and enforce stage boundaries: each agent gets only the context it needs.
+**Handoffs** reduce context sprawl and enforce stage boundaries: each agent gets
+only the context it needs.
 
 ### 2) Least-Privilege Tooling
 
 For each agent profile, explicitly control `tools:`:
 
 - Planning/design agents: `read`, `search`, `edit` (docs only)
-- Testing agent: `read`, `edit`, `shell` (tests + runners), avoid production edits
+- Testing agent: `read`, `edit`, `shell` (tests + runners), avoid production
+  edits
 - Coding agent: `read`, `edit`, `shell` (build/test), allow production edits
 - Deployment agent: `read`, `edit`, `shell` (build/deploy tooling)
 
@@ -88,7 +102,8 @@ ______________________________________________________________________
 **Goal:** turn informal ideas into structured requirements.
 
 - Inputs: issue text, user stories, local docs
-- Outputs: acceptance criteria, constraints, edge cases, non-functional requirements
+- Outputs: acceptance criteria, constraints, edge cases, non-functional
+  requirements
 - Tools: `read`, `search`, `edit` (avoid code changes)
 
 **Offline:** works well using local documents and existing repo context.
@@ -108,7 +123,8 @@ ______________________________________________________________________
 - Tools: `read`, `search`, `edit` (optional `shell` for diagram tooling)
 
 **Offline:** can generate diagrams and architecture docs using local context.
-**Online-only use cases:** fetching external architecture references, cloud service docs.
+**Online-only use cases:** fetching external architecture references, cloud
+service docs.
 
 ______________________________________________________________________
 
@@ -124,7 +140,8 @@ Recommended split (at minimum):
 Tools: `read`, `edit`, `shell` (build/test/lint), plus git operations via shell.
 
 **Offline:** strong, as long as you have local models and local toolchains.
-**Online-only use cases:** using cloud-run coding agent; accessing hosted APIs or remote environments.
+**Online-only use cases:** using cloud-run coding agent; accessing hosted APIs
+or remote environments.
 
 ______________________________________________________________________
 
@@ -139,8 +156,8 @@ ______________________________________________________________________
 - Tools: `read`, `edit`, `shell` (pytest, npm test, playwright, etc.)
 - Policy: avoid editing production code unless explicitly permitted
 
-**Offline:** excellent (local test runners).
-**Online-only use cases:** if CI pipelines or remote test environments are required.
+**Offline:** excellent (local test runners). **Online-only use cases:** if CI
+pipelines or remote test environments are required.
 
 ______________________________________________________________________
 
@@ -155,8 +172,8 @@ ______________________________________________________________________
   - code comments/docstrings (selectively)
 - Tools: `read`, `edit` (optionally `search`)
 
-**Offline:** strong (local codebase is primary source).
-**Online-only use cases:** linking to external references; style guide lookups.
+**Offline:** strong (local codebase is primary source). **Online-only use
+cases:** linking to external references; style guide lookups.
 
 ______________________________________________________________________
 
@@ -170,8 +187,9 @@ ______________________________________________________________________
   - deployment scripts and runbooks
 - Tools: `read`, `edit`, `shell`
 
-**Offline:** building artifacts and validating configs works.
-**Online-only use cases:** pushing images, deploying to cloud, running remote CI, creating releases.
+**Offline:** building artifacts and validating configs works. **Online-only use
+cases:** pushing images, deploying to cloud, running remote CI, creating
+releases.
 
 ______________________________________________________________________
 
@@ -186,8 +204,8 @@ ______________________________________________________________________
   - security remediation
 - Tools: `read`, `edit`, `search`, `shell`
 
-**Offline:** static analysis and refactors work well.
-**Online-only use cases:** CVE feeds, upstream changelogs, remote dependency metadata.
+**Offline:** static analysis and refactors work well. **Online-only use cases:**
+CVE feeds, upstream changelogs, remote dependency metadata.
 
 ______________________________________________________________________
 
@@ -214,7 +232,9 @@ Use **skills** to standardize recurring practices:
 
 ### MCP Servers (Optional)
 
-If you later want agents to talk to external systems (GitHub issues/PRs, internal APIs, etc.), MCP servers are the extensibility mechanism. In offline-first mode, keep MCP optional and disabled by default.
+If you later want agents to talk to external systems (GitHub issues/PRs,
+internal APIs, etc.), MCP servers are the extensibility mechanism. In
+offline-first mode, keep MCP optional and disabled by default.
 
 ______________________________________________________________________
 
@@ -230,7 +250,8 @@ Offline inference reduces IP leakage risk because code stays local. Still:
 
 ### Performance
 
-Local models may be less capable than frontier cloud models, but often “good enough” for SDLC automation. Plan compute capacity for:
+Local models may be less capable than frontier cloud models, but often “good
+enough” for SDLC automation. Plan compute capacity for:
 
 - large codebases (context management)
 - test execution time
@@ -240,22 +261,23 @@ ______________________________________________________________________
 
 ## Offline vs Online Use Cases (Practical Matrix)
 
-| Capability | Offline-Friendly | Cloud/Online Only |
-|---|---:|---:|
-| Local code analysis & edits | ✅ | |
-| Local tests/builds/linting | ✅ | |
-| git commits/branches locally | ✅ | |
-| Push/pull to remote repo | | ✅ |
-| CI/CD (hosted runners) | | ✅ |
-| Web research / live docs lookup | | ✅ |
-| External APIs (live calls) | | ✅ |
-| “Coding agent” on GitHub Actions | | ✅ |
+| Capability                       | Offline-Friendly | Cloud/Online Only |
+| -------------------------------- | ---------------: | ----------------: |
+| Local code analysis & edits      |               ✅ |                   |
+| Local tests/builds/linting       |               ✅ |                   |
+| git commits/branches locally     |               ✅ |                   |
+| Push/pull to remote repo         |                  |                ✅ |
+| CI/CD (hosted runners)           |                  |                ✅ |
+| Web research / live docs lookup  |                  |                ✅ |
+| External APIs (live calls)       |                  |                ✅ |
+| “Coding agent” on GitHub Actions |                  |                ✅ |
 
 ______________________________________________________________________
 
 ## Appendix: Starter Agent Templates (Minimal)
 
-> These are intentionally minimal. Add your repo conventions in a shared `copilot-instructions.md` or a “skill” pack.
+> These are intentionally minimal. Add your repo conventions in a shared
+> `copilot-instructions.md` or a “skill” pack.
 
 ### A) Requirements Agent (`.github/agents/requirements.agent.md`)
 

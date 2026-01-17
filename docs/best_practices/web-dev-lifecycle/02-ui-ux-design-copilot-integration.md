@@ -1,6 +1,9 @@
 # UI/UX Design Stage: Integrating GitHub Copilot to Generate UI Skeleton + Mock Data (You Gate UX/A11y)
 
-If you want custom agents to reliably produce **front-end scaffolds that match your UX intent** (and don’t quietly degrade accessibility), you need: **(1) a design-to-code contract**, **(2) strict repo instructions**, and **(3) prompt playbooks**.
+If you want custom agents to reliably produce **front-end scaffolds that match
+your UX intent** (and don’t quietly degrade accessibility), you need: **(1) a
+design-to-code contract**, **(2) strict repo instructions**, and **(3) prompt
+playbooks**.
 
 ______________________________________________________________________
 
@@ -10,24 +13,34 @@ ______________________________________________________________________
 
 Use both, because they target different surfaces:
 
-- **VS Code Copilot custom instructions**: `.github/copilot-instructions.md` (workspace-wide behavior).
-- **Path-specific instructions**: `.github/instructions/*.instructions.md` with `applyTo` to enforce rules for UI code vs docs vs tests.
-- **Agent roster / boundaries**: `AGENTS.md` (your internal governance doc: what each agent is allowed to do, and what it must never do).
+- **VS Code Copilot custom instructions**: `.github/copilot-instructions.md`
+  (workspace-wide behavior).
+- **Path-specific instructions**: `.github/instructions/*.instructions.md` with
+  `applyTo` to enforce rules for UI code vs docs vs tests.
+- **Agent roster / boundaries**: `AGENTS.md` (your internal governance doc: what
+  each agent is allowed to do, and what it must never do).
 
 Concrete “policy” items to encode:
 
-- **Design-system first**: use existing components/tokens before introducing new UI patterns.
-- **A11y baseline**: semantic HTML, keyboard navigation, focus management; ARIA only when needed; never ship inaccessible defaults.
-- **State completeness**: loading/empty/error/permission-denied states are mandatory.
-- **No new deps by default**: adding UI libraries needs explicit approval (prevents dependency sprawl).
+- **Design-system first**: use existing components/tokens before introducing new
+  UI patterns.
+- **A11y baseline**: semantic HTML, keyboard navigation, focus management; ARIA
+  only when needed; never ship inaccessible defaults.
+- **State completeness**: loading/empty/error/permission-denied states are
+  mandatory.
+- **No new deps by default**: adding UI libraries needs explicit approval
+  (prevents dependency sprawl).
 
 ### 2) Prompt files = “standard operating procedures”
 
-Put reusable prompts in `.github/prompts/*.prompt.md` so you can run them consistently in chat.
+Put reusable prompts in `.github/prompts/*.prompt.md` so you can run them
+consistently in chat.
 
 ### 3) Grounding = “work from the real codebase”
 
-Use `@workspace` so Copilot understands your current component architecture, routing, styling, and patterns (instead of inventing a new framework inside your repo).
+Use `@workspace` so Copilot understands your current component architecture,
+routing, styling, and patterns (instead of inventing a new framework inside your
+repo).
 
 ______________________________________________________________________
 
@@ -50,7 +63,8 @@ ______________________________________________________________________
 - a **UI contract** (structured spec) + open questions list
 - a component inventory: what exists vs what must be created
 
-**Gate:** if responsive + states + a11y aren’t specified, it’s not “design-ready.”
+**Gate:** if responsive + states + a11y aren’t specified, it’s not
+“design-ready.”
 
 ______________________________________________________________________
 
@@ -91,7 +105,8 @@ ______________________________________________________________________
 - creates fixtures for: happy path + edge cases
 - optionally generates MSW handlers / mock endpoints
 
-**Gate:** mocks must be deterministic and cover negative states (permission denied, validation error, network error, empty list).
+**Gate:** mocks must be deterministic and cover negative states (permission
+denied, validation error, network error, empty list).
 
 ______________________________________________________________________
 
@@ -107,7 +122,8 @@ ______________________________________________________________________
   - focus management (modals/drawers)
   - ARIA labeling and live regions (only where appropriate)
 
-**Gate:** anything interactive must be keyboard-usable and have visible focus states.
+**Gate:** anything interactive must be keyboard-usable and have visible focus
+states.
 
 ______________________________________________________________________
 
@@ -129,19 +145,23 @@ ______________________________________________________________________
 
 ## C. Where Copilot CLI / Coding Agent fits
 
-- Use **Copilot CLI** to delegate scaffolding work to the coding agent and get a draft PR back (excellent for repetitive UI skeleton + fixture creation).
-- Define **custom agents** (frontmatter + prompt body) to standardize behavior across VS Code / CLI / coding agent.
+- Use **Copilot CLI** to delegate scaffolding work to the coding agent and get a
+  draft PR back (excellent for repetitive UI skeleton + fixture creation).
+- Define **custom agents** (frontmatter + prompt body) to standardize behavior
+  across VS Code / CLI / coding agent.
 - Keep governance strict: the agent produces PRs; humans approve merges.
 
 ______________________________________________________________________
 
 ## D. Recommended custom agents for this stage (keep it pragmatic)
 
-If you prefer “agent for the big step + prompt files for repeatable tasks”, this structure is high ROI:
+If you prefer “agent for the big step + prompt files for repeatable tasks”, this
+structure is high ROI:
 
 ### 1) `ui-scaffolder.agent.md` (primary agent)
 
-**Mission:** generate UI skeletons that match the UI contract, reuse existing components, and include all states.
+**Mission:** generate UI skeletons that match the UI contract, reuse existing
+components, and include all states.
 
 **Non-negotiables:**
 
@@ -215,4 +235,5 @@ If you want to proceed one-by-one, the next concrete deliverable is to produce:
 - `.github/agents/ui-scaffolder.agent.md`
 - `.github/agents/a11y-guardian.agent.md`
 - Six `.github/prompts/*.prompt.md` files corresponding to the command set above
-- A minimal policy layer in `.github/copilot-instructions.md` + path-specific `.github/instructions/*.instructions.md`
+- A minimal policy layer in `.github/copilot-instructions.md` + path-specific
+  `.github/instructions/*.instructions.md`

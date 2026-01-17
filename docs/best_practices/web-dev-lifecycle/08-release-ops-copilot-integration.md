@@ -78,8 +78,8 @@ ______________________________________________________________________
 **You enforce**
 
 - Separation of concerns: build/test must complete before deploy
-- Promotions: dev → staging → prod (prod requires environment approval)
-  **CI pipeline phases (from TDD best practices):**
+- Promotions: dev → staging → prod (prod requires environment approval) **CI
+  pipeline phases (from TDD best practices):**
 
 1. **Format + Lint** (fast fail)
 1. **Unit tests** (high coverage, core modules ≥95%)
@@ -255,7 +255,7 @@ The following artifacts are now available in this repository:
 
 ### Issue Templates for Release & Ops Stage
 
-| Template | Use When | Key Fields |
-|----------|----------|------------|
-| `07-release-request.yml` | Requesting releases | Version, Changelog, Rollback Plan, Monitoring, Deployment Strategy |
-| `08-incident-report.yml` | Post-incident reviews | Timeline, Root Cause, Impact, Action Items, Lessons Learned |
+| Template                 | Use When              | Key Fields                                                         |
+| ------------------------ | --------------------- | ------------------------------------------------------------------ |
+| `07-release-request.yml` | Requesting releases   | Version, Changelog, Rollback Plan, Monitoring, Deployment Strategy |
+| `08-incident-report.yml` | Post-incident reviews | Timeline, Root Cause, Impact, Action Items, Lessons Learned        |

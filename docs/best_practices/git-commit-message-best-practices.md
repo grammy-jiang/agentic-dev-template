@@ -372,24 +372,24 @@ To solidify these concepts, let's look at some examples of well-written commit
 messages versus poorly written ones. The differences should highlight the best
 practices discussed:
 
-| **Well-Written Commit Message** | **Poorly Written Commit Message** |
-|-----------------------------------------------------------------------------|--------------------------------------------------------------------|
-| **Use specific, descriptive language:**<br>*Add `use` method to Credit model*
-– Clearly states what is added *and* where【2†L85-L93】. The reader knows a method
-was added to the `Credit` model. | *Add `use` method* – Too vague【2†L93-L100】.
-Added where, to what? Lacks context, forcing the reader to guess or check the
-diff. | | **Provide context and intent:**<br>*Increase left padding between
-textbox and layout frame* – Describes the exact UI change【2†L99-L107】 (what was
-changed and where), implying the intent (improve spacing in the UI). | *Adjust
-css* – Unclear【2†L101-L107】. Which CSS? What was adjusted and why? There’s no
-indication of the purpose or scope of this change. | | **Indicate the problem
-being solved:**<br>*Fix method name of InventoryBackend child classes* – The
-subject hints at a specific problem (method names were wrong)【2†L117-L124】. A
-good commit would further explain the issue in the body (e.g. inconsistency with
-the base class interface). | *Fix this* – No description at all【2†L152-L160】.
-It's impossible to tell from the message *what* is being fixed. Similarly,
-messages like *“it should work now”* or *“change stuff”* are meaningless without
-context【2†L152-L160】. |
+| **Well-Written Commit Message**                                                    | **Poorly Written Commit Message**                  |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------- |
+| **Use specific, descriptive language:**<br>*Add `use` method to Credit model*      |                                                    |
+| – Clearly states what is added *and* where【2†L85-L93】. The reader knows a method |                                                    |
+| was added to the `Credit` model.                                                   | *Add `use` method* – Too vague【2†L93-L100】.      |
+| Added where, to what? Lacks context, forcing the reader to guess or check the      |                                                    |
+| diff.                                                                              |                                                    |
+| textbox and layout frame\* – Describes the exact UI change【2†L99-L107】 (what was |                                                    |
+| changed and where), implying the intent (improve spacing in the UI).               | \*Adjust                                           |
+| css\* – Unclear【2†L101-L107】. Which CSS? What was adjusted and why? There’s no   |                                                    |
+| indication of the purpose or scope of this change.                                 |                                                    |
+| being solved:\*\*<br>*Fix method name of InventoryBackend child classes* – The     |                                                    |
+| subject hints at a specific problem (method names were wrong)【2†L117-L124】. A    |                                                    |
+| good commit would further explain the issue in the body (e.g. inconsistency with   |                                                    |
+| the base class interface).                                                         | *Fix this* – No description at all【2†L152-L160】. |
+| It's impossible to tell from the message *what* is being fixed. Similarly,         |                                                    |
+| messages like *“it should work now”* or *“change stuff”* are meaningless without   |                                                    |
+| context【2†L152-L160】.                                                            |                                                    |
 
 *Additional bad examples to avoid:* Commit messages that say nothing about the
 change, like *“update code”*, *“final tweaks”*, or *“temporary”*. These violate

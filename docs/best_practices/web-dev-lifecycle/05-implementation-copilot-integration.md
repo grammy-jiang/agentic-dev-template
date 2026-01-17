@@ -1,9 +1,12 @@
 # Implementation Stage: Copilot Accelerates Coding/Refactoring; CI Enforces the Quality Floor (Practical + Repeatable)
 
-If you want Copilot to raise implementation quality (not just output more code), you need **two control planes**:
+If you want Copilot to raise implementation quality (not just output more code),
+you need **two control planes**:
 
-1. **Agent discipline**: Copilot generates changes in small, test-backed increments.
-1. **System discipline**: branch protections/rulesets + required checks make quality non-negotiable.
+1. **Agent discipline**: Copilot generates changes in small, test-backed
+   increments.
+1. **System discipline**: branch protections/rulesets + required checks make
+   quality non-negotiable.
 
 ______________________________________________________________________
 
@@ -11,9 +14,13 @@ ______________________________________________________________________
 
 ### 1) Repo instructions = “coding policy”
 
-- Put repo-wide rules in `.github/copilot-instructions.md` and file/path-specific rules in `.github/instructions/*.instructions.md`. Avoid conflicting rules to reduce unpredictable behavior.
-- Use `AGENTS.md` for governance and boundaries (what an agent may touch; what requires human approval).
-- Define custom agent profiles under `.github/agents/*.agent.md` (Markdown + YAML frontmatter).
+- Put repo-wide rules in `.github/copilot-instructions.md` and
+  file/path-specific rules in `.github/instructions/*.instructions.md`. Avoid
+  conflicting rules to reduce unpredictable behavior.
+- Use `AGENTS.md` for governance and boundaries (what an agent may touch; what
+  requires human approval).
+- Define custom agent profiles under `.github/agents/*.agent.md` (Markdown +
+  YAML frontmatter).
 
 **Non-negotiables to encode**
 
@@ -29,12 +36,13 @@ Use branch protection or rulesets to require:
 
 - **PR required** before merge
 - **Required status checks** (lint/format/typecheck/tests)
-- Optional: **code scanning results** and other quality signals
-  Also consider CODEOWNERS + required approvals for sensitive areas.
+- Optional: **code scanning results** and other quality signals Also consider
+  CODEOWNERS + required approvals for sensitive areas.
 
 ### 3) Security + dependency governance (CI-level)
 
-- Add Dependency Review to PRs and treat it as a required status check (block merges if vulnerable dependencies are introduced).
+- Add Dependency Review to PRs and treat it as a required status check (block
+  merges if vulnerable dependencies are introduced).
 - If you run CodeQL scanning, incorporate scanning results into the merge gate.
 
 ______________________________________________________________________
@@ -51,7 +59,8 @@ ______________________________________________________________________
 
 **Copilot outputs**
 
-- a short implementation plan: files to touch, risks, test strategy, rollback note
+- a short implementation plan: files to touch, risks, test strategy, rollback
+  note
 
 **Gate:** if it can’t name test changes + edge cases, it’s not ready to code.
 
@@ -61,7 +70,8 @@ ______________________________________________________________________
 
 **Pass 1 — scaffold**
 
-- generate minimal structure (routes, handlers, components, types) aligned with repo patterns
+- generate minimal structure (routes, handlers, components, types) aligned with
+  repo patterns
 
 **Pass 2 — implement**
 
@@ -114,9 +124,11 @@ Implementation follows the **Red → Green → Refactor** cycle:
 - **Single responsibility per test**: one behavior/branch per test
 - **AAA structure**: Arrange → Act → Assert in every test
 - **Independent tests**: can run in any order; no hidden coupling
-- **Mock boundaries only**: mock HTTP/DB/external services, not internal functions
+- **Mock boundaries only**: mock HTTP/DB/external services, not internal
+  functions
 
-**Gate:** "no tests, no merge" for behavior changes. Tests written *after* code is a red flag.
+**Gate:** "no tests, no merge" for behavior changes. Tests written *after* code
+is a red flag.
 
 ______________________________________________________________________
 
@@ -148,11 +160,13 @@ ______________________________________________________________________
 
 ### 1) Copilot coding agent for multi-file tasks (PR-based)
 
-Use the coding agent when you want a coherent multi-file change set with a PR outcome.
+Use the coding agent when you want a coherent multi-file change set with a PR
+outcome.
 
 ### 2) Terminal-driven delegation
 
-If you prefer terminal workflows, use Copilot CLI to delegate tasks and bring back a PR/diff for review.
+If you prefer terminal workflows, use Copilot CLI to delegate tasks and bring
+back a PR/diff for review.
 
 **Governance model**
 
@@ -167,7 +181,8 @@ Mirror your earlier pattern: **one builder agent + one gate agent**.
 
 ### 1) `implementation-driver.agent.md` (primary agent)
 
-**Mission:** implement features quickly but safely, aligned with repo conventions.
+**Mission:** implement features quickly but safely, aligned with repo
+conventions.
 
 **Non-negotiables**
 
@@ -200,7 +215,8 @@ ______________________________________________________________________
 
 Store these in `.github/prompts/` and invoke via `/...`:
 
-- `/implement-from-spec` → implement strictly from story/spec/contracts; propose file plan + tasks
+- `/implement-from-spec` → implement strictly from story/spec/contracts; propose
+  file plan + tasks
 - `/scaffold-minimal` → generate skeleton only (no business logic)
 - `/add-tests-for-change` → generate/update tests + edge cases
 - `/refactor-safely` → refactor plan + staged commits + safety constraints
@@ -239,9 +255,11 @@ ______________________________________________________________________
 
 ## Next step suggestion
 
-If you want to keep going one-by-one, the next concrete deliverable is to generate repo-ready artifacts:
+If you want to keep going one-by-one, the next concrete deliverable is to
+generate repo-ready artifacts:
 
 - `.github/agents/implementation-driver.agent.md`
 - `.github/agents/ci-quality-gate.agent.md`
 - 6 prompt files under `.github/prompts/`
-- A reference CI gate checklist aligned with your branch protections/rulesets (required checks)
+- A reference CI gate checklist aligned with your branch protections/rulesets
+  (required checks)

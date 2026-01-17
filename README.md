@@ -1,27 +1,39 @@
 # agentic-dev-template
 
-AI-first GitHub template repository that standardizes specs, architecture notes, guardrails, and CI quality gates so coding agents (e.g., Copilot) can ship predictable changes with tests, reviews, and reproducible workflows.
+AI-first GitHub template repository that standardizes specs, architecture notes,
+guardrails, and CI quality gates so coding agents (e.g., Copilot) can ship
+predictable changes with tests, reviews, and reproducible workflows.
 
 ## 📋 Overview
 
-This repository provides a structured framework for AI-assisted software development using GitHub Copilot. It combines traditional software development best practices with modern AI-driven workflows, enabling faster, more reliable feature delivery while maintaining code quality and architectural consistency.
+This repository provides a structured framework for AI-assisted software
+development using GitHub Copilot. It combines traditional software development
+best practices with modern AI-driven workflows, enabling faster, more reliable
+feature delivery while maintaining code quality and architectural consistency.
 
 ______________________________________________________________________
 
 ## ✨ Features
 
-- **Agent-driven SDLC:** Predefined Copilot agents map to each lifecycle stage with clear handoffs.
-- **Issue templates:** Structured GitHub Issue Forms for features, stories, bugs, ADRs, release requests.
-- **TDD-first workflow:** Integrated Red→Green→Refactor loops with testing gates and stability checks.
-- **Architecture scaffolds:** Mermaid diagrams, OpenAPI contracts, and ADR guidance.
-- **Quality gates:** Accessibility, security/NFR review, CI checks, and merge readiness audits.
-- **Docs funnel:** Clear links to lifecycle guides, best practices, and contribution workflow.
+- **Agent-driven SDLC:** Predefined Copilot agents map to each lifecycle stage
+  with clear handoffs.
+- **Issue templates:** Structured GitHub Issue Forms for features, stories,
+  bugs, ADRs, release requests.
+- **TDD-first workflow:** Integrated Red→Green→Refactor loops with testing gates
+  and stability checks.
+- **Architecture scaffolds:** Mermaid diagrams, OpenAPI contracts, and ADR
+  guidance.
+- **Quality gates:** Accessibility, security/NFR review, CI checks, and merge
+  readiness audits.
+- **Docs funnel:** Clear links to lifecycle guides, best practices, and
+  contribution workflow.
 
 ## 🚀 How to Use This Template with GitHub Copilot
 
 ### The AI-Assisted Development Lifecycle
 
-This template implements a **8-stage development lifecycle** where GitHub Copilot agents support teams at each phase:
+This template implements a **8-stage development lifecycle** where GitHub
+Copilot agents support teams at each phase:
 
 | Stage                 | Traditional Role                               | Copilot Support                                                | Key Output                                             | Issue Templates                                                  |
 | --------------------- | ---------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------- |
@@ -51,7 +63,8 @@ This template implements a **8-stage development lifecycle** where GitHub Copilo
 **Key artifacts:**
 
 - Feature requirements with success metrics
-- User stories following [INVEST principles](docs/best_practices/web-dev-lifecycle/03-user-stories-copilot-integration.md)
+- User stories following
+  [INVEST principles](docs/best_practices/web-dev-lifecycle/03-user-stories-copilot-integration.md)
 - Acceptance criteria in Gherkin format (Given/When/Then)
 - Risk register and non-functional requirements (NFRs)
 
@@ -74,7 +87,8 @@ ______________________________________________________________________
 - Accessibility audit report
 - Responsive design validation
 
-See [UI/UX Design Integration](docs/best_practices/web-dev-lifecycle/02-ui-ux-design-copilot-integration.md).
+See
+[UI/UX Design Integration](docs/best_practices/web-dev-lifecycle/02-ui-ux-design-copilot-integration.md).
 
 ______________________________________________________________________
 
@@ -97,7 +111,8 @@ ______________________________________________________________________
 - Architecture Decision Records (ADRs)
 - Security/threat analysis
 
-See [Spec & Architecture Integration](docs/best_practices/web-dev-lifecycle/04-spec-architecture-copilot-integration.md).
+See
+[Spec & Architecture Integration](docs/best_practices/web-dev-lifecycle/04-spec-architecture-copilot-integration.md).
 
 ______________________________________________________________________
 
@@ -123,7 +138,8 @@ ______________________________________________________________________
 - Refactor code while maintaining test coverage
 - Enforce deterministic, hermetic tests
 
-See [Implementation Integration](docs/best_practices/web-dev-lifecycle/05-implementation-copilot-integration.md).
+See
+[Implementation Integration](docs/best_practices/web-dev-lifecycle/05-implementation-copilot-integration.md).
 
 ______________________________________________________________________
 
@@ -144,7 +160,8 @@ ______________________________________________________________________
 - E2E tests (critical user journeys)
 - Coverage reports and analysis
 
-See [Testing Integration](docs/best_practices/web-dev-lifecycle/06-testing-copilot-integration.md).
+See
+[Testing Integration](docs/best_practices/web-dev-lifecycle/06-testing-copilot-integration.md).
 
 ______________________________________________________________________
 
@@ -167,7 +184,8 @@ ______________________________________________________________________
 - Human two-eyes review gate
 - Merge readiness audits
 
-See [Review Stage Integration](docs/best_practices/web-dev-lifecycle/07-review-stage-copilot-integration.md).
+See
+[Review Stage Integration](docs/best_practices/web-dev-lifecycle/07-review-stage-copilot-integration.md).
 
 ______________________________________________________________________
 
@@ -188,13 +206,15 @@ ______________________________________________________________________
 - Operational runbooks and disaster recovery procedures
 - Incident postmortem templates
 
-See [Release & Ops Integration](docs/best_practices/web-dev-lifecycle/08-release-ops-copilot-integration.md).
+See
+[Release & Ops Integration](docs/best_practices/web-dev-lifecycle/08-release-ops-copilot-integration.md).
 
 ______________________________________________________________________
 
 ## 🔄 Iterative Loops & Feedback Loops
 
-Development is not strictly linear. Quality gates and feedback from later stages trigger refinement loops:
+Development is not strictly linear. Quality gates and feedback from later stages
+trigger refinement loops:
 
 | Loop                         | Trigger                           | Flow                                                                               | Purpose                                                    |
 | ---------------------------- | --------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------- |
@@ -210,7 +230,8 @@ Development is not strictly linear. Quality gates and feedback from later stages
 
 #### **TDD Loop (Tight Integration: Stages 4-5)**
 
-The tightest loop is between **Implementation** and **Testing**, following **Red→Green→Refactor**:
+The tightest loop is between **Implementation** and **Testing**, following
+**Red→Green→Refactor**:
 
 ```
 Red Phase (test-drafter):
@@ -228,7 +249,8 @@ Validation (test-truth-and-stability-gate):
 
 #### **Quality Gate Loops (Stages 1-3)**
 
-Stories and architecture are refined before implementation begins, reducing costly rework:
+Stories and architecture are refined before implementation begins, reducing
+costly rework:
 
 ```
 Requirements Stage:
@@ -257,12 +279,19 @@ ______________________________________________________________________
 
 ## 🤖 Custom Copilot Agents
 
-This template includes pre-defined custom GitHub Copilot agents for each lifecycle stage. These agents are specialized with domain knowledge and guardrails:
+This template includes pre-defined custom GitHub Copilot agents for each
+lifecycle stage. These agents are specialized with domain knowledge and
+guardrails:
 
-- **Builder Agents** (create artifacts): `requirements`, `story-builder`, `ui-scaffolder`, `arch-spec-author`, `implementation-driver`, `test-drafter`, etc.
-- **Gate Agents** (quality control): `story-quality-gate`, `a11y-guardian`, `risk-and-nfr-gate`, `code-reviewer`, `merge-readiness-auditor`, etc.
+- **Builder Agents** (create artifacts): `requirements`, `story-builder`,
+  `ui-scaffolder`, `arch-spec-author`, `implementation-driver`, `test-drafter`,
+  etc.
+- **Gate Agents** (quality control): `story-quality-gate`, `a11y-guardian`,
+  `risk-and-nfr-gate`, `code-reviewer`, `merge-readiness-auditor`, etc.
 
-See [Agent Workflow Diagram](docs/best_practices/web-dev-lifecycle/agent-workflow-diagram.md) for the complete agent inventory and orchestration.
+See
+[Agent Workflow Diagram](docs/best_practices/web-dev-lifecycle/agent-workflow-diagram.md)
+for the complete agent inventory and orchestration.
 
 ______________________________________________________________________
 
@@ -289,7 +318,8 @@ ______________________________________________________________________
 
 ### 1. **INVEST User Stories**
 
-All user stories must be **Independent**, **Negotiable**, **Valuable**, **Estimable**, **Small**, and **Testable**.
+All user stories must be **Independent**, **Negotiable**, **Valuable**,
+**Estimable**, **Small**, and **Testable**.
 
 ### 2. **Definition of Ready (DoR)**
 
@@ -327,11 +357,16 @@ ______________________________________________________________________
 
 ## 📚 Documentation
 
-- [Web Development Lifecycle Guides](docs/best_practices/web-dev-lifecycle/) — Stage-by-stage integration with Copilot
-- [GitHub Copilot Best Practices](docs/best_practices/copilot-custom-agents-best-practices.md) — Agent design and prompting
-- [User Stories Best Practices](docs/best_practices/web-dev-lifecycle/03-user-stories-copilot-integration.md) — INVEST principles and acceptance criteria
-- [TDD Best Practices](docs/best_practices/tdd-best-practices.md) — Test-driven development workflows
-- [Git Commit Message Best Practices](docs/best_practices/git-commit-message-best-practices.md) — Clear, traceable commit messages
+- [Web Development Lifecycle Guides](docs/best_practices/web-dev-lifecycle/) —
+  Stage-by-stage integration with Copilot
+- [GitHub Copilot Best Practices](docs/best_practices/copilot-custom-agents-best-practices.md)
+  — Agent design and prompting
+- [User Stories Best Practices](docs/best_practices/web-dev-lifecycle/03-user-stories-copilot-integration.md)
+  — INVEST principles and acceptance criteria
+- [TDD Best Practices](docs/best_practices/tdd-best-practices.md) — Test-driven
+  development workflows
+- [Git Commit Message Best Practices](docs/best_practices/git-commit-message-best-practices.md)
+  — Clear, traceable commit messages
 
 ______________________________________________________________________
 
@@ -352,7 +387,8 @@ cd <your-repo-name>
 ### 2) Open in VS Code and Enable Copilot
 
 - Install the GitHub Copilot extension and sign in.
-- Open the workspace and ensure extensions can read `.github/copilot-instructions.md`.
+- Open the workspace and ensure extensions can read
+  `.github/copilot-instructions.md`.
 
 ### 3) Minimal Usage Example
 
@@ -367,15 +403,19 @@ Acceptance criteria: Given/When/Then for happy path + errors
 Out of scope: XLSX formatting, pivot tables
 ```
 
-Then create an issue with the `02-user-story.yml` template and iterate using the quality gates.
+Then create an issue with the `02-user-story.yml` template and iterate using the
+quality gates.
 
 ______________________________________________________________________
 
 ## 🧭 Documentation Funnel
 
-- **Lifecycle guides:** See `docs/best_practices/web-dev-lifecycle/` for stage-by-stage usage.
-- **Architecture & design:** See `docs/best_practices/` for ADRs, diagrams, and specs.
-- **Contribution & development:** See `CONTRIBUTING.md` for dev setup and workflows.
+- **Lifecycle guides:** See `docs/best_practices/web-dev-lifecycle/` for
+  stage-by-stage usage.
+- **Architecture & design:** See `docs/best_practices/` for ADRs, diagrams, and
+  specs.
+- **Contribution & development:** See `CONTRIBUTING.md` for dev setup and
+  workflows.
 
 Keep README focused on onboarding; deeper material lives in `docs/`.
 
@@ -383,20 +423,24 @@ ______________________________________________________________________
 
 ## 🙋 Support
 
-- For your project derived from this template: open issues in your repository and use the provided issue forms.
+- For your project derived from this template: open issues in your repository
+  and use the provided issue forms.
 - For template improvements or bugs: open an issue in this template repository.
 
 ______________________________________________________________________
 
 ## 🤝 Contributing
 
-Contributions to improve the template are welcome. See `CONTRIBUTING.md` for guidelines and development setup.
+Contributions to improve the template are welcome. See `CONTRIBUTING.md` for
+guidelines and development setup.
 
 ______________________________________________________________________
 
 ## 📄 License
 
-This repository is a template. Choose and add a `LICENSE` file in your derived project (e.g., MIT/Apache-2.0). If contributing here, changes are provided under the repository’s chosen license once added.
+This repository is a template. Choose and add a `LICENSE` file in your derived
+project (e.g., MIT/Apache-2.0). If contributing here, changes are provided under
+the repository’s chosen license once added.
 
 ______________________________________________________________________
 

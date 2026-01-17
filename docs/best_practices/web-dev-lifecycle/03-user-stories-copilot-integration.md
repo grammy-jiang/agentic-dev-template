@@ -1,6 +1,9 @@
 # User Stories: Integrating GitHub Copilot + Custom Agents (Practical + Repeatable)
 
-If you want Copilot to *improve* story quality (not just generate text), treat user stories as **structured backlog assets** with **hard gates**: INVEST, 3Cs, acceptance criteria, and Definition of Ready. Copilot is best used as a **drafting + consistency engine**, not as the decision-maker.
+If you want Copilot to *improve* story quality (not just generate text), treat
+user stories as **structured backlog assets** with **hard gates**: INVEST, 3Cs,
+acceptance criteria, and Definition of Ready. Copilot is best used as a
+**drafting + consistency engine**, not as the decision-maker.
 
 ______________________________________________________________________
 
@@ -8,28 +11,37 @@ ______________________________________________________________________
 
 ### 1) Repo instructions = “story policy”
 
-- Put global rules in `.github/copilot-instructions.md` (story template, DoR expectations, language/format consistency).
-- Add path-specific rules in `.github/instructions/*.instructions.md` with `applyTo` so story-related docs and templates get stricter constraints than normal code files.
+- Put global rules in `.github/copilot-instructions.md` (story template, DoR
+  expectations, language/format consistency).
+- Add path-specific rules in `.github/instructions/*.instructions.md` with
+  `applyTo` so story-related docs and templates get stricter constraints than
+  normal code files.
 - Use `AGENTS.md` to define agent governance (what each agent may/may not do).
 
 **Non-negotiables to encode**
 
 - Stories must meet **INVEST** and include **acceptance criteria**.
-- Every story must include **edge/negative cases** (auth, empty, validation, error, concurrency if applicable).
-- **No “big-bang” stories**: if it can’t ship in an iteration, it must be sliced.
+- Every story must include **edge/negative cases** (auth, empty, validation,
+  error, concurrency if applicable).
+- **No “big-bang” stories**: if it can’t ship in an iteration, it must be
+  sliced.
 - Explicit **out-of-scope** and **open questions** are mandatory.
 
 ### 2) Prompt files = “SOP commands”
 
 - Store prompt files in `.github/prompts/*.prompt.md`.
-- Enable prompt files in VS Code settings (`"chat.promptFiles": true`) and run them via `/PROMPTNAME`.
+- Enable prompt files in VS Code settings (`"chat.promptFiles": true`) and run
+  them via `/PROMPTNAME`.
 - Keep them small and versioned to tolerate upstream changes.
 
 ### 3) Issue Forms = “structured intake that prevents garbage”
 
-- Use GitHub **Issue Forms** (`.github/ISSUE_TEMPLATE/*.yml`) to force required fields (persona, value, AC, DoR checkboxes).
-- Prefer the `ISSUE_TEMPLATE/` directory approach; don’t build new process on deprecated legacy templates.
-- Keep the form minimal: required fields + a DoR checklist + links to supporting docs.
+- Use GitHub **Issue Forms** (`.github/ISSUE_TEMPLATE/*.yml`) to force required
+  fields (persona, value, AC, DoR checkboxes).
+- Prefer the `ISSUE_TEMPLATE/` directory approach; don’t build new process on
+  deprecated legacy templates.
+- Keep the form minimal: required fields + a DoR checklist + links to supporting
+  docs.
 
 > **This repo provides:** `.github/ISSUE_TEMPLATE/02-user-story.yml` with:
 >
@@ -49,7 +61,8 @@ ______________________________________________________________________
 
 ### 1) Story intake → “Story Candidate Set”
 
-**Goal:** translate a requirement into multiple candidate stories (not one bloated story).
+**Goal:** translate a requirement into multiple candidate stories (not one
+bloated story).
 
 **You provide:**
 
@@ -62,7 +75,8 @@ ______________________________________________________________________
 - explicit **assumptions + open questions**
 - a recommended slicing strategy (MVP path first)
 
-**Gate:** if Copilot can’t propose a sliceable journey, your brief is likely under-specified.
+**Gate:** if Copilot can’t propose a sliceable journey, your brief is likely
+under-specified.
 
 ______________________________________________________________________
 
@@ -98,7 +112,9 @@ ______________________________________________________________________
 
 **Goal:** make the behavior verifiable—and **test-first ready**.
 
-Acceptance criteria are the **foundation for TDD**: they become test cases before implementation begins. Following the **Red → Green → Refactor** loop, these criteria should be written as failing tests first.
+Acceptance criteria are the **foundation for TDD**: they become test cases
+before implementation begins. Following the **Red → Green → Refactor** loop,
+these criteria should be written as failing tests first.
 
 **Copilot outputs:**
 
@@ -118,7 +134,9 @@ Acceptance criteria are the **foundation for TDD**: they become test cases befor
 - Criteria must be specific enough to produce deterministic, automated tests
 - Use AAA structure (Arrange-Act-Assert) when translating to tests
 
-**Gate:** negative cases must be explicit; otherwise they will be "found" in production. Criteria that cannot be translated to automated tests are not "ready."
+**Gate:** negative cases must be explicit; otherwise they will be "found" in
+production. Criteria that cannot be translated to automated tests are not
+"ready."
 
 ______________________________________________________________________
 
@@ -154,21 +172,26 @@ ______________________________________________________________________
 
 ## C. Where Copilot CLI / Coding Agent fits
 
-This step is mostly content, but you can still use agents to **operationalize** your system:
+This step is mostly content, but you can still use agents to **operationalize**
+your system:
 
 - Use the coding agent to generate and maintain:
-  - Issue forms (YAML), prompt files, and instruction files via PRs (reviewed by you).
-- Version custom agents as `.agent.md` files under `.github/agents/` to keep “story behavior” stable.
+  - Issue forms (YAML), prompt files, and instruction files via PRs (reviewed by
+    you).
+- Version custom agents as `.agent.md` files under `.github/agents/` to keep
+  “story behavior” stable.
 
 ______________________________________________________________________
 
 ## D. Recommended custom agents for User Stories (keep it pragmatic)
 
-Mirror the structure you used for Requirements and UI/UX: **one builder agent + one gate agent**.
+Mirror the structure you used for Requirements and UI/UX: **one builder agent +
+one gate agent**.
 
 ### 1) `story-builder.agent.md` (primary agent)
 
-**Mission:** generate a high-quality, sliceable set of user stories from a feature brief.
+**Mission:** generate a high-quality, sliceable set of user stories from a
+feature brief.
 
 **Non-negotiables:**
 
@@ -240,10 +263,13 @@ The following artifacts are now available in this repository:
 
 - `.github/agents/story-builder.agent.md` ✅ With issue template integration
 - `.github/agents/story-quality-gate.agent.md` ✅
-- `.github/prompts/story-to-issue-form.prompt.md` ✅ Converts story to issue form format
-- `.github/ISSUE_TEMPLATE/02-user-story.yml` ✅ Issue form with required fields + DoR checklist
+- `.github/prompts/story-to-issue-form.prompt.md` ✅ Converts story to issue form
+  format
+- `.github/ISSUE_TEMPLATE/02-user-story.yml` ✅ Issue form with required fields +
+  DoR checklist
 - `.github/copilot-instructions.md` ✅ With INVEST, DoR, and output format rules
-- `.github/instructions/issue-output.instructions.md` ✅ Path-specific formatting rules
+- `.github/instructions/issue-output.instructions.md` ✅ Path-specific formatting
+  rules
 
 ### Workflow Summary
 

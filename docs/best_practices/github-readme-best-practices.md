@@ -1,13 +1,15 @@
 # GitHub README.md Best Practices (End‑User First)
 
-> **Goal:** Help end-users understand your project’s purpose and key features quickly, while providing clear paths to deeper developer/design docs.
+> **Goal:** Help end-users understand your project’s purpose and key features
+> quickly, while providing clear paths to deeper developer/design docs.
 
 ______________________________________________________________________
 
 ## 1) Project name + one‑liner
 
 - Put the **project name** at the top.
-- Follow with a **one‑sentence value proposition**: what it is, who it’s for, and why it matters.
+- Follow with a **one‑sentence value proposition**: what it is, who it’s for,
+  and why it matters.
 - Keep it plain English; avoid internal jargon.
 
 ______________________________________________________________________
@@ -15,8 +17,10 @@ ______________________________________________________________________
 ## 2) Key features up front
 
 - Add a short **Features / Highlights** section immediately after the intro.
-- Use **3–7 bullet points**. Focus on outcomes and differentiators (not implementation).
-- If relevant, note **supported platforms** and major constraints (OS, versions, runtime).
+- Use **3–7 bullet points**. Focus on outcomes and differentiators (not
+  implementation).
+- If relevant, note **supported platforms** and major constraints (OS, versions,
+  runtime).
 
 ______________________________________________________________________
 
@@ -30,11 +34,13 @@ Provide the most common install path first:
 - **JavaScript/TypeScript:** `npm i <package>` / `yarn add <package>`
 - **Rust:** `cargo add <crate>` (library) / `cargo install <crate>` (CLI)
 
-If prerequisites exist (Python/Node/Rust version, OS requirements), list them **before** install steps.
+If prerequisites exist (Python/Node/Rust version, OS requirements), list them
+**before** install steps.
 
 ### Minimal usage example
 
-- Include a **copy‑pasteable** minimal example (CLI command or small code snippet).
+- Include a **copy‑pasteable** minimal example (CLI command or small code
+  snippet).
 - Show expected output or behavior when possible.
 - Consider a screenshot/GIF for UI projects—visual proof reduces user friction.
 
@@ -42,7 +48,8 @@ ______________________________________________________________________
 
 ## 4) Badges: high signal, low noise
 
-Badges are useful to show project health at a glance. Keep them minimal and meaningful:
+Badges are useful to show project health at a glance. Keep them minimal and
+meaningful:
 
 Recommended:
 
@@ -60,12 +67,14 @@ ______________________________________________________________________
 
 ## 5) Documentation funnel: README as the front door
 
-Treat README as an **elevator pitch + onboarding**. Don’t overload it with deep technical material.
+Treat README as an **elevator pitch + onboarding**. Don’t overload it with deep
+technical material.
 
 Instead:
 
 - Link to **Documentation** (docs site, `docs/`, wiki)
-- Link to **Architecture / Design docs** (e.g., `ARCHITECTURE.md`, `docs/design/`)
+- Link to **Architecture / Design docs** (e.g., `ARCHITECTURE.md`,
+  `docs/design/`)
 - Link to **API reference** (Rustdoc, typedoc, sphinx, mkdocs, etc.)
 
 A good pattern is:
@@ -85,7 +94,8 @@ Add (or link to) dedicated files:
 - `SECURITY.md` — vuln reporting policy (especially for widely used libs)
 - `CHANGELOG.md` — release notes and breaking changes
 
-In README, keep a short “Contributing” section with a pointer to these documents.
+In README, keep a short “Contributing” section with a pointer to these
+documents.
 
 ______________________________________________________________________
 
@@ -93,11 +103,13 @@ ______________________________________________________________________
 
 Users want to know:
 
-- **Where to ask questions / get support** (Issues, Discussions, Discord/Slack, email)
+- **Where to ask questions / get support** (Issues, Discussions, Discord/Slack,
+  email)
 - **How to report bugs** (issue templates help)
 - Whether the project is **actively maintained**
 
-If the project is unmaintained, state it clearly near the top (saves everyone time).
+If the project is unmaintained, state it clearly near the top (saves everyone
+time).
 
 ______________________________________________________________________
 
@@ -113,7 +125,8 @@ ______________________________________________________________________
 - Use clear headings (`##`) and consistent section order.
 - Prefer short paragraphs + lists for scannability.
 - Keep the tone direct and professional.
-- Consider a Table of Contents if the README is long (GitHub also provides an auto TOC in the UI).
+- Consider a Table of Contents if the README is long (GitHub also provides an
+  auto TOC in the UI).
 
 A useful heuristic:
 
@@ -188,7 +201,9 @@ ______________________________________________________________________
 ## Sources (high-level)
 
 - GitHub docs: README purpose and typical content.
-- Community guides and checklists on structuring READMEs, documentation funnels, and badge usage.
-- Curated example lists (“awesome README”) and standardized README specs (“Standard Readme”).
+- Community guides and checklists on structuring READMEs, documentation funnels,
+  and badge usage.
+- Curated example lists (“awesome README”) and standardized README specs
+  (“Standard Readme”).
 
 ______________________________________________________________________

@@ -1,6 +1,9 @@
 # Testing Stage: Copilot Drafts Tests; You Guarantee Truthfulness, Stability, and Critical Coverage (Practical + Repeatable)
 
-Copilot can **accelerate test production**, but it will also happily generate **low-signal tests** (over-mocked, brittle selectors, meaningless assertions) unless you impose **hard gates**. Your operating model should be: **AI drafts → you validate intent/coverage → CI enforces discipline**.
+Copilot can **accelerate test production**, but it will also happily generate
+**low-signal tests** (over-mocked, brittle selectors, meaningless assertions)
+unless you impose **hard gates**. Your operating model should be: **AI drafts →
+you validate intent/coverage → CI enforces discipline**.
 
 ______________________________________________________________________
 
@@ -8,21 +11,30 @@ ______________________________________________________________________
 
 ### 1) Repo instructions = “test policy”
 
-- Put cross-repo rules in `.github/copilot-instructions.md` and test-specific rules via `.github/instructions/*.instructions.md` with `applyTo` (e.g., `**/*test*`, `tests/**`, `e2e/**`).
-- Define agent governance in `AGENTS.md` (what the test agent may touch; what requires human approval).
-- Use prompt files under `.github/prompts/` to standardize test-generation tasks and invoke them via `/...` in supported IDEs.
+- Put cross-repo rules in `.github/copilot-instructions.md` and test-specific
+  rules via `.github/instructions/*.instructions.md` with `applyTo` (e.g.,
+  `**/*test*`, `tests/**`, `e2e/**`).
+- Define agent governance in `AGENTS.md` (what the test agent may touch; what
+  requires human approval).
+- Use prompt files under `.github/prompts/` to standardize test-generation tasks
+  and invoke them via `/...` in supported IDEs.
 
 **Non-negotiables to encode**
 
-- **No fake assertions**: every test must assert user-visible or contract-visible behavior.
+- **No fake assertions**: every test must assert user-visible or
+  contract-visible behavior.
 - **No snapshot spam**: snapshots only for stable, reviewed UI surfaces.
-- **No brittle selectors** in E2E: prefer user-facing locators; use explicit test IDs when needed.
-- **Determinism required**: fixed clocks, seeded randomness, hermetic fixtures, stable test data.
-- **Layer discipline**: unit tests for logic, integration for boundaries, E2E for critical paths only.
+- **No brittle selectors** in E2E: prefer user-facing locators; use explicit
+  test IDs when needed.
+- **Determinism required**: fixed clocks, seeded randomness, hermetic fixtures,
+  stable test data.
+- **Layer discipline**: unit tests for logic, integration for boundaries, E2E
+  for critical paths only.
 
 ### 2) Copilot interaction rules = “use the right command”
 
-- Use Copilot Chat test drafting as scaffolding only. Treat generated tests as a first draft that requires validation.
+- Use Copilot Chat test drafting as scaffolding only. Treat generated tests as a
+  first draft that requires validation.
 
 ### 3) Test Pyramid Strategy (Default)
 
@@ -45,7 +57,8 @@ Follow the **test pyramid** from TDD best practices:
 
 - **Unit tests**: many (fast, stable, cheap) — core modules target ≥95% coverage
 - **Smoke tests**: fast "gate" checks in CI — verify critical paths
-- **E2E tests**: few (slow, highest maintenance) — if E2E explodes in quantity, it's a design/testability problem
+- **E2E tests**: few (slow, highest maintenance) — if E2E explodes in quantity,
+  it's a design/testability problem
 
 ______________________________________________________________________
 
@@ -66,7 +79,8 @@ ______________________________________________________________________
 - a coverage map: **Unit / Integration / Contract / E2E** per story slice
 - explicit “won’t test here” decisions (keeps the suite sane)
 
-**Gate:** if a test can’t be tied to an acceptance criterion or risk item, it’s noise.
+**Gate:** if a test can’t be tied to an acceptance criterion or risk item, it’s
+noise.
 
 ______________________________________________________________________
 
@@ -100,7 +114,8 @@ ______________________________________________________________________
 
 ### 4) E2E tests (critical-path only) → “stability engineering”
 
-This is where most teams bleed time. Your job is to keep E2E **small and resilient**.
+This is where most teams bleed time. Your job is to keep E2E **small and
+resilient**.
 
 **Copilot does**
 
@@ -109,9 +124,11 @@ This is where most teams bleed time. Your job is to keep E2E **small and resilie
 
 **You must enforce stability practices**
 
-- Use robust locators (prefer user-facing attributes; avoid DOM-structure coupling).
+- Use robust locators (prefer user-facing attributes; avoid DOM-structure
+  coupling).
 - When necessary, define explicit test IDs and use `getByTestId`.
-- Avoid long CSS/XPath chains that bind to DOM structure (classic flake generator).
+- Avoid long CSS/XPath chains that bind to DOM structure (classic flake
+  generator).
 
 ______________________________________________________________________
 
@@ -130,7 +147,8 @@ ______________________________________________________________________
 
 ## C. CI enforcement (the quality floor you don’t negotiate)
 
-- Use branch protection/rulesets to require **status checks** before merge and enforce “PR-only” merges.
+- Use branch protection/rulesets to require **status checks** before merge and
+  enforce “PR-only” merges.
 - Make test failures blocking. If CI doesn’t block it, it will slip.
 
 ### CI Quality Gates (from TDD Best Practices)
@@ -147,12 +165,15 @@ ______________________________________________________________________
 - Core modules coverage target: **≥95%** where justified
 - **No flaky tests** tolerated in mainline
 - PR merge blocked on failures in phases 1–3
-- E2E may be required for protected branches/releases depending on risk tolerance
+- E2E may be required for protected branches/releases depending on risk
+  tolerance
 
 **Flake policy:**
 
-- Treat flaky tests as **defects**: isolate → fix root cause → restore to main pipeline
-- Avoid masking with retries; use retries only as temporary mitigation with tracking
+- Treat flaky tests as **defects**: isolate → fix root cause → restore to main
+  pipeline
+- Avoid masking with retries; use retries only as temporary mitigation with
+  tracking
 
 **Reporting requirements:**
 
@@ -169,7 +190,8 @@ Keep the same pattern you’ve been using: **one builder agent + one gate agent*
 
 ### 1) `test-drafter.agent.md` (primary agent)
 
-**Mission:** draft tests quickly at the correct layer with realistic data and meaningful assertions.
+**Mission:** draft tests quickly at the correct layer with realistic data and
+meaningful assertions.
 
 **Non-negotiables**
 
@@ -205,7 +227,8 @@ Store under `.github/prompts/` and invoke via `/...`:
 - `/test-plan-from-story` → coverage map by layer + risk hotspots
 - `/unit-tests-from-code` → fast unit tests with real assertions
 - `/integration-tests-for-boundary` → DB/API integration tests + setup/teardown
-- `/contract-tests-from-openapi` → status/error/validation/pagination contract tests
+- `/contract-tests-from-openapi` → status/error/validation/pagination contract
+  tests
 - `/e2e-tests-critical-path` → Playwright flows with stable locator rules
 - `/flake-triage-with-trace` → root-cause flake plan + diagnostics suggestions
 
@@ -250,6 +273,6 @@ The following artifacts are now available in this repository:
 
 ### Issue Template for Testing Stage
 
-| Template | Use When | Key Fields |
-|----------|----------|------------|
+| Template               | Use When              | Key Fields                                                       |
+| ---------------------- | --------------------- | ---------------------------------------------------------------- |
 | `06-test-case-gap.yml` | Missing test coverage | Related Story, Untested AC, Proposed Tests, Determinism Concerns |
