@@ -36,7 +36,10 @@ repos:
     rev: 1.0.0
     hooks:
       - id: mdformat
-        args: [--wrap, "80"]
+        # Use GitHub Flavored Markdown plugin so tables are preserved/formatted correctly
+        additional_dependencies: [mdformat-gfm]
+        # Disable hard wrapping to avoid breaking table rows/cells
+        args: [--wrap, "no"]
         exclude: |
           (?x)^(
             \.github/agents/.*\.agent\.md|
