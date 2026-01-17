@@ -1,195 +1,47 @@
-# AGENTS.md — Best Practices Playbook (Python-first)
+# AGENTS.md Best Practices for Full-Stack Copilot Use
 
-> Goal: make coding agents productive **and** safe on this repository. Tone:
-> direct, actionable, test-first, low-drama.
+**Placement and Scope**: Create a single `AGENTS.md` at your repo root (GitHub Copilot will even scaffold one). Copilot (VS Code extension, CLI, and Coding Agent) automatically reads this file and includes its content in prompt context. You can also add nested `AGENTS.md` in subfolders for large or multi-module projects – Copilot always uses the nearest file in the directory tree. (By default VS Code may ignore files outside the workspace root unless you enable that setting.) In short, **one `AGENTS.md` works for all Copilot agents**.
 
-## 0) Non-negotiables (read this first)
+**Key Sections and Content**: Structure `AGENTS.md` with clear Markdown headings and bullet lists. Common sections include: *Project Overview* or architecture notes; *Setup/Dev Environment* commands; *Build & Run* commands; *Testing* instructions; *Code Style* guidelines; *CI/Deployment* notes; *Security Considerations*; and *Contributing/PR* rules. For example, include steps like "Install deps: `pip install -r requirements.txt`", lint/test commands, or database migration commands. You can literally copy the pattern from the official AGENTS.md site example – it uses `##` headings and `-` lists to group tips (see **"Dev environment tips"**, **"Testing instructions"**, etc.).
 
-- **Do not commit secrets** (tokens, API keys, private URLs, customer data). If
-  you suspect exposure, stop and report.
-- **Minimize blast radius:** change the smallest surface area that solves the
-  task.
-- **Always keep the repo green:** run the checks listed in **Quality gates**
-  before you claim “done”.
-- **Prefer explicit commands over prose.** If a tool needs one exact command,
-  write that command.
+- **Environment & Setup**: Describe language/runtime versions, dependencies, and how to start dev servers. E.g. for Python: "Activate the virtualenv (`python -m venv venv`), install requirements (`pip install -r requirements.txt`), then run `flask run` or `uvicorn main:app --reload`." For JS/TS: "Use Node LTS, run `npm ci` or `pnpm install`, then `npm start` or `npm run dev`."
 
-## 1) Quick start (Python)
+- **Build/Test Commands**: List commands for building and testing each part: e.g. "Backend tests: `pytest tests/`; Frontend tests: `npm test`." Include any CI commands or workflow pointers (like mentioning `.github/workflows`).
 
-> Replace commands if your repo differs. The point is to be executable, not
-> generic.
+- **Code Style/Conventions**: Spell out linters/formatters. For Python, "PEP 8 with Black and isort (line length 88) and type hints" (see e.g. Wegent AGENTS.md) and testing styles. For TS/JS, mention ESLint/Prettier or project conventions. You can show short code examples or good-vs-bad snippets in fenced code blocks to clarify style.
 
-### Environment
+- **Workflow & Git**: Outline commit/PR rules, branch naming, or review checks. For instance: "Run lint and tests before committing; PR titles should follow `[module] Short summary`. Always tag reviewer."
 
-- Python version: **3.11+** (or `pyproject.toml` / `.python-version` is source
-  of truth)
-- Virtualenv:
-  - Create: `python -m venv .venv`
-  - Activate (macOS/Linux): `source .venv/bin/activate`
-  - Activate (Windows): `.venv\Scripts\activate`
+**Task Prompts and Agent Guidance**: You can include a section (e.g. "## Tasks" or "## Agents") that briefly describes common tasks or roles. Use plain-English bullet lists to define tasks or questions the AI might handle (e.g. "- Implement new API endpoint: ensure it follows REST conventions"). Phrase instructions in the imperative and be explicit. It’s helpful to use clear "Always do…" or "Never do…" rules (for example, "Always run all tests and code analysis before merging," “Never commit secrets"). These boundary rules guide the agent’s behavior. If using Copilot CLI with custom tools, you can even reference tools by name (e.g. using `#tool:grep`) in AGENTS.md to tailor how it searches files.
 
-### Dependencies
-
-- Install (pip): `python -m pip install -U pip`
-- Install (project):
-  - `pip install -r requirements.txt` **or**
-  - `pip install -e ".[dev]"` (preferred for editable + dev extras)
-
-### Run
-
-- Unit tests: `pytest -q`
-- Lint: `ruff check .`
-- Format: `ruff format .` (or `black .` if used)
-- Type check: `mypy .` (if configured)
-- Pre-commit (if present): `pre-commit run -a`
-
-## 2) Project map (tell the agent where to look)
-
-- `src/` — production code
-- `tests/` — tests (keep close to the code under test)
-- `scripts/` — one-off utilities (should be safe + documented)
-- `docs/` — user/dev docs
-- `pyproject.toml` — tooling + build metadata
-- CI config — the real contract for “green builds”
-
-## 3) Working agreements for coding agents
-
-### 3.1 Planning & execution cadence
-
-- **Plan-first:** before edits, output a short plan (3–7 bullets) and call out
-  assumptions.
-- **One step at a time:** implement, then validate, then continue.
-- **When unclear, ask:** if requirements are ambiguous or you lack access
-  (secrets, external services), stop and ask for a decision.
-
-### 3.2 How to modify code in this repo
-
-- Match existing architecture and naming (copy local patterns, don’t invent new
-  ones).
-- Avoid sweeping refactors unless explicitly requested.
-- Prefer small, reviewable commits. Keep unrelated formatting out of functional
-  PRs.
-
-### 3.3 Python coding standards (default)
-
-- Use type hints for public functions; keep internal typing pragmatic.
-- Prefer dataclasses / pydantic models if the repo already uses them.
-- Error handling:
-  - Raise explicit exceptions; don’t silently swallow.
-  - Provide actionable messages (what failed + where + next step).
-- Logging:
-  - Use the project’s logger (don’t add a new logging framework).
-  - Never log secrets or raw PII.
-
-## 4) Quality gates (how you prove the work is correct)
-
-### 4.1 Tests
-
-- **If you change behavior, add or update tests.** This is expected even if not
-  requested.
-- Keep tests deterministic:
-  - No real network calls in unit tests.
-  - Mock external services (HTTP, DB, cloud SDKs).
-  - Freeze time where needed.
-- Prefer fast unit tests; add integration tests only when they pay for
-  themselves.
-
-### 4.2 Local validation (run before you finish)
-
-Run, in this order (unless the repo says otherwise):
-
-1. `ruff check .`
-1. `ruff format .`
-1. `pytest -q`
-1. `mypy .` (if configured)
-
-If any step fails:
-
-- Fix it, or explain precisely what blocks you (including the error output).
-
-### 4.3 CI parity
-
-- Don’t “greenwash” locally. If CI runs `tox`, `nox`, `pytest -m "not slow"`,
-  etc., **use the same commands**.
-- If the repo has a `Makefile`, prefer `make test` / `make lint` to ad-hoc
-  commands.
-
-## 5) Git workflow & PR hygiene
-
-- PR scope: one problem, one solution.
-- PR description must include:
-  - What changed (bullets)
-  - Why
-  - How validated (exact commands + results)
-  - Any follow-ups or known limitations
-- Avoid force-push on shared branches unless the team workflow expects it.
-
-## 6) Boundaries (what NOT to do)
-
-- Do not modify:
-  - dependency lockfiles (unless required by the change)
-  - generated files (unless the task explicitly targets them)
-  - vendor/third_party directories
-  - production config / infrastructure unless requested
-- Do not introduce new dependencies without stating:
-  - why it’s needed
-  - licensing/maintenance risk (high-level)
-  - alternatives considered
-
-## 7) Tooling reality check (how instruction files get applied)
-
-- Some tools support **nested** `AGENTS.md` files; keep repo-wide rules at root
-  and add narrower rules in subfolders.
-- Some tools support **override** files (e.g., `AGENTS.override.md`)—use
-  overrides only when you need to *replace* local guidance.
-- Avoid conflicting instructions across multiple agent config files. Single
-  source of truth wins.
-
-## 8) Security & trust model (do not skip)
-
-- Treat `AGENTS.md` as **high-privilege configuration**, not “just
-  documentation”.
-- Require review for changes to agent instruction files (CODEOWNERS
-  recommended).
-- When working in **untrusted repositories**:
-  - assume the instruction file could be malicious
-  - disable auto-loading features if your editor supports it
-  - never run commands that exfiltrate data or touch credentials
-
-## 9) Minimal template (copy/paste)
+**Examples – Python Backend**: A Python section might look like:
 
 ```markdown
-# AGENTS.md
-
-## Setup commands
-- Create venv: `python -m venv .venv`
-- Install deps: `pip install -e ".[dev]"`
-- Tests: `pytest -q`
-- Lint: `ruff check .`
-- Format: `ruff format .`
-
-## Project structure
-- `src/` …
-- `tests/` …
-
-## Code style
-- Follow existing patterns; avoid sweeping refactors.
-
-## Git workflow
-- Small PRs; include commands run + results.
-
-## Boundaries
-- Never commit secrets. Don’t touch generated/vendor files unless asked.
+## Backend (Python)
+- **Environment:** Python 3.10+ (use a virtualenv or conda).
+- **Dependencies:** Run `pip install -r requirements.txt`.
+- **Run:** Start the server with `flask run` or `uvicorn main:app --reload`.
+- **Testing:** Use `pytest tests/` (all tests must pass).
+- **Style:** Follow PEP 8. Run `black .` and `isort .` to format code. Use type hints and docstrings.
+- **Database:** Run migrations: `alembic upgrade head`. Seed dev data with `python seed_db.py`.
 ```
 
-## 10) References (what informed this)
+**Examples – JS/TS Frontend**: A JavaScript/TypeScript section could be:
 
-- agents.md (project overview + minimal example)
-- GitHub Blog: “How to write a great agents.md” (analysis of 2,500+ repos)
-- GitHub Docs: custom instructions + AGENTS.md precedence for Copilot
-- OpenAI Codex docs: AGENTS.md discovery, overrides, and size limits
-- VS Code docs: instruction file writing guidelines and AGENTS.md support
-- Prompt.Security: risks of hidden instruction injection via AGENTS.md (threat
-  model)
-- Community experience: DEV.to / Reddit / GitHub issues (practical pitfalls like
-  symlink edge cases)
+```markdown
+## Frontend (JavaScript/TypeScript)
+- **Environment:** Node.js 18 LTS, use `npm ci` or `pnpm install`.
+- **Dev Server:** Run `npm start` (for React) or `npm run dev` (for Next.js).
+- **Build:** Use `npm run build` for production bundle.
+- **Testing:** Run `npm test` (Jest/Vitest) and ensure all tests pass.
+- **Style:** Follow ESLint/Prettier rules. For example, run `npm run lint` and `npm run format` before commits.
+- **Deploy:** Docs or commands for deploying the frontend (e.g. `npm run export` for static sites).
+```
+
+**Maintaining the File**: Keep `AGENTS.md` up-to-date with the project. Treat it like part of your docs: update it whenever you add new services, change build commands, or tighten code standards. Be *explicit and concise* – agents work better with clear rules and examples. Link to detailed docs or README for lengthy info. As the project evolves, version control will track changes in `AGENTS.md`, so review it on each major refactor or dependency bump. In a monorepo or multi-component repo, continue using nested `AGENTS.md` files so each part has its own guide.
+
+**Copilot-Specific Tips**: Remember that Copilot automatically prepends your prompts with the markdown in `AGENTS.md`. Use this to your advantage: well-structured markdown helps it parse context. Embed code snippets, examples, or sample inputs in fenced code blocks – the models pay attention to those cues. Write instructions the way you’d ask a teammate: bullet lists and short steps work well. For instance, GitHub’s guide shows using `-` list items under headings to clearly separate tips.
+
+Finally, use Copilot’s custom instructions features: in VS Code or CLI, ensure custom instructions are enabled. (By default, VS Code may ignore nested files unless toggled on.) If using the CLI, note it already recognizes `AGENTS.md` for repository context. You can also experiment with Copilot’s new features like **Agent Skills** and **GitHub Copilot Coding Agent**, which now natively read `AGENTS.md`. In short, treat `AGENTS.md` as a “source of truth” for your project’s coding conventions – clear, up-to-date markdown there will measurably improve Copilot’s code suggestions and multi-step task support.
+
+**Sources**: GitHub Copilot documentation and community resources on AGENTS.md usage
