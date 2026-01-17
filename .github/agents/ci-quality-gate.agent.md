@@ -8,6 +8,7 @@ tools:
   - execute
   - microsoft/playwright-mcp
   - io.github.anthropics/chrome-devtools-mcp
+  - io.github.github/github-mcp-server
 handoffs:
   - label: "→ Return to Implementation"
     agent: implementation-driver

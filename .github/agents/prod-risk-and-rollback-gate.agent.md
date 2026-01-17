@@ -7,6 +7,7 @@ tools:
   - execute
   - microsoft/playwright-mcp
   - io.github.anthropics/chrome-devtools-mcp
+  - io.github.github/github-mcp-server
 handoffs:
   - label: "← Revise Release Plan (if rejected)"
     agent: release-pipeline-author
