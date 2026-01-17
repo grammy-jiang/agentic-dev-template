@@ -317,6 +317,25 @@ When you complete your work, save these files:
 | On-Call Notes | `docs/runbooks/<feature-name>/on-call.md` | What to watch, how to respond |
 | Monitoring Checklist | `docs/runbooks/<feature-name>/monitoring.md` | Dashboards, alerts, SLOs |
 
+## Checkpoint File Format
+
+The deployment runbook MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: runbook-and-ops-docs
+  stage: Release/Ops
+  status: complete  # or in-progress
+  created: <ISO-date>
+  next_agents:
+    - agent: incident-scribe
+      action: Document incidents using these runbooks
+    - agent: runbook-and-ops-docs
+      action: Update runbooks based on incidents
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -327,7 +346,7 @@ After saving outputs, inform the user:
 > - `docs/runbooks/<feature-name>/on-call.md`
 > - `docs/runbooks/<feature-name>/monitoring.md`
 >
-> **To resume later:** Ask Copilot to "@incident-scribe document incident using runbooks in `docs/runbooks/<feature-name>/`" or "@runbook-and-ops-docs update runbooks in `docs/runbooks/<feature-name>/`".
+> **To resume later:** Just ask Copilot to "resume from `docs/runbooks/<feature-name>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 

@@ -174,6 +174,27 @@ When you complete your work, save these files:
 | User Stories | `docs/stories/<feature-name>/stories.md` | All user stories with acceptance criteria |
 | Story Index | `docs/stories/<feature-name>/index.md` | Summary of all stories with status |
 
+## Checkpoint File Format
+
+Each saved file MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: story-builder
+  stage: Requirements
+  status: complete  # or in-progress
+  created: <ISO-date>
+  next_agents:
+    - agent: story-quality-gate
+      action: Validate stories for INVEST compliance and DoR
+    - agent: arch-spec-author
+      action: Create architecture specs based on stories
+    - agent: implementation-driver
+      action: Implement stories (after gate approval)
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -182,7 +203,7 @@ After saving outputs, inform the user:
 > - `docs/stories/<feature-name>/stories.md`
 > - `docs/stories/<feature-name>/index.md`
 >
-> **To resume later:** Ask Copilot to "@story-quality-gate review stories in `docs/stories/<feature-name>/stories.md`" or "@arch-spec-author create architecture specs based on `docs/stories/<feature-name>/stories.md`".
+> **To resume later:** Just ask Copilot to "resume from `docs/stories/<feature-name>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 

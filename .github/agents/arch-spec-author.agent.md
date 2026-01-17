@@ -363,6 +363,29 @@ When you complete your work, save these files:
 | Diagrams | `docs/architecture/<feature-name>/diagrams.md` | Mermaid/C4 diagrams |
 | ADRs | `docs/architecture/<feature-name>/adr-*.md` | Architecture Decision Records |
 
+## Checkpoint File Format
+
+Each saved file MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: arch-spec-author
+  stage: Architecture
+  status: complete  # or in-progress
+  created: <ISO-date>
+  next_agents:
+    - agent: risk-and-nfr-gate
+      action: Review architecture for security and NFR compliance
+    - agent: implementation-driver
+      action: Implement based on API contracts
+    - agent: ui-scaffolder
+      action: Create UI scaffolds from API contracts
+    - agent: test-drafter
+      action: Write contract tests from API specs
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -374,7 +397,7 @@ After saving outputs, inform the user:
 > - `docs/architecture/<feature-name>/diagrams.md`
 > - `docs/architecture/<feature-name>/adr-*.md` (if decisions made)
 >
-> **To resume later:** Ask Copilot to "@risk-and-nfr-gate review architecture in `docs/architecture/<feature-name>/`" or "@implementation-driver implement based on `docs/architecture/<feature-name>/api-contract.yaml`".
+> **To resume later:** Just ask Copilot to "resume from `docs/architecture/<feature-name>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 

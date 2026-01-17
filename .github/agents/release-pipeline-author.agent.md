@@ -312,6 +312,26 @@ When you complete your work, save these files:
 | Release Notes | `docs/releases/<version>/release-notes.md` | Changelog and version info |
 | Deployment Docs | `docs/releases/<version>/deployment-guide.md` | Deployment procedure |
 
+## Checkpoint File Format
+
+The release notes file MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: release-pipeline-author
+  stage: Release/Ops
+  status: complete  # or in-progress
+  created: <ISO-date>
+  version: <version-number>
+  next_agents:
+    - agent: prod-risk-and-rollback-gate
+      action: Review release for production safety
+    - agent: runbook-and-ops-docs
+      action: Create operational runbooks for deployment
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -321,7 +341,7 @@ After saving outputs, inform the user:
 > - Release notes in `docs/releases/<version>/release-notes.md`
 > - Deployment guide in `docs/releases/<version>/deployment-guide.md`
 >
-> **To resume later:** Ask Copilot to "@prod-risk-and-rollback-gate review release plan in `docs/releases/<version>/`" or "@runbook-and-ops-docs create runbooks for `docs/releases/<version>/`".
+> **To resume later:** Just ask Copilot to "resume from `docs/releases/<version>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 

@@ -302,6 +302,25 @@ When you complete your work, save these files:
 | Test Fixtures | `tests/fixtures/<feature>/` | Deterministic test data |
 | Coverage Map | `docs/testing/<feature-name>/coverage-map.md` | Acceptance criteria to test mapping |
 
+## Checkpoint File Format
+
+The coverage map file MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: test-drafter
+  stage: Testing
+  status: complete  # or in-progress
+  created: <ISO-date>
+  next_agents:
+    - agent: implementation-driver
+      action: Make failing tests pass (TDD Green phase)
+    - agent: test-truth-and-stability-gate
+      action: Review tests for quality and determinism
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -313,7 +332,7 @@ After saving outputs, inform the user:
 > - Fixtures in `tests/fixtures/`
 > - Coverage map in `docs/testing/<feature-name>/coverage-map.md`
 >
-> **To resume later:** Ask Copilot to "@implementation-driver make tests pass in `tests/`" (TDD Green) or "@test-truth-and-stability-gate review tests in `tests/`".
+> **To resume later:** Just ask Copilot to "resume from `docs/testing/<feature-name>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 

@@ -291,6 +291,27 @@ When you complete your work, save these files:
 | Postmortem | `docs/incidents/<incident-id>/postmortem.md` | Root cause, impact, action items |
 | Action Items | `docs/incidents/<incident-id>/action-items.md` | Prioritized follow-up tasks |
 
+## Checkpoint File Format
+
+The postmortem file MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: incident-scribe
+  stage: Release/Ops
+  status: complete  # or in-progress
+  created: <ISO-date>
+  incident_id: <incident-id>
+  severity: <SEV1|SEV2|SEV3|SEV4>
+  next_agents:
+    - agent: story-builder
+      action: Create stories from action items
+    - agent: runbook-and-ops-docs
+      action: Update runbooks based on learnings
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -300,7 +321,7 @@ After saving outputs, inform the user:
 > - `docs/incidents/<incident-id>/postmortem.md`
 > - `docs/incidents/<incident-id>/action-items.md`
 >
-> **To resume later:** Ask Copilot to "@story-builder create stories from action items in `docs/incidents/<incident-id>/action-items.md`" or "@incident-scribe continue postmortem from `docs/incidents/<incident-id>/postmortem.md`".
+> **To resume later:** Just ask Copilot to "resume from `docs/incidents/<incident-id>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 

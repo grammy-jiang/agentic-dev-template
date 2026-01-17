@@ -141,6 +141,66 @@ When handing off to another agent, include:
 
 ______________________________________________________________________
 
+## Checkpoint Resume Protocol
+
+Agents save checkpoint files with a YAML frontmatter header for resumption. When a user asks to "resume" or "continue" work from a file or folder, follow this protocol:
+
+### Checkpoint File Format
+
+All checkpoint files include this frontmatter:
+
+```yaml
+---
+checkpoint:
+  agent: <agent-name>           # Agent that created this checkpoint
+  stage: <lifecycle-stage>      # Requirements | Architecture | UI/UX | Implementation | Testing | Review | Release/Ops
+  status: <status>              # complete | in-progress | blocked
+  created: <ISO-date>
+  next_agents:                  # Recommended agents to continue with
+    - agent: <agent-name>
+      action: <what to do>
+    - agent: <agent-name>
+      action: <what to do>
+---
+```
+
+### Resume Routing Rules
+
+When user asks to resume from checkpoint files:
+
+1. **Read the checkpoint frontmatter** to identify the source agent and next agents
+2. **Check the status**:
+   - `complete` → Route to one of the `next_agents`
+   - `in-progress` → Continue with the same `agent`
+   - `blocked` → Show the blocker and ask user for resolution
+3. **Invoke the appropriate agent** with context from the checkpoint files
+
+### Checkpoint Location Mapping
+
+| Folder Pattern | Source Agent | Typical Next Agents |
+|----------------|--------------|---------------------|
+| `docs/requirements/<feature>/` | `requirements` | `story-builder`, `arch-spec-author` |
+| `docs/stories/<feature>/` | `story-builder` | `story-quality-gate`, `arch-spec-author` |
+| `docs/architecture/<feature>/` | `arch-spec-author` | `risk-and-nfr-gate`, `implementation-driver` |
+| `docs/ui/<feature>/` | `ui-scaffolder` | `a11y-guardian`, `test-drafter` |
+| `docs/testing/<feature>/` | `test-drafter` | `implementation-driver`, `test-truth-and-stability-gate` |
+| `docs/implementation/<feature>/` | `implementation-driver` | `code-reviewer`, `test-drafter` |
+| `docs/releases/<version>/` | `release-pipeline-author` | `prod-risk-and-rollback-gate`, `runbook-and-ops-docs` |
+| `docs/runbooks/<feature>/` | `runbook-and-ops-docs` | `incident-scribe` |
+| `docs/incidents/<incident-id>/` | `incident-scribe` | `story-builder` |
+
+### Example Resume Flow
+
+**User says:** "Resume work from `docs/requirements/user-auth/`"
+
+**Copilot should:**
+1. Read `docs/requirements/user-auth/one-pager.md`
+2. Parse the checkpoint frontmatter
+3. If status is `complete`, offer: "The requirements are complete. Would you like me to invoke `@story-builder` to create user stories, or `@arch-spec-author` to design the architecture?"
+4. If status is `in-progress`, invoke `@requirements` to continue
+
+______________________________________________________________________
+
 ## References
 
 - Lifecycle docs: `docs/best_practices/web-dev-lifecycle/`

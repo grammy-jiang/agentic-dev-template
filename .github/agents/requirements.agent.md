@@ -177,6 +177,27 @@ When you complete your work, save these files:
 | Risk Register | `docs/requirements/<feature-name>/risks.md` | Identified risks with mitigations |
 | NFR Summary | `docs/requirements/<feature-name>/nfrs.md` | Non-functional requirements |
 
+## Checkpoint File Format
+
+Each saved file MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: requirements
+  stage: Requirements
+  status: complete  # or in-progress
+  created: <ISO-date>
+  next_agents:
+    - agent: story-builder
+      action: Generate user stories from this one-pager
+    - agent: arch-spec-author
+      action: Create architecture specs based on requirements
+    - agent: ui-scaffolder
+      action: Create UI scaffolds for user-facing requirements
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -186,7 +207,7 @@ After saving outputs, inform the user:
 > - `docs/requirements/<feature-name>/risks.md` (if risks identified)
 > - `docs/requirements/<feature-name>/nfrs.md` (if NFRs defined)
 >
-> **To resume later:** Ask Copilot to "@story-builder read `docs/requirements/<feature-name>/one-pager.md` and generate user stories" or "@arch-spec-author read `docs/requirements/<feature-name>/one-pager.md` and create architecture specs".
+> **To resume later:** Just ask Copilot to "resume from `docs/requirements/<feature-name>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 

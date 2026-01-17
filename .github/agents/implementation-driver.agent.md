@@ -325,6 +325,30 @@ When you complete your work (or pause mid-implementation), save these files:
 | Code Changes | `src/backend/` or `src/frontend/` | Production code files |
 | Test Status | `docs/implementation/<feature-name>/test-status.md` | Which tests pass/fail |
 
+## Checkpoint File Format
+
+The status file MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: implementation-driver
+  stage: Implementation
+  status: in-progress  # or complete
+  created: <ISO-date>
+  tdd_phase: green  # red | green | refactor
+  next_agents:
+    - agent: implementation-driver
+      action: Continue implementation from current state
+    - agent: code-reviewer
+      action: Review completed implementation
+    - agent: test-drafter
+      action: Add more tests for uncovered behaviors
+    - agent: ci-quality-gate
+      action: Fix CI failures
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -334,7 +358,7 @@ After saving outputs, inform the user:
 > - Implementation status in `docs/implementation/<feature-name>/status.md`
 > - Test status in `docs/implementation/<feature-name>/test-status.md`
 >
-> **To resume later:** Ask Copilot to "@implementation-driver continue implementation from `docs/implementation/<feature-name>/status.md`" or "@code-reviewer review changes in `src/`".
+> **To resume later:** Just ask Copilot to "resume from `docs/implementation/<feature-name>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 

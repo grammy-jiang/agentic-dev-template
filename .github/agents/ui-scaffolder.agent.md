@@ -261,6 +261,27 @@ When you complete your work, save these files:
 | Mock Data | `src/frontend/mocks/<feature-name>.ts` | Typed mock data for development |
 | Storybook Stories | `src/frontend/stories/<FeatureName>.stories.tsx` | Component state stories |
 
+## Checkpoint File Format
+
+The UI contract file MUST include this YAML frontmatter header:
+
+```yaml
+---
+checkpoint:
+  agent: ui-scaffolder
+  stage: UI/UX Design
+  status: complete  # or in-progress
+  created: <ISO-date>
+  next_agents:
+    - agent: a11y-guardian
+      action: Audit components for accessibility compliance
+    - agent: test-drafter
+      action: Write component tests
+    - agent: implementation-driver
+      action: Implement component logic
+---
+```
+
 ## On Completion
 
 After saving outputs, inform the user:
@@ -271,7 +292,7 @@ After saving outputs, inform the user:
 > - `src/frontend/mocks/<feature-name>.ts`
 > - `src/frontend/stories/<FeatureName>.stories.tsx`
 >
-> **To resume later:** Ask Copilot to "@a11y-guardian audit components in `src/frontend/components/<FeatureName>/`" or "@test-drafter write component tests for `src/frontend/components/<FeatureName>/`".
+> **To resume later:** Just ask Copilot to "resume from `docs/ui/<feature-name>/`" — it will read the checkpoint and route to the correct agent.
 
 ## Resume Instructions
 
