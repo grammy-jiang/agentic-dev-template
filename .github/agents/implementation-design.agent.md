@@ -5,6 +5,8 @@ tools:
   - read
   - search
   - edit
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "→ Draft Tests First (TDD Red)"
     agent: test-drafter
