@@ -5,13 +5,29 @@ tools:
   - read
   - search
 handoffs:
-  - label: Revise Tests
+  - label: "← Revise Tests (if rejected)"
     agent: test-drafter
-    prompt: Based on the review feedback above, please revise the tests to address the identified issues.
+    prompt: |
+      Revise the tests to address the quality issues identified above.
+
+      HANDOFF CONTEXT:
+      - Source: test-truth-and-stability-gate agent (REJECTION)
+      - Input: Test review feedback with specific issues
+      - Required fixes: See signal quality, determinism, or coverage gaps above
+      - Next step: Resubmit to test-truth-and-stability-gate after fixes
     send: false
-  - label: Proceed to Review
+  - label: "→ Proceed to Code Review (if approved)"
     agent: code-reviewer
-    prompt: The tests above have passed quality review. Please include them in the PR review.
+    prompt: |
+      Include the quality-approved tests in the PR review.
+
+      HANDOFF CONTEXT:
+      - Source: test-truth-and-stability-gate agent (APPROVAL)
+      - Input: Tests meeting quality standards (AAA, determinism, coverage)
+      - Expected output: Pre-review report covering code and test quality
+      - Next step: review-comment-fixer will address feedback
+
+      ✅ GATE PASSED: Tests meet quality and stability requirements.
     send: false
 ---
 

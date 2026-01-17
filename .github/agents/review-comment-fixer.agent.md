@@ -7,13 +7,29 @@ tools:
   - edit
   - execute
 handoffs:
-  - label: Re-Review
+  - label: "→ Re-Review (REQUIRED)"
     agent: code-reviewer
-    prompt: Review the fixes above to verify the issues have been addressed.
+    prompt: |
+      Review the fixes above to verify the issues have been addressed.
+
+      HANDOFF CONTEXT:
+      - Source: review-comment-fixer agent
+      - Input: Minimal fixes addressing previous review comments
+      - Validation required: Verify fixes are correct and complete
+      - Next step: If all issues resolved, proceed to merge-readiness-auditor
+
+      ⚠️ RE-REVIEW REQUIRED: Fixes must be verified before merge.
     send: false
-  - label: Check Merge Readiness
+  - label: "→ Check Merge Readiness"
     agent: merge-readiness-auditor
-    prompt: Verify the PR is ready to merge after the fixes above.
+    prompt: |
+      Verify the PR is ready to merge after the fixes above.
+
+      HANDOFF CONTEXT:
+      - Source: review-comment-fixer agent
+      - Input: PR with review comments addressed
+      - Expected output: Merge readiness report
+      - Next step: Human approval, then release-pipeline-author
     send: false
 ---
 

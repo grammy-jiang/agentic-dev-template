@@ -6,17 +6,38 @@ tools:
   - search
   - edit
 handoffs:
-  - label: Build User Stories
+  - label: "→ Build User Stories"
     agent: story-builder
-    prompt: Generate INVEST-compliant user stories from the requirements above.
+    prompt: |
+      Generate INVEST-compliant user stories from the feature one-pager above.
+
+      HANDOFF CONTEXT:
+      - Source: requirements agent
+      - Input: Feature one-pager with problem statement, success metrics, NFRs, and constraints
+      - Expected output: User stories with Given/When/Then acceptance criteria
+      - Next step: Story quality gate will validate stories before architecture
     send: false
-  - label: Design Architecture
+  - label: "→ Design Architecture"
     agent: arch-spec-author
-    prompt: Create architecture specifications based on these requirements.
+    prompt: |
+      Create architecture specifications based on the requirements above.
+
+      HANDOFF CONTEXT:
+      - Source: requirements agent
+      - Input: Feature one-pager with NFRs, constraints, and risk register
+      - Expected output: API contracts (OpenAPI), data models, diagrams, ADRs
+      - Next step: Risk and NFR gate will review before implementation
     send: false
-  - label: Scaffold UI
+  - label: "→ Scaffold UI"
     agent: ui-scaffolder
-    prompt: Create UI scaffolds based on these requirements.
+    prompt: |
+      Create UI contract and scaffolds based on the requirements above.
+
+      HANDOFF CONTEXT:
+      - Source: requirements agent
+      - Input: Feature one-pager with user-facing requirements
+      - Expected output: UI contract, component scaffolds, Storybook stories
+      - Next step: Accessibility guardian will audit components
     send: false
 ---
 
@@ -103,6 +124,32 @@ Before handing off, verify:
 - [ ] NFRs include security and observability
 - [ ] Open questions are listed (if any)
 - [ ] Out of scope is explicit
+
+# Workflow Position
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  YOU ARE HERE: requirements (Entry Point)                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  requirements ──┬──> story-builder ──> story-quality-gate   │
+│       │         │                              │            │
+│       │         ├──> ui-scaffolder             │            │
+│       │         │                              │            │
+│       │         └──> arch-spec-author <────────┘            │
+│       │                                                     │
+│  PRIMARY PATH: requirements → story-builder → quality gate  │
+│  PARALLEL: Can hand off to ui-scaffolder or arch-spec-author│
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Handoff Sequence (Strict Order)
+
+1. **→ story-builder** (PRIMARY): Generate user stories from feature one-pager
+2. **→ arch-spec-author** (PARALLEL): If architecture decisions are needed early
+3. **→ ui-scaffolder** (PARALLEL): If UI specs are well-defined
+
+⚠️ **Gate Reminder**: Stories MUST pass through `story-quality-gate` before implementation.
 - [ ] All acceptance criteria are **testable**
 
 # Issue Creation

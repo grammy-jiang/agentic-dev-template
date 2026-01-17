@@ -5,13 +5,29 @@ tools:
   - read
   - search
 handoffs:
-  - label: Fix Review Issues
+  - label: "→ Fix Review Issues"
     agent: review-comment-fixer
-    prompt: Address the review comments above with minimal, focused fixes.
+    prompt: |
+      Address the review comments above with minimal, focused fixes.
+
+      HANDOFF CONTEXT:
+      - Source: code-reviewer agent
+      - Input: Pre-review report with categorized issues (Critical/High/Medium/Low)
+      - Expected output: Minimal fixes addressing each comment
+      - Next step: Return to code-reviewer for re-review, then merge-readiness-auditor
     send: false
-  - label: Check Merge Readiness
+  - label: "→ Check Merge Readiness (if no issues)"
     agent: merge-readiness-auditor
-    prompt: Verify the PR is ready to merge after the fixes above.
+    prompt: |
+      Verify the PR is ready to merge after review.
+
+      HANDOFF CONTEXT:
+      - Source: code-reviewer agent
+      - Input: Code that passed review (no critical/high issues)
+      - Expected output: Merge readiness report (CI, approvals, conversations)
+      - Next step: Human approval, then release-pipeline-author
+
+      ⚠️ REMINDER: code-reviewer never approves PRs. Human approval required.
     send: false
 ---
 

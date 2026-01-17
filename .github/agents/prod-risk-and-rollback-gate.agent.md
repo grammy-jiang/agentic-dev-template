@@ -5,13 +5,29 @@ tools:
   - read
   - search
 handoffs:
-  - label: Revise Release Plan
+  - label: "← Revise Release Plan (if rejected)"
     agent: release-pipeline-author
-    prompt: Based on the risk review above, please revise the release plan to address the identified concerns.
+    prompt: |
+      Revise the release plan to address the safety concerns identified above.
+
+      HANDOFF CONTEXT:
+      - Source: prod-risk-and-rollback-gate agent (REJECTION)
+      - Input: Risk review with rollback, blast radius, and safety gaps
+      - Required fixes: See specific concerns above
+      - Next step: Resubmit to prod-risk-and-rollback-gate after fixes
     send: false
-  - label: Create Runbooks
+  - label: "→ Create Runbooks (if approved)"
     agent: runbook-and-ops-docs
-    prompt: Create runbooks addressing the operational risks identified above.
+    prompt: |
+      Create operational runbooks for the approved release.
+
+      HANDOFF CONTEXT:
+      - Source: prod-risk-and-rollback-gate agent (APPROVAL)
+      - Input: Risk-reviewed release plan with deployment strategy
+      - Expected output: Deployment runbooks, troubleshooting guides, on-call notes
+      - Next step: Deploy to production with runbooks ready
+
+      ✅ GATE PASSED: Release meets production safety requirements.
     send: false
 ---
 

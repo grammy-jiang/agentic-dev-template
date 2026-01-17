@@ -6,13 +6,18 @@ tools:
   - search
   - edit
 handoffs:
-  - label: Review Release Risk
+  - label: "→ Review Release Risk (REQUIRED)"
     agent: prod-risk-and-rollback-gate
-    prompt: Review the release plan above for production safety and rollback readiness.
-    send: false
-  - label: Create Runbooks
-    agent: runbook-and-ops-docs
-    prompt: Create operational runbooks for the deployment above.
+    prompt: |
+      Review the release plan above for production safety and rollback readiness.
+
+      HANDOFF CONTEXT:
+      - Source: release-pipeline-author agent
+      - Input: CI/CD workflows, deployment scripts, release plan
+      - Validation required: Rollback credibility, blast radius, irreversible actions
+      - Next step: Only after approval, proceed to deployment and runbook creation
+
+      ⚠️ BLOCKING GATE: Release must pass safety review before production deployment.
     send: false
 ---
 

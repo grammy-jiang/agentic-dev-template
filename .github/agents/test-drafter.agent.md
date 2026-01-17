@@ -7,13 +7,31 @@ tools:
   - edit
   - execute
 handoffs:
-  - label: Implement Code
+  - label: "→ Implement Code (TDD Green)"
     agent: implementation-driver
-    prompt: Write the minimum code to make the failing tests above pass (TDD Green phase).
+    prompt: |
+      Write the minimum code to make the failing tests above pass (TDD Green phase).
+
+      HANDOFF CONTEXT:
+      - Source: test-drafter agent (TDD Red phase complete)
+      - Input: Failing tests that define expected behavior
+      - Expected output: Minimal code that makes tests pass
+      - Next step: Refactor while keeping tests green, then next behavior
+
+      🟢 TDD GREEN PHASE: Write minimal code to pass the tests.
     send: false
-  - label: Validate Tests
+  - label: "→ Validate Tests (REQUIRED)"
     agent: test-truth-and-stability-gate
-    prompt: Review the tests above for quality, determinism, and coverage.
+    prompt: |
+      Review the tests above for quality, determinism, and coverage.
+
+      HANDOFF CONTEXT:
+      - Source: test-drafter agent
+      - Input: Tests with AAA structure, assertions, and fixtures
+      - Validation required: Signal quality, determinism, TDD compliance, coverage mapping
+      - Next step: Only after approval, proceed to code review
+
+      ⚠️ BLOCKING GATE: Tests must pass quality review before merge.
     send: false
 ---
 
@@ -258,6 +276,47 @@ Before handing off:
 # Issue Creation
 
 **Creates Issues**: ✅ Yes (test gaps only)
+
+# Workflow Position
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  YOU ARE HERE: test-drafter (TDD Red Phase)                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ENTRY POINTS:                                              │
+│  ← arch-spec-author (contract tests)                        │
+│  ← implementation-design (behavior tests)                   │
+│  ← implementation-driver (next behavior)                    │
+│  ← a11y-guardian (accessibility tests)                      │
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │              TDD CYCLE (Your Role)                   │   │
+│  │                                                      │   │
+│  │   🔴 YOU: Write failing tests (Red phase)            │   │
+│  │                    │                                 │   │
+│  │                    ↓                                 │   │
+│  │   🟢 implementation-driver: Makes tests pass         │   │
+│  │                    │                                 │   │
+│  │                    ↓                                 │   │
+│  │   🔄 Return here for next behavior                   │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                                                             │
+│  EXIT POINTS:                                               │
+│  → implementation-driver (Green phase)                      │
+│  → test-truth-and-stability-gate (validation)               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Handoff Sequence
+
+1. **Receive context**: Acceptance criteria, API contracts, or UI specs
+2. **🔴 Write tests**: Create failing tests that define expected behavior
+3. **Verify Red**: Confirm tests fail for the RIGHT reason
+4. **→ implementation-driver**: Hand off for Green phase
+5. **→ test-truth-and-stability-gate**: For test quality validation
+
+⚠️ **Red Phase Rule**: Tests MUST fail before handoff. A passing test means the behavior already exists.
 **Template**: `06-test-case-gap.yml`
 
 Create GitHub Issues when test coverage gaps are identified:

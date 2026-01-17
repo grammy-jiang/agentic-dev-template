@@ -6,13 +6,31 @@ tools:
   - search
   - edit
 handoffs:
-  - label: Start Implementation
-    agent: implementation-driver
-    prompt: Implement the technical plan above following TDD practices.
-    send: false
-  - label: Draft Tests First
+  - label: "→ Draft Tests First (TDD Red)"
     agent: test-drafter
-    prompt: Write failing tests for the implementation plan above (TDD Red phase).
+    prompt: |
+      Write failing tests for the implementation plan above (TDD Red phase).
+
+      HANDOFF CONTEXT:
+      - Source: implementation-design agent
+      - Input: Implementation plan with engineering tasks in TDD order
+      - Expected output: Failing tests that define expected behavior
+      - Next step: implementation-driver will make tests pass (Green phase)
+
+      🔴 TDD RED PHASE: Write tests that fail for the right reason.
+    send: false
+  - label: "→ Start Implementation (if tests exist)"
+    agent: implementation-driver
+    prompt: |
+      Implement the technical plan above following TDD practices.
+
+      HANDOFF CONTEXT:
+      - Source: implementation-design agent
+      - Input: Implementation plan with engineering tasks
+      - Prerequisite: Failing tests should already exist (from test-drafter)
+      - Expected workflow: Make tests pass (Green) → Refactor → Next behavior
+
+      ⚠️ ENSURE TESTS EXIST: If no failing tests, use test-drafter first.
     send: false
 ---
 

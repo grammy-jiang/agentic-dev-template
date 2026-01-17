@@ -5,17 +5,42 @@ tools:
   - read
   - search
 handoffs:
-  - label: Revise Architecture
+  - label: "← Revise Architecture (if rejected)"
     agent: arch-spec-author
-    prompt: Based on the risk review above, please revise the architecture specs to address the identified concerns.
+    prompt: |
+      Revise the architecture specs to address the risk concerns identified above.
+
+      HANDOFF CONTEXT:
+      - Source: risk-and-nfr-gate agent (REJECTION)
+      - Input: Risk review feedback with security, NFR, and operational gaps
+      - Required fixes: See threat model gaps and NFR issues above
+      - Next step: Resubmit to risk-and-nfr-gate after fixes
     send: false
-  - label: Start Implementation
+  - label: "→ Start Implementation (if approved)"
     agent: implementation-driver
-    prompt: The architecture specs have passed risk review. Implement the design following TDD practices.
+    prompt: |
+      Implement the approved architecture following TDD practices.
+
+      HANDOFF CONTEXT:
+      - Source: risk-and-nfr-gate agent (APPROVAL)
+      - Input: Risk-reviewed architecture specs with API contracts and data models
+      - Expected workflow: test-drafter (Red) → implementation-driver (Green) → Refactor
+      - Next step: Draft failing tests first with test-drafter, then implement
+
+      ✅ GATE PASSED: Architecture meets security and NFR requirements.
     send: false
-  - label: Scaffold UI
+  - label: "→ Scaffold UI (if approved)"
     agent: ui-scaffolder
-    prompt: The architecture specs have passed risk review. Create UI scaffolds based on the API contracts.
+    prompt: |
+      Create UI scaffolds based on the approved API contracts.
+
+      HANDOFF CONTEXT:
+      - Source: risk-and-nfr-gate agent (APPROVAL)
+      - Input: Risk-reviewed API contracts with error models
+      - Expected output: UI contract, component scaffolds, Storybook stories
+      - Next step: Accessibility guardian will audit components
+
+      ✅ GATE PASSED: Architecture meets security and NFR requirements.
     send: false
 ---
 

@@ -5,13 +5,29 @@ tools:
   - read
   - search
 handoffs:
-  - label: Fix Issues
+  - label: "← Fix Blocking Issues"
     agent: review-comment-fixer
-    prompt: Address the blocking issues identified above.
+    prompt: |
+      Address the blocking issues identified in the merge readiness report above.
+
+      HANDOFF CONTEXT:
+      - Source: merge-readiness-auditor agent
+      - Input: Merge readiness report with blocking issues
+      - Expected output: Fixes for CI failures, unresolved conversations, etc.
+      - Next step: Return to merge-readiness-auditor for re-verification
     send: false
-  - label: Proceed to Release
+  - label: "→ Proceed to Release (if ready)"
     agent: release-pipeline-author
-    prompt: Create release artifacts for the approved PR.
+    prompt: |
+      Create release artifacts for the merge-ready PR.
+
+      HANDOFF CONTEXT:
+      - Source: merge-readiness-auditor agent (READY status)
+      - Input: Merge-ready PR with all checks passing
+      - Expected output: CI/CD workflows, deployment scripts, release plan
+      - Next step: prod-risk-and-rollback-gate will review release safety
+
+      ✅ MERGE READY: All CI checks pass, approvals obtained, conversations resolved.
     send: false
 ---
 

@@ -7,9 +7,18 @@ tools:
   - edit
   - execute
 handoffs:
-  - label: Return to Implementation
+  - label: "→ Return to Implementation"
     agent: implementation-driver
-    prompt: Continue implementing with the CI issues fixed above.
+    prompt: |
+      Continue implementing with the CI issues fixed above.
+
+      HANDOFF CONTEXT:
+      - Source: ci-quality-gate agent
+      - Input: Fixed CI issues with minimal diffs
+      - Current state: CI should now pass
+      - Next step: Continue TDD cycle or proceed to code review
+
+      ✅ CI FIXED: Root causes addressed, not papered over.
     send: false
 ---
 

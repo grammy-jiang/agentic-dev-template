@@ -6,17 +6,18 @@ tools:
   - search
   - edit
 handoffs:
-  - label: Review Risks & NFRs
+  - label: "→ Review Risks & NFRs (REQUIRED)"
     agent: risk-and-nfr-gate
-    prompt: Review the architecture specs above for security risks, NFRs, and operational concerns.
-    send: false
-  - label: Start Implementation
-    agent: implementation-driver
-    prompt: Implement the architecture specs defined above following TDD practices.
-    send: false
-  - label: Scaffold UI
-    agent: ui-scaffolder
-    prompt: Create UI scaffolds based on the API contracts defined above.
+    prompt: |
+      Review the architecture specs above for security risks, NFRs, and operational concerns.
+
+      HANDOFF CONTEXT:
+      - Source: arch-spec-author agent
+      - Input: Architecture brief, API contracts, data models, diagrams, ADRs
+      - Validation required: Threat model, abuse cases, NFR completeness, operational readiness
+      - Next step: Only after approval, proceed to implementation or UI scaffolding
+
+      ⚠️ BLOCKING GATE: Architecture must pass risk review before implementation.
     send: false
 ---
 

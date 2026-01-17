@@ -6,9 +6,16 @@ tools:
   - search
   - edit
 handoffs:
-  - label: Handle Incident
+  - label: "→ Handle Incident (when needed)"
     agent: incident-scribe
-    prompt: Document the incident following the runbook procedures above.
+    prompt: |
+      Document the incident following the runbook procedures above.
+
+      HANDOFF CONTEXT:
+      - Source: runbook-and-ops-docs agent
+      - Input: Operational runbooks with procedures and escalation paths
+      - Expected output: Incident timeline, impact assessment, postmortem
+      - Next step: incident-scribe creates follow-up stories via story-builder
     send: false
 ---
 

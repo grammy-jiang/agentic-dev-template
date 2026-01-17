@@ -7,17 +7,40 @@ tools:
   - edit
   - execute
 handoffs:
-  - label: Draft Tests First
+  - label: "→ Draft Tests First (TDD Red)"
     agent: test-drafter
-    prompt: Write failing tests for the next behavior to implement (TDD Red phase).
+    prompt: |
+      Write failing tests for the next behavior to implement (TDD Red phase).
+
+      HANDOFF CONTEXT:
+      - Source: implementation-driver agent
+      - Input: Architecture specs, user stories, or next behavior to implement
+      - Expected output: Failing tests that define expected behavior
+      - Next step: Return to implementation-driver to make tests pass
+
+      🔴 TDD RED PHASE: Write tests that fail for the right reason.
     send: false
-  - label: Fix CI Failures
+  - label: "← Fix CI Failures"
     agent: ci-quality-gate
-    prompt: Analyze and fix the CI failures above.
+    prompt: |
+      Analyze and fix the CI failures encountered during implementation.
+
+      HANDOFF CONTEXT:
+      - Source: implementation-driver agent
+      - Input: CI failure logs and error messages
+      - Expected output: Diagnosis and minimal fixes
+      - Next step: Return to implementation-driver after fixes
     send: false
-  - label: Request Review
+  - label: "→ Request Code Review"
     agent: code-reviewer
-    prompt: Review the implementation above for correctness, security, and quality.
+    prompt: |
+      Review the implementation above for correctness, security, and quality.
+
+      HANDOFF CONTEXT:
+      - Source: implementation-driver agent
+      - Input: Production code with tests, following TDD practices
+      - Expected output: Pre-review report with categorized issues
+      - Next step: review-comment-fixer will address feedback
     send: false
 ---
 
@@ -236,6 +259,43 @@ Before handing off for review:
 - [ ] Error handling is explicit
 - [ ] Logging is in place
 - [ ] Commits are clean and atomic
+
+# Workflow Position
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  YOU ARE HERE: implementation-driver (TDD Green/Refactor)   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │              TDD CYCLE (Tight Loop)                  │   │
+│  │                                                      │   │
+│  │   test-drafter ──(Red)──> implementation-driver      │   │
+│  │        ↑                          │                  │   │
+│  │        │                          │ (Green)          │   │
+│  │        │                          ↓                  │   │
+│  │        └──── next behavior ───────┘                  │   │
+│  │                                                      │   │
+│  │   🔴 Red: test-drafter writes failing test           │   │
+│  │   🟢 Green: implementation-driver makes it pass      │   │
+│  │   🔵 Refactor: implementation-driver improves code   │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                                                             │
+│  EXIT POINTS:                                               │
+│  → ci-quality-gate (on CI failures)                         │
+│  → code-reviewer (when implementation complete)             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Handoff Sequence
+
+1. **← test-drafter**: Receive failing tests (or write them yourself)
+2. **🟢 Implement**: Write minimal code to pass tests
+3. **🔵 Refactor**: Improve while tests stay green
+4. **→ test-drafter**: Request next behavior's tests
+5. **→ code-reviewer**: When feature is complete
+
+⚠️ **TDD Rule**: Never write production code without a failing test first.
 - [ ] PR description is ready
 
 # Issue Creation

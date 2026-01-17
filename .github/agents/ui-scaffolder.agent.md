@@ -6,13 +6,18 @@ tools:
   - search
   - edit
 handoffs:
-  - label: Review Accessibility
+  - label: "→ Review Accessibility (REQUIRED)"
     agent: a11y-guardian
-    prompt: Audit the UI scaffolds above for accessibility compliance.
-    send: false
-  - label: Draft Tests
-    agent: test-drafter
-    prompt: Create component tests for the UI scaffolds above.
+    prompt: |
+      Audit the UI scaffolds above for accessibility compliance.
+
+      HANDOFF CONTEXT:
+      - Source: ui-scaffolder agent
+      - Input: UI contract, component scaffolds with all states, Storybook stories
+      - Validation required: WCAG compliance, keyboard navigation, focus management, ARIA usage
+      - Next step: Only after approval, proceed to testing or review
+
+      ⚠️ BLOCKING GATE: UI must pass accessibility audit before release.
     send: false
 ---
 

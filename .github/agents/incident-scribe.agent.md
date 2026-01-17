@@ -6,9 +6,18 @@ tools:
   - search
   - edit
 handoffs:
-  - label: Create Follow-up Stories
+  - label: "→ Create Follow-up Stories"
     agent: story-builder
-    prompt: Create user stories for the action items from the postmortem above.
+    prompt: |
+      Create user stories for the action items from the postmortem above.
+
+      HANDOFF CONTEXT:
+      - Source: incident-scribe agent
+      - Input: Postmortem with action items (test gaps, fixes, process improvements)
+      - Expected output: INVEST-compliant user stories for each action item
+      - Next step: story-quality-gate validates, then normal development cycle
+
+      🔄 FEEDBACK LOOP: Incidents feed back into the development lifecycle.
     send: false
 ---
 

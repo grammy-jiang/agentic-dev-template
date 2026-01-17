@@ -5,13 +5,29 @@ tools:
   - read
   - search
 handoffs:
-  - label: Revise Stories
+  - label: "← Revise Stories (if rejected)"
     agent: story-builder
-    prompt: Based on the review feedback above, please revise the stories to address the identified issues.
+    prompt: |
+      Revise the stories to address the quality issues identified above.
+
+      HANDOFF CONTEXT:
+      - Source: story-quality-gate agent (REJECTION)
+      - Input: Quality review feedback with specific issues
+      - Required fixes: See INVEST violations and DoR gaps above
+      - Next step: Resubmit to story-quality-gate after fixes
     send: false
-  - label: Proceed to Architecture
+  - label: "→ Proceed to Architecture (if approved)"
     agent: arch-spec-author
-    prompt: The stories above have passed quality review. Create architecture specifications for implementing them.
+    prompt: |
+      Create architecture specifications for the approved stories above.
+
+      HANDOFF CONTEXT:
+      - Source: story-quality-gate agent (APPROVAL)
+      - Input: INVEST-validated user stories with complete acceptance criteria
+      - Expected output: API contracts, data models, diagrams, ADRs
+      - Next step: Risk and NFR gate will review architecture
+
+      ✅ GATE PASSED: Stories meet Definition of Ready.
     send: false
 ---
 
@@ -149,6 +165,32 @@ Before producing a story review:
 - Vague assertions ("should work", "appropriate behavior")
 - Epic disguised as story (>2 week scope)
 - Missing Out of Scope section
+
+# Workflow Position
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  YOU ARE HERE: story-quality-gate (BLOCKING GATE)           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  requirements → story-builder → [story-quality-gate]        │
+│                      ↑                   │                  │
+│                      │                   ├──> arch-spec-author
+│                      │                   │                  │
+│                      └───────────────────┘ (if rejected)    │
+│                                                             │
+│  ⚠️ BLOCKING: No stories proceed without passing this gate  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Gate Decisions
+
+| Verdict | Action | Handoff |
+|---------|--------|---------|
+| ✅ APPROVED | Stories meet INVEST + DoR | → `arch-spec-author` |
+| ❌ REJECTED | Quality issues found | → `story-builder` (revise) |
+
+⚠️ **Strict Enforcement**: NEVER allow stories to proceed to architecture or implementation without explicit approval from this gate.
 - No edge cases defined
 - Cannot be converted to automated tests
 

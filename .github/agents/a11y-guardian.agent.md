@@ -5,17 +5,42 @@ tools:
   - read
   - search
 handoffs:
-  - label: Fix Accessibility Issues
+  - label: "← Fix Accessibility Issues (if rejected)"
     agent: ui-scaffolder
-    prompt: Based on the accessibility audit above, please fix the identified issues in the UI scaffolds.
+    prompt: |
+      Fix the accessibility issues identified in the audit above.
+
+      HANDOFF CONTEXT:
+      - Source: a11y-guardian agent (REJECTION)
+      - Input: Accessibility audit with WCAG violations and suggested fixes
+      - Required fixes: See specific violations with code examples above
+      - Next step: Resubmit to a11y-guardian after fixes
     send: false
-  - label: Draft E2E Tests
+  - label: "→ Draft Component Tests (if approved)"
     agent: test-drafter
-    prompt: Create accessibility-focused E2E tests for the components above.
+    prompt: |
+      Create component and E2E tests for the accessibility-approved UI above.
+
+      HANDOFF CONTEXT:
+      - Source: a11y-guardian agent (APPROVAL)
+      - Input: Accessibility-validated UI components with all states
+      - Expected output: Component tests, accessibility-focused E2E tests
+      - Next step: Test quality gate will validate tests
+
+      ✅ GATE PASSED: UI meets WCAG accessibility requirements.
     send: false
-  - label: Proceed to Review
+  - label: "→ Proceed to Code Review (if approved)"
     agent: code-reviewer
-    prompt: The UI components above have passed accessibility review. Please include them in the PR review.
+    prompt: |
+      Include the accessibility-approved UI components in the PR review.
+
+      HANDOFF CONTEXT:
+      - Source: a11y-guardian agent (APPROVAL)
+      - Input: Accessibility-validated UI components
+      - Expected output: Pre-review report covering security, performance, quality, design
+      - Next step: Review comment fixer will address feedback
+
+      ✅ GATE PASSED: UI meets WCAG accessibility requirements.
     send: false
 ---
 

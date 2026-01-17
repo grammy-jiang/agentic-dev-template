@@ -6,13 +6,18 @@ tools:
   - search
   - edit
 handoffs:
-  - label: Validate Stories
+  - label: "→ Validate Stories (REQUIRED)"
     agent: story-quality-gate
-    prompt: Review these user stories for INVEST compliance and DoR readiness.
-    send: false
-  - label: Design Architecture
-    agent: arch-spec-author
-    prompt: Create architecture specifications for implementing these stories.
+    prompt: |
+      Review the user stories above for INVEST compliance and DoR readiness.
+
+      HANDOFF CONTEXT:
+      - Source: story-builder agent
+      - Input: User stories with acceptance criteria (happy path + edge cases)
+      - Validation required: INVEST criteria, DoR checklist, testability
+      - Next step: Only after approval, proceed to architecture or implementation
+
+      ⚠️ BLOCKING GATE: Stories must pass this gate before proceeding.
     send: false
 ---
 
