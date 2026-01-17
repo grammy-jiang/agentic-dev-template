@@ -5,6 +5,7 @@ tools:
   - read
   - search
   - edit
+  - io.github.github/github-mcp-server
 handoffs:
   - label: "→ Validate Stories (REQUIRED)"
     agent: story-quality-gate

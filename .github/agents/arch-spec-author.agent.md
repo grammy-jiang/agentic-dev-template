@@ -5,6 +5,7 @@ tools:
   - read
   - search
   - edit
+  - io.github.github/github-mcp-server
 handoffs:
   - label: "→ Review Risks & NFRs (REQUIRED)"
     agent: risk-and-nfr-gate

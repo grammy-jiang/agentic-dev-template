@@ -5,6 +5,7 @@ tools:
   - read
   - search
   - edit
+  - io.github.github/github-mcp-server
 handoffs:
   - label: "→ Build User Stories"
     agent: story-builder

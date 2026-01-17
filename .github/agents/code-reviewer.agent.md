@@ -6,6 +6,7 @@ tools:
   - search
   - microsoft/playwright-mcp
   - io.github.anthropics/chrome-devtools-mcp
+  - io.github.github/github-mcp-server
 handoffs:
   - label: "→ Fix Review Issues"
     agent: review-comment-fixer
