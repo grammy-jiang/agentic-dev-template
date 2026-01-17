@@ -4,6 +4,8 @@ description: Gate agent that reviews tests for quality, rejects low-signal or fl
 tools:
   - read
   - search
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "← Revise Tests (if rejected)"
     agent: test-drafter

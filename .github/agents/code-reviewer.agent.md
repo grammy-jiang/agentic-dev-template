@@ -4,6 +4,8 @@ description: Gate agent that performs pre-review analysis for security, performa
 tools:
   - read
   - search
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "→ Fix Review Issues"
     agent: review-comment-fixer

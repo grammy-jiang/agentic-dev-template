@@ -4,6 +4,8 @@ description: Gate agent that reviews releases for production safety, rollback cr
 tools:
   - read
   - search
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "← Revise Release Plan (if rejected)"
     agent: release-pipeline-author

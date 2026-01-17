@@ -4,6 +4,8 @@ description: Gate agent that produces merge readiness reports. Verifies CI statu
 tools:
   - read
   - search
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "← Fix Blocking Issues"
     agent: review-comment-fixer

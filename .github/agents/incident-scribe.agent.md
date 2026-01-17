@@ -5,6 +5,8 @@ tools:
   - read
   - search
   - edit
+  - microsoft/playwright-mcp
+  - io.github.anthropics/chrome-devtools-mcp
 handoffs:
   - label: "→ Create Follow-up Stories"
     agent: story-builder
