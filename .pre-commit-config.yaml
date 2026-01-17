@@ -36,6 +36,7 @@ repos:
     rev: 1.0.0
     hooks:
       - id: mdformat
+        args: [--wrap, "80"]
         exclude: |
           (?x)^(
             \.github/agents/.*\.agent\.md|
