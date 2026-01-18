@@ -3,7 +3,7 @@ BACKEND_DIR := src/backend
 UV := $(shell which uv)
 
 # Phony targets (targets that don't represent files)
-.PHONY: help all install dev test test-cov lint format type-check check clean run
+.PHONY: help all install dev test test-cov test-tox lint format type-check check clean run
 
 # Default target
 .DEFAULT_GOAL := help
@@ -13,8 +13,8 @@ all: help
 
 help:
 	@echo "Backend Development Commands:"
-	@echo "  install dev test test-cov lint format"
-	@echo "  type-check check clean run"
+	@echo "  install dev test test-cov test-tox"
+	@echo "  lint format type-check check clean run"
 	@echo ""
 	@echo "Run 'make <target>' for details"
 
