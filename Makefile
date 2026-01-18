@@ -1,5 +1,6 @@
 # Configuration
 BACKEND_DIR := src/backend
+UV := $(shell which uv)
 
 # Phony targets (targets that don't represent files)
 .PHONY: help all install dev test test-cov lint format type-check check clean run
@@ -19,32 +20,32 @@ help:
 
 # Install production dependencies
 install:
-	cd $(BACKEND_DIR) && uv sync --frozen
+	cd $(BACKEND_DIR) && $(UV) sync --frozen
 
 # Install development dependencies
 dev:
-	cd $(BACKEND_DIR) && uv sync --frozen --all-extras
+	cd $(BACKEND_DIR) && $(UV) sync --frozen --all-extras
 
 # Run tests
 test:
-	cd $(BACKEND_DIR) && uv run pytest tests/
+	cd $(BACKEND_DIR) && $(UV) run pytest tests/
 
 # Run tests with coverage
 test-cov:
-	cd $(BACKEND_DIR) && uv run pytest tests/ --cov=. --cov-report=html --cov-report=term
+	cd $(BACKEND_DIR) && $(UV) run pytest tests/ --cov=. --cov-report=html --cov-report=term
 
 # Run linter
 lint:
-	cd $(BACKEND_DIR) && uv run ruff check .
+	cd $(BACKEND_DIR) && $(UV) run ruff check .
 
 # Format code
 format:
-	cd $(BACKEND_DIR) && uv run ruff format .
-	cd $(BACKEND_DIR) && uv run ruff check --fix .
+	cd $(BACKEND_DIR) && $(UV) run ruff format .
+	cd $(BACKEND_DIR) && $(UV) run ruff check --fix .
 
 # Type checking
 type-check:
-	cd $(BACKEND_DIR) && uv run mypy .
+	cd $(BACKEND_DIR) && $(UV) run mypy .
 
 # Run all checks
 check: lint type-check test
@@ -55,4 +56,4 @@ clean:
 
 # Run the backend application
 run:
-	cd $(BACKEND_DIR) && uv run python -m app.main
+	cd $(BACKEND_DIR) && $(UV) run python -m app.main
