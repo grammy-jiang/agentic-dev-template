@@ -150,8 +150,73 @@ describe('validateEmail', () => {
 **When**: Testing module boundaries, API contracts, DB operations
 **Properties**: Medium speed, may require test DB, realistic data shapes
 
+### Contract Tests (Critical for Frontend/Backend Alignment)
+
+**IMPORTANT**: Contract tests ensure frontend and backend implement the OpenAPI contract identically. These tests validate that both sides match the contract specification.
+
 ```typescript
-// Example: API contract test
+// Backend contract test (validates backend matches OpenAPI)
+import { validateAgainstSchema } from '@/test-utils/contract-validator';
+
+describe('POST /api/resources - Contract Validation', () => {
+  test('response matches OpenAPI schema', async () => {
+    const response = await request(app)
+      .post('/api/resources')
+      .send({ name: 'Test Resource' });
+
+    // Validate response against OpenAPI schema
+    expect(response.status).toBe(201);
+    const validation = validateAgainstSchema(
+      'ResourceResponse',
+      response.body
+    );
+    expect(validation.valid).toBe(true);
+  });
+
+  test('error response matches error model', async () => {
+    const response = await request(app)
+      .post('/api/resources')
+      .send({ invalid: 'data' });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toMatchObject({
+      code: expect.any(String),
+      message: expect.any(String),
+    });
+  });
+});
+
+// Frontend contract test (validates frontend expectations match contract)
+import { ResourceApi } from '@/api/client'; // Generated from OpenAPI
+import { mockServer } from '@/test-utils/msw-server';
+
+describe('ResourceApi - Contract Compliance', () => {
+  test('handles success response according to contract', async () => {
+    // Mock server returns response matching OpenAPI contract
+    mockServer.use(
+      http.post('/api/resources', () => {
+        return HttpResponse.json({
+          id: '123',
+          name: 'Test Resource',
+          createdAt: '2026-01-18T00:00:00Z',
+        });
+      })
+    );
+
+    const api = new ResourceApi();
+    const result = await api.createResource({ name: 'Test Resource' });
+
+    // TypeScript types ensure we're using contract-generated types
+    expect(result.id).toBe('123');
+    expect(result.name).toBe('Test Resource');
+  });
+});
+```
+
+### Standard Integration Tests
+
+```typescript
+// Example: API endpoint test
 describe('POST /api/users', () => {
   test('should return 201 with valid user data', async () => {
     const response = await request(app)

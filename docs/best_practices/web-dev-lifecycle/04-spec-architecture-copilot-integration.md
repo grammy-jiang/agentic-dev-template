@@ -99,6 +99,46 @@ drift.
 - validation constraints
 - idempotency guidance where relevant
 
+**CRITICAL: API Contract as Single Source of Truth**
+
+The OpenAPI contract is the **single source of truth** for frontend/backend
+communication. Both implementations must strictly follow this contract:
+
+- **Backend must implement** exactly what the contract specifies
+
+  - Request/response schemas match exactly (field names, types, nullability)
+  - Error codes and error response shapes match exactly
+  - HTTP status codes follow contract definitions
+  - No undocumented endpoints or fields
+
+- **Frontend must consume** exactly what the contract specifies
+
+  - TypeScript types generated from OpenAPI contract
+  - API client code generated from contract (use openapi-generator or similar)
+  - No hardcoded API shapes or manual type definitions
+  - All API calls reference the generated client
+
+- **Contract changes require coordination**
+
+  - Breaking changes require versioning (e.g., /v2/)
+  - Non-breaking changes (optional fields) can be additive
+  - Deprecation warnings before removal
+
+**Enforcement mechanisms:**
+
+1. **Contract tests** — Run same test suite against both frontend mock server
+   and backend implementation
+1. **Generated types** — Frontend uses auto-generated TypeScript from OpenAPI
+1. **CI validation** — Backend API responses validated against OpenAPI schema
+1. **Versioning** — Contract version tracked in both frontend and backend
+
+**Anti-patterns to avoid:**
+
+- ❌ Frontend defines its own types separate from contract
+- ❌ Backend adds fields not in contract "for convenience"
+- ❌ Manual synchronization of API shapes between teams
+- ❌ Frontend hardcodes expected response structures
+
 ______________________________________________________________________
 
 ### 3.5) Contract tests → "TDD for APIs" (NEW)

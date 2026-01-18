@@ -195,6 +195,54 @@ Before creating new components:
 3. Document reuse decision in UI contract
 4. Only create new components when existing ones cannot be extended
 
+# API Contract Integration (CRITICAL)
+
+**Always generate types from the OpenAPI contract:**
+
+1. **Before Creating Components**:
+   - [ ] Check for OpenAPI contract in `docs/architecture/*/api-contract.yaml`
+   - [ ] Generate TypeScript types if they don't exist:
+     ```bash
+     npx openapi-typescript docs/architecture/*/api-contract.yaml -o src/api/types.ts
+     ```
+   - [ ] Use generated types for all API-related props and state
+   - [ ] **Never create manual types** that duplicate the contract
+
+2. **Component Type Alignment**:
+   - [ ] Import types from generated API types: `import type { Resource } from '@/api/types'`
+   - [ ] Component props should use generated types directly
+   - [ ] Mock data must match generated types exactly
+   - [ ] Error shapes must match the API error model from contract
+
+3. **API Client Usage**:
+   - [ ] Generate API client from OpenAPI contract if not exists:
+     ```bash
+     npx openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o src/api/client
+     ```
+   - [ ] Use generated API client methods, never manual fetch/axios
+   - [ ] All data fetching hooks should wrap the generated client
+
+**Example Contract-Aligned Component:**
+
+```typescript
+// src/components/ResourceList/ResourceList.tsx
+import type { Resource, ResourceList as ResourceListType } from '@/api/types';
+import { useResourcesApi } from '@/api/hooks'; // Wraps generated client
+
+interface ResourceListProps {
+  // Use generated types directly
+  resources?: ResourceListType;
+  isLoading?: boolean;
+  error?: ApiError | null; // From generated error model
+}
+```
+
+**Anti-patterns to avoid:**
+- ❌ Creating manual type definitions for API data
+- ❌ Using `any` or `unknown` for API responses
+- ❌ Hardcoding expected API response shapes
+- ❌ Not updating component types when OpenAPI contract changes
+
 # Quality Gates
 
 Before handing off:

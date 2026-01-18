@@ -339,6 +339,8 @@ For technical debt tracking, output compatible with `05-technical-debt.yml`.
 Before handing off:
 
 - [ ] API contract includes all endpoints with request/response schemas
+- [ ] **API contract is the single source of truth** — Frontend and backend must both strictly follow this contract
+- [ ] **Contract enforcement plan exists** — Document how frontend will generate types from OpenAPI and how backend will validate against schema
 - [ ] Error model is defined and consistent
 - [ ] Auth requirements specified for each endpoint
 - [ ] Data model includes indexes and migration strategy
@@ -346,6 +348,63 @@ Before handing off:
 - [ ] NFRs have quantifiable targets
 - [ ] Risks are identified with mitigations
 - [ ] ADR drafted for significant decisions
+
+# API Contract Consistency (CRITICAL)
+
+The OpenAPI contract you produce is the **single source of truth** for all API communication. Both frontend and backend teams must strictly follow this contract.
+
+## Contract-First Requirements
+
+1. **Backend Implementation**:
+   - Must implement exactly what the contract specifies
+   - Request/response schemas match exactly (field names, types, nullability)
+   - Error codes and shapes match the error model
+   - HTTP status codes follow contract
+   - No undocumented endpoints or fields
+
+2. **Frontend Implementation**:
+   - Must generate TypeScript types from the OpenAPI contract
+   - API client code generated from contract (use openapi-generator, openapi-typescript, or similar)
+   - No manual type definitions that duplicate contract
+   - All API calls use the generated client
+
+3. **Contract Change Management**:
+   - Breaking changes require API versioning (e.g., /v2/)
+   - Non-breaking changes (optional fields) are additive only
+   - Deprecation warnings required before removal
+   - Migration guide for breaking changes
+
+## Enforcement Mechanisms to Document
+
+When you create an API contract, include a section on enforcement:
+
+```markdown
+### API Contract Enforcement
+
+**Frontend:**
+- Generate TypeScript types: `npx openapi-typescript openapi.yaml -o src/api/types.ts`
+- Generate API client: `npx openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o src/api/client`
+- CI validates: Generated files are up-to-date
+
+**Backend:**
+- Validate responses against schema in tests
+- Use contract testing tools (e.g., Pact, Dredd, Prism)
+- CI validates: Backend implementation matches contract
+
+**Contract Tests:**
+- Same test suite runs against frontend mock server AND backend
+- Validates both sides implement contract identically
+```
+
+## Anti-Patterns to Prevent
+
+Document these explicitly to prevent drift:
+
+- ❌ Frontend defines its own types separate from contract
+- ❌ Backend adds fields not in contract "for convenience"
+- ❌ Manual synchronization of API shapes between teams
+- ❌ Frontend hardcodes expected response structures
+- ❌ Different error handling patterns in frontend vs backend
 
 # Checkpoint & Resume
 

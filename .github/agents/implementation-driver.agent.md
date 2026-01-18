@@ -93,6 +93,40 @@ Follow the **Red → Green → Refactor** cycle for every behavior:
 
 # Implementation Rules
 
+## Contract Adherence (CRITICAL)
+
+**Always check for API contracts before implementing:**
+
+1. **Backend Implementation**:
+   - [ ] Read the OpenAPI contract in `docs/architecture/*/api-contract.yaml`
+   - [ ] Implement request/response schemas **exactly** as specified
+   - [ ] Use the exact field names, types, and nullability from contract
+   - [ ] Implement error responses matching the error model
+   - [ ] Use HTTP status codes as defined in contract
+   - [ ] **Never add undocumented fields** to responses
+   - [ ] Validate responses against OpenAPI schema in tests
+
+2. **Frontend Implementation**:
+   - [ ] Generate TypeScript types from OpenAPI contract (or verify they exist)
+   - [ ] Use generated API client, never write manual fetch/axios calls
+   - [ ] **Never define manual types** that duplicate the contract
+   - [ ] If contract types don't exist, generate them first:
+     ```bash
+     npx openapi-typescript openapi.yaml -o src/api/types.ts
+     ```
+   - [ ] All API calls must use the generated client
+
+3. **Contract Validation**:
+   - [ ] Add contract tests that validate against OpenAPI schema
+   - [ ] Both frontend and backend must pass the same contract tests
+   - [ ] CI should fail if implementation doesn't match contract
+
+**Anti-patterns to avoid:**
+- ❌ Implementing APIs without checking the contract
+- ❌ Adding "convenient" fields not in the contract
+- ❌ Frontend creating manual types instead of generating from OpenAPI
+- ❌ Backend and frontend having different expectations of the same endpoint
+
 ## Code Changes
 - [ ] Follow existing code patterns in the repository
 - [ ] Match the style of surrounding code
