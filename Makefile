@@ -34,6 +34,10 @@ test:
 test-cov:
 	cd $(BACKEND_DIR) && $(UV) run pytest tests/ --cov=. --cov-report=html --cov-report=term
 
+# Run tests via tox (all environments)
+test-tox:
+	cd $(BACKEND_DIR) && $(UV) run tox
+
 # Run linter
 lint:
 	cd $(BACKEND_DIR) && $(UV) run ruff check .
