@@ -19,6 +19,23 @@ Requirements → Architecture → UI/UX → Implementation → Testing → Revie
 
 ______________________________________________________________________
 
+## Tech Stack
+
+### Backend Development
+
+- **Language**: Python
+- **Package Manager**: [uv](https://docs.astral.sh/uv/) - Fast Python package installer and resolver
+- **Tool Invocation**: All Python tools MUST be invoked through `uv run` or `uv tool run`
+  - Example: `uv run pytest`, `uv run mypy`, `uv run ruff`
+- **Environment Management**: `uv` manages virtual environments automatically
+- **Build Tool**: `Makefile` for common development commands
+
+### Command Reference
+
+Use `make` commands for development tasks. See root `Makefile` for all available commands.
+
+______________________________________________________________________
+
 ## Issue Template Integration
 
 When generating content that will become a GitHub Issue, output in a format
