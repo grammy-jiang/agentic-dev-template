@@ -1,9 +1,10 @@
 # Configuration
 BACKEND_DIR := src/backend
+FRONTEND_DIR := src/frontend
 UV := $(shell which uv)
 
 # Phony targets (targets that don't represent files)
-.PHONY: help all install dev test test-cov test-tox lint format type-check check clean run
+.PHONY: help all install dev test test-cov test-tox lint format type-check check clean run frontend-install frontend-dev frontend-build frontend-lint frontend-format frontend-test
 
 # Default target
 .DEFAULT_GOAL := help
@@ -12,11 +13,8 @@ UV := $(shell which uv)
 all: help
 
 help:
-	@echo "Backend Development Commands:"
-	@echo "  install dev test test-cov test-tox"
-	@echo "  lint format type-check check clean run"
-	@echo ""
-	@echo "Run 'make <target>' for details"
+	@echo "Backend: install dev test test-cov test-tox lint format type-check check clean run"
+	@echo "Frontend: frontend-install frontend-dev frontend-build frontend-lint frontend-format frontend-test"
 
 # Install production dependencies
 install:
@@ -61,3 +59,22 @@ clean:
 # Run the backend application
 run:
 	cd $(BACKEND_DIR) && $(UV) run python -m app.main
+
+# Frontend targets
+frontend-install:
+	cd $(FRONTEND_DIR) && npm install
+
+frontend-dev:
+	cd $(FRONTEND_DIR) && npm run dev
+
+frontend-build:
+	cd $(FRONTEND_DIR) && npm run build
+
+frontend-lint:
+	cd $(FRONTEND_DIR) && npm run lint
+
+frontend-format:
+	cd $(FRONTEND_DIR) && npm run format
+
+frontend-test:
+	cd $(FRONTEND_DIR) && npm run test

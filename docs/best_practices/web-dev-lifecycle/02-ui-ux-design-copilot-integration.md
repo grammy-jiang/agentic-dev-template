@@ -3,7 +3,15 @@
 If you want custom agents to reliably produce **front-end scaffolds that match
 your UX intent** (and don’t quietly degrade accessibility), you need: **(1) a
 design-to-code contract**, **(2) strict repo instructions**, and **(3) prompt
-playbooks**.
+playbooks**. **Technology Stack:**
+
+- **Framework**: [SvelteKit](https://svelte.dev/) for full-stack Svelte
+  development
+- **UI Components**: [shadcn-svelte](https://www.shadcn-svelte.com/) for
+  consistent, accessible component library
+- **Package Manager**: npm (Node.js)
+- **Styling**: CSS with shadcn-svelte design tokens and Tailwind CSS support
+- **Testing**: Vitest (unit/integration), Playwright (E2E)
 
 ______________________________________________________________________
 

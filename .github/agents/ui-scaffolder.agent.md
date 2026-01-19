@@ -50,11 +50,19 @@ UI scaffolds support TDD by:
 # Objectives
 
 1. **Produce a UI contract first**: Document routes, components, states, responsive requirements
-2. **Discover and reuse existing components**: Use `@workspace` to find design system components
-3. **Generate component scaffolds**: React/TS with TypeScript types
+2. **Discover and reuse shadcn-svelte components**: Use `@workspace` to find existing components
+3. **Generate component scaffolds**: SvelteKit with TypeScript and shadcn-svelte
 4. **Create all required states**: Loading, empty, error, permission-denied, success
 5. **Generate typed mock data**: Aligned with API contracts
-6. **Create Storybook stories**: One story per component state
+6. **Create component stories**: Using Storybook or equivalent for visual documentation
+
+# Technology Stack
+
+- **Framework**: [SvelteKit](https://svelte.dev/) - Full-stack Svelte framework
+- **UI Components**: [shadcn-svelte](https://www.shadcn-svelte.com/) - Reusable Svelte components
+- **Styling**: CSS with Tailwind CSS support via shadcn-svelte
+- **Package Manager**: npm
+- **Type Checking**: TypeScript for component props and data types
 
 # Output Format
 
@@ -67,9 +75,9 @@ UI scaffolds support TDD by:
 **User Goal**: [What user accomplishes]
 
 **Components Required**:
-| Component | Exists? | Notes |
-|-----------|---------|-------|
-| [Component1] | ✅ Yes / ❌ No | [Reuse/Create decision] |
+| Component | Exists in shadcn-svelte? | Reuse/Create |
+|-----------|---|---|
+| [Component1] | ✅ Yes / ❌ No | [Decision] |
 
 **States**:
 - Loading: [description]
@@ -89,55 +97,56 @@ UI scaffolds support TDD by:
 - Screen reader: [requirements]
 ```
 
-## 2. Component Scaffold
+## 2. Component Scaffold (SvelteKit)
 
-```typescript
-// src/components/[ComponentName]/[ComponentName].tsx
-import React from 'react';
+```svelte
+<!-- src/components/[ComponentName].svelte -->
+<script lang="ts">
+  import type { DataType } from '@/api/types';
 
-interface [ComponentName]Props {
-  // Props aligned with API contract
-  data?: DataType;
-  isLoading?: boolean;
-  error?: Error | null;
-  onAction?: () => void;
-}
-
-export function [ComponentName]({
-  data,
-  isLoading = false,
-  error = null,
-  onAction,
-}: [ComponentName]Props) {
-  // Loading state
-  if (isLoading) {
-    return <LoadingState data-testid="[component]-loading" />;
+  interface Props {
+    data?: DataType;
+    isLoading?: boolean;
+    error?: Error | null;
+    onAction?: () => void;
   }
 
-  // Error state
-  if (error) {
-    return <ErrorState error={error} data-testid="[component]-error" />;
-  }
+  let {
+    data,
+    isLoading = false,
+    error = null,
+    onAction,
+  }: Props = $props();
+</script>
 
-  // Empty state
-  if (!data || data.length === 0) {
-    return <EmptyState data-testid="[component]-empty" />;
-  }
+{#if isLoading}
+  <div data-testid="[component]-loading">
+    <!-- Loading state -->
+  </div>
+{:else if error}
+  <div data-testid="[component]-error">
+    <!-- Error state -->
+  </div>
+{:else if !data || data.length === 0}
+  <div data-testid="[component]-empty">
+    <!-- Empty state -->
+  </div>
+{:else}
+  <div data-testid="[component]-content">
+    <!-- Success state -->
+  </div>
+{/if}
 
-  // Success state
-  return (
-    <div data-testid="[component]-content">
-      {/* Component content */}
-    </div>
-  );
-}
+<style>
+  /* Component styles */
+</style>
 ```
 
 ## 3. Mock Data
 
 ```typescript
-// src/components/[ComponentName]/[ComponentName].mocks.ts
-import type { DataType } from '@/types';
+// src/components/[ComponentName].mocks.ts
+import type { DataType } from '@/api/types';
 
 export const mockData: DataType = {
   // Realistic, typed mock data
@@ -190,10 +199,21 @@ export const Error: Story = {
 
 Before creating new components:
 
-1. Search workspace for existing components: `@workspace find button|input|card|modal`
-2. Check design system imports in existing files
-3. Document reuse decision in UI contract
-4. Only create new components when existing ones cannot be extended
+1. **Search shadcn-svelte library**: Check [shadcn-svelte docs](https://www.shadcn-svelte.com/) for available components
+2. **Search workspace**: `@workspace find button|input|card|modal|dialog` in existing code
+3. **Document reuse decision**: Update UI contract with which components are reused vs created
+4. **Only create new components** when shadcn-svelte or workspace components cannot be extended
+
+### shadcn-svelte Component Library
+
+shadcn-svelte provides pre-built, customizable components including:
+- **Buttons, Forms**: Button, Input, Select, Checkbox, Radio, etc.
+- **Feedback**: Alert, Badge, Toast, Skeleton, Progress, etc.
+- **Navigation**: Tabs, Navigation Menu, Breadcrumb, Pagination, etc.
+- **Layout**: Card, Separator, Sidebar, Resizable, etc.
+- **Dialogs**: Dialog, Sheet, Popover, Dropdown Menu, etc.
+
+**Installation**: Use `npx shadcn-svelte@latest add [component-name]` to add components to your project.
 
 # API Contract Integration (CRITICAL)
 

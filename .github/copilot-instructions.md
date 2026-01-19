@@ -30,9 +30,22 @@ ______________________________________________________________________
 - **Environment Management**: `uv` manages virtual environments automatically
 - **Build Tool**: `Makefile` for common development commands
 
+### Frontend Development
+
+- **Framework**: [SvelteKit](https://svelte.dev/) - Full-stack framework for building web applications
+- **UI Components**: [shadcn-svelte](https://www.shadcn-svelte.com/) - High-quality Svelte components
+- **Package Manager**: [npm](https://www.npmjs.com/) - Node package manager
+- **Tool Invocation**: All Node tools invoked via `npm run` or `npm exec`
+  - Example: `npm run dev`, `npm run build`, `npm run lint`
+- **Build & Dev Server**: SvelteKit handles routing, SSR, and build tooling
+- **Testing**: Vitest (unit/integration), Playwright (E2E)
+
 ### Command Reference
 
 Use `make` commands for development tasks. See root `Makefile` for all available commands.
+
+**Frontend commands**: `make frontend-install`, `make frontend-dev`, `make frontend-build`, etc.
+**Backend commands**: `make install`, `make dev`, `make test`, etc.
 
 ______________________________________________________________________
 
