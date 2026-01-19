@@ -6,7 +6,7 @@ ______________________________________________________________________
 
 ## Agent Inventory
 
-| #  | Agent                              | Type    | Lifecycle Stage      |
+| #  | Agent                              | Type    | Lifecycle Stage    |
 |----|------------------------------------|---------|--------------------|
 | 1  | `requirements`                     | Builder | 1. Requirements    |
 | 2  | `story-builder`                    | Builder | 1. Requirements    |
@@ -32,7 +32,7 @@ ______________________________________________________________________
 
 ## Complete Workflow Diagram
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                        SDLC AGENT WORKFLOW                                  │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -203,7 +203,7 @@ ______________________________________________________________________
 Agents output content compatible with GitHub Issue Forms in `.github/ISSUE_TEMPLATE/`:
 
 | Issue Template | Primary Agent | Gate Agent | Lifecycle Stage |
-|----------------|---------------|------------|-----------------|
+| -------------- | ------------- | ---------- | --------------- |
 | `01-feature-request.yml` | `requirements` | — | Requirements |
 | `02-user-story.yml` | `story-builder` | `story-quality-gate` | Requirements |
 | `03-bug-report.yml` | `implementation-driver` | `code-reviewer` | Implementation |
@@ -215,7 +215,7 @@ Agents output content compatible with GitHub Issue Forms in `.github/ISSUE_TEMPL
 
 ### Workflow: Agent Output → Issue Creation
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                    AGENT TO ISSUE WORKFLOW                                  │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -328,21 +328,21 @@ ______________________________________________________________________
 
 The workflow supports iteration at multiple points:
 
-| Loop                | Trigger                     | Flow                                                           |
-|---------------------|-----------------------------|----------------------------------------------------------------|
-| Story Refinement    | Quality issues found        | `story-quality-gate` → `story-builder`                        |
-| Architecture Update | Risk/NFR gaps               | `risk-and-nfr-gate` → `arch-spec-author`                     |
-| Accessibility Fix   | A11y audit fails            | `a11y-guardian` → `ui-scaffolder`                            |
-| **TDD Red→Green**   | **Each behavior change**    | `test-drafter` → `implementation-driver` → `test-drafter`    |
-| Test Revision       | Low signal tests            | `test-truth-and-stability-gate` → `test-drafter`             |
-| Review Fix          | Comments to address         | `code-reviewer` → `review-comment-fixer` → `code-reviewer`   |
-| Incident Follow-up  | Post-incident actions       | `incident-scribe` → `story-builder`                          |
+| Loop                | Trigger                     | Flow                                                             |
+|---------------------|-----------------------------|----------------------------------------------------------------- |
+| Story Refinement    | Quality issues found        | `story-quality-gate` -> `story-builder`                          |
+| Architecture Update | Risk/NFR gaps               | `risk-and-nfr-gate` -> `arch-spec-author`                        |
+| Accessibility Fix   | A11y audit fails            | `a11y-guardian` -> `ui-scaffolder`                               |
+| **TDD Red→Green**   | **Each behavior change**    | `test-drafter` -> `implementation-driver` -> `test-drafter`      |
+| Test Revision       | Low signal tests            | `test-truth-and-stability-gate` -> `test-drafter`                |
+| Review Fix          | Comments to address         | `code-reviewer` -> `review-comment-fixer` -> `code-reviewer`     |
+| Incident Follow-up  | Post-incident actions       | `incident-scribe` -> `story-builder`                             |
 
 ### TDD Loop Detail (Red → Green → Refactor)
 
 > **Note on Stage Ordering**: While the lifecycle stages are numbered sequentially (4. Implementation, 5. Testing), TDD requires **tests to drive implementation**. The `test-drafter` and `implementation-driver` agents work in a tight loop across stages 4-5, with tests written first (Red), then code (Green), then improvement (Refactor).
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    TDD CYCLE                                │
 │                                                             │
@@ -367,15 +367,15 @@ ______________________________________________________________________
 
 Different scenarios have different entry points:
 
-| Scenario                    | Start Agent                         | Path               |
-|-----------------------------|------------------------------------|-------------------|
-| New feature from idea       | `requirements`                      | Full lifecycle    |
-| Design-ready feature        | `ui-scaffolder` or `arch-spec-author` | Skip requirements |
-| **TDD-driven feature**      | `test-drafter`                      | Red → Green → Refactor loop with `implementation-driver` |
-| Bug fix                     | `test-drafter` (write failing test first) | TDD path: Red → Green |
-| Test coverage improvement   | `test-drafter`                      | Testing only      |
-| Hotfix/emergency            | `implementation-driver` → `code-reviewer` | Fast path (add tests after) |
-| Incident response           | `incident-scribe`                   | Ops path          |
+| Scenario                    | Start Agent                                | Path                                                       |
+| --------------------------- | ------------------------------------------ | ---------------------------------------------------------- |
+| New feature from idea       | `requirements`                             | Full lifecycle                                             |
+| Design-ready feature        | `ui-scaffolder` or `arch-spec-author`      | Skip requirements                                          |
+| **TDD-driven feature**      | `test-drafter`                             | Red -> Green -> Refactor loop with `implementation-driver` |
+| Bug fix                     | `test-drafter` (write failing test first)  | TDD path: Red -> Green                                     |
+| Test coverage improvement   | `test-drafter`                             | Testing only                                               |
+| Hotfix/emergency            | `implementation-driver` -> `code-reviewer` | Fast path (add tests after)                                |
+| Incident response           | `incident-scribe`                          | Ops path                                                   |
 
 ______________________________________________________________________
 
@@ -413,7 +413,7 @@ ______________________________________________________________________
 The agent workflow is governed by these configuration files:
 
 | File | Purpose | Used By |
-|------|---------|---------|
+| ---- | ------- | ------- |
 | `.github/copilot-instructions.md` | Universal rules (INVEST, DoR, output format) | VS Code Chat, Coding Agent |
 | `.github/instructions/issue-output.instructions.md` | Issue-specific output formatting | VS Code Chat, Coding Agent |
 | `.github/prompts/story-to-issue-form.prompt.md` | Interactive `/story-to-issue-form` command | VS Code Chat |

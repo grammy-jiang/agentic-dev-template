@@ -18,7 +18,7 @@ ______________________________________________________________________
   normal code files.
 - Use `AGENTS.md` to define agent governance (what each agent may/may not do).
 
-**Non-negotiables to encode**
+#### Non-negotiables to encode
 
 - Stories must meet **INVEST** and include **acceptance criteria**.
 - Every story must include **edge/negative cases** (auth, empty, validation,
@@ -273,7 +273,7 @@ The following artifacts are now available in this repository:
 
 ### Workflow Summary
 
-```
+```text
 @requirements ──handoff──> @story-builder ──handoff──> @story-quality-gate
                                 │                              │
                                 │                              ▼
