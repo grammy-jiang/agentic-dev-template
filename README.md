@@ -233,7 +233,7 @@ trigger refinement loops:
 The tightest loop is between **Implementation** and **Testing**, following
 **Red→Green→Refactor**:
 
-```
+```text
 Red Phase (test-drafter):
   └─> Write failing test based on acceptance criteria
 
@@ -252,7 +252,7 @@ Validation (test-truth-and-stability-gate):
 Stories and architecture are refined before implementation begins, reducing
 costly rework:
 
-```
+```text
 Requirements Stage:
   └─> story-builder creates story
   └─> story-quality-gate validates INVEST & DoR
@@ -268,7 +268,7 @@ Architecture Stage:
 
 Code review feedback drives refinement before merge:
 
-```
+```text
 code-reviewer comments on PR
   └─> review-comment-fixer implements changes
   └─> code-reviewer validates fixes
@@ -297,7 +297,7 @@ ______________________________________________________________________
 
 ## 📁 Repository Structure
 
-```
+```text
 ├── .github/
 │   ├── agents/              # Custom GitHub Copilot agent definitions
 │   ├── ISSUE_TEMPLATE/      # Structured issue templates (01-feature, 02-story, etc.)
@@ -309,8 +309,39 @@ ______________________________________________________________________
 ├── src/
 │   ├── backend/             # Backend code template
 │   └── frontend/            # Frontend code template
+├── .vscode/
+│   ├── mcp.json             # Model Context Protocol (MCP) server configuration
+│   ├── settings.json        # VS Code workspace settings
+│   ├── tasks.json           # Development tasks
+│   └── extensions.json      # Recommended VS Code extensions
 └── scripts/                 # Build and automation scripts
 ```
+
+______________________________________________________________________
+
+## ⚙️ Configuration & Setup
+
+### Model Context Protocol (MCP) Servers
+
+This template includes pre-configured MCP servers in `.vscode/mcp.json` to
+enhance GitHub Copilot's capabilities.
+
+**1. Context7** — Query up-to-date documentation for any programming library or
+framework
+
+- **Setup:** Get an API key from [Context7](https://context7.com) and set
+  `CONTEXT7_API_KEY` environment variable
+- **Usage:** Ask Copilot to look up library documentation
+- **Example prompt:** "Show me how to use async/await in JavaScript" or "Query
+  the React hooks documentation"
+
+**2. Shadcn-Svelte** — Discover and use shadcn-svelte components, design system
+resources, and icons
+
+- **Setup:** No configuration needed (public endpoint)
+- **Usage:** Ask Copilot about Svelte UI components and best practices
+- **Example prompt:** "Find a button component in shadcn-svelte" or "Show me how
+  to implement a dialog with shadcn-svelte"
 
 ______________________________________________________________________
 
