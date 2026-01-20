@@ -40,17 +40,17 @@ ______________________________________________________________________
 
 Follow the **test pyramid** from TDD best practices:
 
-```
+```text
         /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
        /   E2E (Few, Slow)      \
       /    Critical paths only   \
      /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
-    /   Integration (Some)        \
-   /    Module boundaries, APIs    \
+    /   Integration (Some)         \
+   /    Module boundaries, APIs     \
   /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
  /      Unit Tests (Many, Fast)       \
 /    Business logic, utilities         \
-‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 ```
 
 **Distribution guidance:**

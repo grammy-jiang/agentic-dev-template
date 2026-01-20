@@ -40,7 +40,7 @@ interact with elements, and capture screenshots.
 
 Configure directories for test artifacts:
 
-```
+```text
 tests/
 ├── e2e/
 │   ├── playbooks/           # Story playbook definitions
@@ -187,27 +187,27 @@ ______________________________________________________________________
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                 BROWSER TEST EXECUTION                       │
+│                 BROWSER TEST EXECUTION                      │
 ├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  1. SETUP                                                    │
+│                                                             │
+│  1. SETUP                                                   │
 │     ├─ Launch headless browser                              │
 │     ├─ Set viewport (1280x720)                              │
 │     └─ Prepare test data                                    │
-│                                                              │
-│  2. EXECUTE (per scenario)                                   │
+│                                                             │
+│  2. EXECUTE (per scenario)                                  │
 │     ├─ For each step:                                       │
-│     │   ├─ Execute action (navigate, click, fill, etc.)    │
+│     │   ├─ Execute action (navigate, click, fill, etc.)     │
 │     │   ├─ Wait for condition if specified                  │
 │     │   ├─ Run assertion if specified                       │
 │     │   └─ Capture screenshot if marked (📸)                │
 │     └─ Record pass/fail status                              │
-│                                                              │
-│  3. REPORT                                                   │
+│                                                             │
+│  3. REPORT                                                  │
 │     ├─ Generate execution summary                           │
 │     ├─ Attach all screenshots                               │
 │     └─ Log any errors or console messages                   │
-│                                                              │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -271,26 +271,26 @@ Use stable selectors that won't break with UI changes:
    <button data-testid="submit-login">Log In</button>
    ```
 
-   ```
-   click → [data-testid="submit-login"]
+   ```text
+   click -> [data-testid="submit-login"]
    ```
 
 1. **Role + Name**
 
-   ```
-   click → role=button[name="Log In"]
+   ```text
+   click -> role=button[name="Log In"]
    ```
 
 1. **Label association**
 
-   ```
-   fill → label=Email → test@example.com
+   ```text
+   fill -> label=Email -> test@example.com
    ```
 
 1. **Placeholder**
 
-   ```
-   fill → placeholder=Enter your email → test@example.com
+   ```text
+   fill -> placeholder=Enter your email -> test@example.com
    ```
 
 ### Avoid
@@ -322,19 +322,19 @@ Story verification complements TDD:
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│               VERIFICATION LEVELS                            │
+│               VERIFICATION LEVELS                           │
 ├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  TDD (Code Level)                                            │
+│                                                             │
+│  TDD (Code Level)                                           │
 │  ├─ Unit tests → Functions work                             │
 │  ├─ Integration tests → APIs work                           │
 │  └─ Runs in CI on every commit                              │
-│                                                              │
-│  Story Verification (User Level)                             │
+│                                                             │
+│  Story Verification (User Level)                            │
 │  ├─ Playbook execution → User can do X                      │
 │  ├─ Screenshot evidence → UI looks correct                  │
 │  └─ Runs after implementation, before story closure         │
-│                                                              │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -352,13 +352,13 @@ story-builder → story-quality-gate → arch-spec-author
                               test-drafter → test-truth-gate
                                            ↓
                             ┌──────────────────────────────┐
-                            │   STORY VERIFICATION (NEW)    │
-                            │                               │
-                            │  story-to-playbook            │
-                            │         ↓                     │
-                            │  browser-test-executor        │
-                            │         ↓                     │
-                            │  browser-test-gate            │
+                            │   STORY VERIFICATION (NEW)   │
+                            │                              │
+                            │  story-to-playbook           │
+                            │         ↓                    │
+                            │  browser-test-executor       │
+                            │         ↓                    │
+                            │  browser-test-gate           │
                             └──────────────────────────────┘
                                            ↓
                                     code-reviewer

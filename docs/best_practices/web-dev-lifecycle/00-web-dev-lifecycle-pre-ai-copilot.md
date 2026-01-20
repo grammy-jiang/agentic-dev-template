@@ -2,7 +2,7 @@
 
 ______________________________________________________________________
 
-### 1. Feature Requirements Gathering
+## 1. Feature Requirements Gathering
 
 Before the AI era, requirements gathering typically followed either
 **Waterfall** or **Agile** models.
@@ -12,7 +12,7 @@ Before the AI era, requirements gathering typically followed either
 - **Agile (Scrum/Kanban):** requirements evolved; work was expressed as **epics
   → user stories → tasks** and refined continuously.
 
-**Pre‑2022 best practices**
+### Pre‑2022 best practices
 
 - **Stakeholder collaboration:** workshops, interviews, surveys, domain expert
   reviews.
@@ -23,7 +23,7 @@ Before the AI era, requirements gathering typically followed either
 - **Traceability:** link business goals → epics → stories → acceptance criteria
   → tests.
 
-**How Copilot fits**
+### How Copilot fits
 
 - Draft story candidates, acceptance criteria, and edge cases from raw notes (VS
   Code Copilot Chat / Copilot CLI).
@@ -34,19 +34,19 @@ Before the AI era, requirements gathering typically followed either
 
 ______________________________________________________________________
 
-### 2. UI/UX Design
+## 2. UI/UX Design
 
 UX work was driven by **user‑centred design** and design thinking: empathise →
 define → ideate → prototype → test → iterate.
 
-**Pre‑2022 best practices**
+### Pre‑2022 best practices
 
 - Personas, journeys, task flows.
 - Wireframes → interactive prototypes (Figma/Sketch/XD).
 - Accessibility (WCAG), responsive design, consistent design systems.
 - Usability testing and iterative refinement.
 
-**How Copilot fits**
+### How Copilot fits
 
 - Translate UI specs into component scaffolds and boilerplate (React/Vue/etc.)
   in VS Code.
@@ -55,13 +55,13 @@ define → ideate → prototype → test → iterate.
 
 ______________________________________________________________________
 
-### 3. User Stories
+## 3. User Stories
 
 User stories were the unit of delivery in Agile environments:
 
 > **As a** [persona], **I want** [capability], **so that** [benefit].
 
-**Pre‑2022 best practices**
+### Pre‑2022 best practices
 
 - Apply **INVEST** (Independent, Negotiable, Valuable, Estimable, Small,
   Testable).
@@ -69,7 +69,7 @@ User stories were the unit of delivery in Agile environments:
 - Clear **acceptance criteria** (often Given/When/Then).
 - Break epics into small, verifiable slices.
 
-**How Copilot fits**
+### How Copilot fits
 
 - Generate candidate stories + Given/When/Then criteria from a feature brief.
 - Propose negative/edge‑case acceptance tests (rate limiting, permission errors,
@@ -78,11 +78,11 @@ User stories were the unit of delivery in Agile environments:
 
 ______________________________________________________________________
 
-### 4. Implementation Specifications & Architecture
+## 4. Implementation Specifications & Architecture
 
 Teams produced design docs and technical specs to reduce ambiguity.
 
-**Pre‑2022 best practices**
+### Pre‑2022 best practices
 
 - Architecture docs (C4/UML), API contracts (OpenAPI), data models, ADRs.
 - Non‑functional requirements: security, performance, reliability,
@@ -90,7 +90,7 @@ Teams produced design docs and technical specs to reduce ambiguity.
 - Spikes/proofs‑of‑concept for risk reduction.
 - Living documentation: updated alongside code.
 
-**How Copilot fits**
+### How Copilot fits
 
 - Generate Mermaid/PlantUML diagrams from written flows.
 - Draft OpenAPI schemas and validate completeness.
@@ -100,11 +100,11 @@ Teams produced design docs and technical specs to reduce ambiguity.
 
 ______________________________________________________________________
 
-### 5. Coding Practices & Development Workflows
+## 5. Coding Practices & Development Workflows
 
 Pre‑2022 maturity looked like “CI‑first, review‑first”.
 
-**Pre‑2022 best practices**
+### Pre‑2022 best practices
 
 - Git workflows: feature branches, PRs, CI gates; trend toward trunk‑based
   development.
@@ -112,7 +112,7 @@ Pre‑2022 maturity looked like “CI‑first, review‑first”.
 - Small PRs, meaningful commits, clear change logs.
 - Secure coding standards; secrets management; dependency hygiene.
 
-**How Copilot fits**
+### How Copilot fits
 
 - Accelerate routine coding while enforcing project conventions (your repo
   prompts, templates, lint rules).
@@ -122,18 +122,18 @@ Pre‑2022 maturity looked like “CI‑first, review‑first”.
 
 ______________________________________________________________________
 
-### 6. Testing (Unit/Integration/E2E)
+## 6. Testing (Unit/Integration/E2E)
 
 Testing was layered, with automation increasingly embedded into CI.
 
-**Pre‑2022 best practices**
+### Pre‑2022 best practices
 
 - Unit tests for business logic; integration tests for module boundaries.
 - E2E/UI tests (Selenium/Cypress/Playwright) for critical user journeys.
 - Shift‑left testing and regression suites in CI.
 - Test data management and deterministic environments.
 
-**How Copilot fits**
+### How Copilot fits
 
 - Generate unit tests and fixtures for existing code (then hard‑review for
   correctness).
@@ -144,18 +144,18 @@ Testing was layered, with automation increasingly embedded into CI.
 
 ______________________________________________________________________
 
-### 7. Code Review & Quality Assurance
+## 7. Code Review & Quality Assurance
 
 Peer review remained the primary quality lever.
 
-**Pre‑2022 best practices**
+### Pre‑2022 best practices
 
 - PR templates/checklists; “two‑eyes” principle; reviewers focus on correctness,
   security, maintainability.
 - Automated checks: lint, tests, SAST, dependency scanning.
 - QA/UAT on staging environments; release notes and regression criteria.
 
-**How Copilot fits**
+### How Copilot fits
 
 - Copilot Chat as a “pre‑review” to catch obvious issues before human review.
 - Summarise diffs, highlight risks, propose refactors with rationale.
@@ -164,11 +164,11 @@ Peer review remained the primary quality lever.
 
 ______________________________________________________________________
 
-### 8. Deployment & Maintenance
+## 8. Deployment & Maintenance
 
 By 2021, CI/CD and DevOps practices were common.
 
-**Pre‑2022 best practices**
+### Pre‑2022 best practices
 
 - Multi‑stage environments: dev → test → staging → prod.
 - Deployment strategies: blue‑green, canary, feature flags.
@@ -176,7 +176,7 @@ By 2021, CI/CD and DevOps practices were common.
 - Maintenance: dependency updates, security patches, performance tuning,
   post‑mortems.
 
-**How Copilot fits**
+### How Copilot fits
 
 - Generate CI pipelines (GitHub Actions), Dockerfiles, Helm/K8s manifests,
   runbooks.

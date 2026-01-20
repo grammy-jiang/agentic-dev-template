@@ -11,22 +11,22 @@ ______________________________________________________________________
 
 Without enforcement, the same data gets different names in different places:
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
-│                    THE CONSISTENCY PROBLEM                       │
+│                    THE CONSISTENCY PROBLEM                      │
 ├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
+│                                                                 │
 │  Database (SQL)      Backend (Python)    Frontend (TypeScript)  │
 │  ─────────────       ────────────────    ─────────────────────  │
 │  user_id             userId              user_id                │
 │  INTEGER             int                 string  ← WRONG TYPE   │
-│                                                                  │
-│  created_at          createdAt           creationDate ← WRONG  │
+│                                                                 │
+│  created_at          createdAt           creationDate ← WRONG   │
 │  TIMESTAMP           datetime            Date                   │
-│                                                                  │
-│  user_email          email_address       email  ← ALL DIFFER   │
+│                                                                 │
+│  user_email          email_address       email  ← ALL DIFFER    │
 │  VARCHAR(255)        str                 string                 │
-│                                                                  │
+│                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -48,25 +48,25 @@ The **OpenAPI contract** is the canonical reference:
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
-│                    SINGLE SOURCE OF TRUTH                        │
+│                    SINGLE SOURCE OF TRUTH                       │
 ├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│                    OpenAPI Contract                              │
-│                    (api-contract.yaml)                           │
-│                           │                                      │
-│         ┌─────────────────┼─────────────────┐                    │
-│         │                 │                 │                    │
-│         ▼                 ▼                 ▼                    │
+│                                                                 │
+│                    OpenAPI Contract                             │
+│                    (api-contract.yaml)                          │
+│                           │                                     │
+│         ┌─────────────────┼─────────────────┐                   │
+│         │                 │                 │                   │
+│         ▼                 ▼                 ▼                   │
 │    ┌─────────┐      ┌──────────┐     ┌───────────┐              │
 │    │Database │      │ Backend  │     │ Frontend  │              │
 │    │ Schema  │      │  Models  │     │   Types   │              │
 │    └─────────┘      └──────────┘     └───────────┘              │
-│         │                 │                 │                    │
-│         └─────────────────┼─────────────────┘                    │
-│                           │                                      │
-│                    Cross-Layer                                   │
-│                  Consistency Audit                               │
-│                                                                  │
+│         │                 │                 │                   │
+│         └─────────────────┼─────────────────┘                   │
+│                           │                                     │
+│                    Cross-Layer                                  │
+│                  Consistency Audit                              │
+│                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -85,7 +85,7 @@ ______________________________________________________________________
 
 Store API contracts in a consistent location:
 
-```
+```text
 docs/
 └── architecture/
     └── [feature-name]/
@@ -175,7 +175,7 @@ ______________________________________________________________________
 
 These are **expected** and should not be flagged as inconsistencies:
 
-```
+```text
 Database          →  API JSON
 ───────────────────────────────
 created_at        →  createdAt     ✅ Case conversion only
@@ -187,7 +187,7 @@ email_address     →  emailAddress  ✅ Case conversion only
 
 These are **errors** that must be fixed:
 
-```
+```text
 Database          →  API JSON
 ───────────────────────────────
 created_at        →  creationDate  ❌ Different name
@@ -263,7 +263,7 @@ CREATE TABLE users (
 );
 ````
 
-### Backend (models/user.py:15)
+#### Backend (models/user.py:15)
 
 ```python
 class User(BaseModel):
@@ -274,7 +274,7 @@ class User(BaseModel):
     updated_at: Optional[datetime] = None
 ```
 
-### API Contract (api-contract.yaml:89)
+#### API Contract (api-contract.yaml:89)
 
 ```yaml
 User:
@@ -298,7 +298,7 @@ User:
       nullable: true
 ```
 
-### Frontend (types/user.ts:8)
+#### Frontend (types/user.ts:8)
 
 ```typescript
 interface User {
@@ -310,19 +310,17 @@ interface User {
 }
 ```
 
-````
-
 ### 2) Compare Fields
 
 Create a comparison matrix:
 
-| Field | Database | Backend | API | Frontend | Status |
-|-------|----------|---------|-----|----------|--------|
-| id | `id` (UUID) | `id` (UUID) | `id` (string/uuid) | `id` (string) | ✅ |
-| email | `email` (VARCHAR) | `email` (str) | `email` (string) | `email` (string) | ✅ |
-| displayName | `display_name` | `display_name` | `displayName` | `displayName` | ✅ |
-| createdAt | `created_at` | `created_at` | `createdAt` | `createdAt` | ✅ |
-| updatedAt | `updated_at` | `updated_at` | `updatedAt` | `updatedAt` | ✅ |
+| Field       | Database          | Backend        | API                | Frontend         | Status |
+| ----------- | ----------------- | -------------- | ------------------ | ---------------- | ------ |
+| id          | `id` (UUID)       | `id` (UUID)    | `id` (string/uuid) | `id` (string)    | ✅     |
+| email       | `email` (VARCHAR) | `email` (str)  | `email` (string)   | `email` (string) | ✅     |
+| displayName | `display_name`    | `display_name` | `displayName`      | `displayName`    | ✅     |
+| createdAt   | `created_at`      | `created_at`   | `createdAt`        | `createdAt`      | ✅     |
+| updatedAt   | `updated_at`      | `updated_at`   | `updatedAt`        | `updatedAt`      | ✅     |
 
 ### 3) Flag Issues
 
@@ -347,7 +345,7 @@ When mismatches are found:
 **Fix**:
 1. Rename database column: `user_email` → `email`
 2. Rename backend field: `email_address` → `email`
-````
+```
 
 ______________________________________________________________________
 
@@ -373,16 +371,16 @@ Cross-layer consistency auditing happens during architecture and implementation:
          └─────────────────┬─────────────────┘
                            │
             ┌──────────────────────────────┐
-            │   CONSISTENCY AUDIT (NEW)     │
-            │                               │
-            │  cross-layer-consistency-     │
-            │  auditor                      │
-            │                               │
-            │  Checks:                      │
-            │  • Database schema            │
-            │  • Backend models             │
-            │  • API contract               │
-            │  • Frontend types             │
+            │   CONSISTENCY AUDIT (NEW)    │
+            │                              │
+            │  cross-layer-consistency-    │
+            │  auditor                     │
+            │                              │
+            │  Checks:                     │
+            │  • Database schema           │
+            │  • Backend models            │
+            │  • API contract              │
+            │  • Frontend types            │
             └──────────────────────────────┘
                            │
                     code-reviewer
@@ -396,7 +394,7 @@ ______________________________________________________________________
 
 **Problem**: Using `float` causes precision loss
 
-```
+```text
 Database: DECIMAL(10,2)  →  Backend: float  →  Frontend: number
                                     ↑
                             PRECISION LOSS!
@@ -404,14 +402,14 @@ Database: DECIMAL(10,2)  →  Backend: float  →  Frontend: number
 
 **Solution**: Use integer cents or string representation
 
-```
+```text
 Database: INTEGER (cents)  →  Backend: int  →  API: integer  →  Frontend: number
    1999 cents = $19.99
 ```
 
 Or use string:
 
-```
+```text
 Database: DECIMAL(10,2)  →  Backend: Decimal  →  API: string  →  Frontend: string
                                                     "19.99"
 ```
