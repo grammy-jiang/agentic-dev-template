@@ -34,13 +34,40 @@ handoffs:
       - Expected output: Diagnosis and minimal fixes
       - Next step: Return to implementation-driver after fixes
     send: false
-  - label: "→ Request Code Review"
+  - label: "→ Run Browser Tests (Stage 4a)"
+    agent: browser-test-executor
+    prompt: |
+      Execute the browser test playbooks against the implemented feature.
+
+      HANDOFF CONTEXT:
+      - Source: implementation-driver agent (implementation complete)
+      - Input: Playbooks from Stage 1a (tests/e2e/playbooks/)
+      - Expected output: Test results with screenshot evidence
+      - Next step: browser-test-gate validates, then code-reviewer
+
+      📸 STAGE 4a: Verify user stories work in real browser.
+    send: false
+  - label: "→ Verify Code Consistency (Stage 4b)"
+    agent: cross-layer-consistency-auditor
+    prompt: |
+      Audit the implementation for naming/type consistency across layers.
+
+      HANDOFF CONTEXT:
+      - Source: implementation-driver agent (implementation complete)
+      - Input: Actual DB schema, backend models, frontend types
+      - Expected output: Code-to-contract consistency report
+      - Next step: If approved, proceed to code review
+
+      🔍 STAGE 4b: Verify code matches contracts before review.
+    send: false
+  - label: "→ Request Code Review (after 4a & 4b)"
     agent: code-reviewer
     prompt: |
       Review the implementation above for correctness, security, and quality.
 
       HANDOFF CONTEXT:
       - Source: implementation-driver agent
+      - Prerequisites: Stage 4a (browser tests) and 4b (consistency) passed
       - Input: Production code with tests, following TDD practices
       - Expected output: Pre-review report with categorized issues
       - Next step: review-comment-fixer will address feedback

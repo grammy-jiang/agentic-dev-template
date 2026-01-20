@@ -16,16 +16,31 @@ handoffs:
       - Required fixes: See threat model gaps and NFR issues above
       - Next step: Resubmit to risk-and-nfr-gate after fixes
     send: false
-  - label: "→ Start Implementation (if approved)"
+  - label: "→ Check Design Consistency (Stage 3a - REQUIRED)"
+    agent: cross-layer-consistency-auditor
+    prompt: |
+      Audit the contracts for naming/type consistency BEFORE implementation.
+
+      HANDOFF CONTEXT:
+      - Source: risk-and-nfr-gate agent (APPROVAL)
+      - Stage: 3a (Design Consistency Check)
+      - Input: API contracts, DB schemas, type definitions (proposed)
+      - Expected output: Consistency audit verifying contract alignment
+      - Next step: If approved, proceed to implementation
+
+      🔍 STAGE 3a: Verify contracts are consistent before writing code.
+    send: false
+  - label: "→ Start Implementation (after 3a approval)"
     agent: implementation-driver
     prompt: |
       Implement the approved architecture following TDD practices.
 
       HANDOFF CONTEXT:
       - Source: risk-and-nfr-gate agent (APPROVAL)
+      - Prerequisite: Stage 3a (design consistency) should be checked first
       - Input: Risk-reviewed architecture specs with API contracts and data models
       - Expected workflow: test-drafter (Red) → implementation-driver (Green) → Refactor
-      - Next step: Draft failing tests first with test-drafter, then implement
+      - Next step: Draft failing tests first with test-drafter
 
       ✅ GATE PASSED: Architecture meets security and NFR requirements.
     send: false

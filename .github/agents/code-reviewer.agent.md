@@ -19,6 +19,19 @@ handoffs:
       - Expected output: Minimal fixes addressing each comment
       - Next step: Return to code-reviewer for re-review, then merge-readiness-auditor
     send: false
+  - label: "→ Audit Cross-Layer Consistency"
+    agent: cross-layer-consistency-auditor
+    prompt: |
+      Audit the code for naming/type consistency across DB, backend, and frontend.
+
+      HANDOFF CONTEXT:
+      - Source: code-reviewer agent
+      - Input: Code changes affecting multiple layers (models, API, UI)
+      - Expected output: Consistency audit report identifying mismatches
+      - Next step: implementation-driver fixes any inconsistencies
+
+      🔍 CHECK: DB column → API field → UI prop names and types must match.
+    send: false
   - label: "→ Check Merge Readiness (if no issues)"
     agent: merge-readiness-auditor
     prompt: |

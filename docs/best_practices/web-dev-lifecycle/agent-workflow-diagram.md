@@ -6,27 +6,31 @@ ______________________________________________________________________
 
 ## Agent Inventory
 
-| #  | Agent                              | Type    | Lifecycle Stage    |
-|----|------------------------------------|---------|--------------------|
-| 1  | `requirements`                     | Builder | 1. Requirements    |
-| 2  | `story-builder`                    | Builder | 1. Requirements    |
-| 3  | `story-quality-gate`               | Gate    | 1. Requirements    |
-| 4  | `ui-scaffolder`                    | Builder | 2. UI/UX Design    |
-| 5  | `a11y-guardian`                    | Gate    | 2. UI/UX Design    |
-| 6  | `arch-spec-author`                 | Builder | 3. Architecture    |
-| 7  | `risk-and-nfr-gate`                | Gate    | 3. Architecture    |
-| 8  | `implementation-design`            | Builder | 4. Implementation  |
-| 9  | `implementation-driver`            | Builder | 4. Implementation  |
-| 10 | `ci-quality-gate`                  | Gate    | 4. Implementation  |
-| 11 | `test-drafter`                     | Builder | 5. Testing         |
-| 12 | `test-truth-and-stability-gate`    | Gate    | 5. Testing         |
-| 13 | `code-reviewer`                    | Gate    | 6. Review          |
-| 14 | `review-comment-fixer`             | Builder | 6. Review          |
-| 15 | `merge-readiness-auditor`          | Gate    | 6. Review          |
-| 16 | `release-pipeline-author`          | Builder | 7. Release & Ops   |
-| 17 | `prod-risk-and-rollback-gate`      | Gate    | 7. Release & Ops   |
-| 18 | `runbook-and-ops-docs`             | Builder | 7. Release & Ops   |
-| 19 | `incident-scribe`                  | Builder | 7. Release & Ops   |
+| #  | Agent                              | Type    | Lifecycle Stage           |
+|----|------------------------------------|---------|--------------------------:|
+| 1  | `requirements`                     | Builder | 1. Requirements           |
+| 2  | `story-builder`                    | Builder | 1. Requirements           |
+| 3  | `story-quality-gate`               | Gate    | 1. Requirements           |
+| 4  | `story-to-playbook`                | Builder | 1a. Playbook Drafting     |
+| 5  | `ui-scaffolder`                    | Builder | 2. UI/UX Design           |
+| 6  | `a11y-guardian`                    | Gate    | 2. UI/UX Design           |
+| 7  | `arch-spec-author`                 | Builder | 3. Architecture           |
+| 8  | `risk-and-nfr-gate`                | Gate    | 3. Architecture           |
+| 9  | `cross-layer-consistency-auditor`  | Gate    | 3a. Design Consistency & 4b. Code Consistency |
+| 10 | `implementation-design`            | Builder | 4. Implementation         |
+| 11 | `implementation-driver`            | Builder | 4. Implementation         |
+| 12 | `ci-quality-gate`                  | Gate    | 4. Implementation         |
+| 13 | `browser-test-executor`            | Builder | 4a. Story Verification    |
+| 14 | `browser-test-gate`                | Gate    | 4a. Story Verification    |
+| 15 | `test-drafter`                     | Builder | 5. Testing                |
+| 16 | `test-truth-and-stability-gate`    | Gate    | 5. Testing                |
+| 17 | `code-reviewer`                    | Gate    | 6. Review                 |
+| 18 | `review-comment-fixer`             | Builder | 6. Review                 |
+| 19 | `merge-readiness-auditor`          | Gate    | 6. Review                 |
+| 20 | `release-pipeline-author`          | Builder | 7. Release & Ops          |
+| 21 | `prod-risk-and-rollback-gate`      | Gate    | 7. Release & Ops          |
+| 22 | `runbook-and-ops-docs`             | Builder | 7. Release & Ops          |
+| 23 | `incident-scribe`                  | Builder | 7. Release & Ops          |
 
 ______________________________________________________________________
 
@@ -58,8 +62,24 @@ ______________________________________________________________________
    • `01-feature-request.yml` ← Feature one-pagers
    • `02-user-story.yml` ← User stories with DoR checklist
 
+1a. PLAYBOOK DRAFTING STAGE (After Stories, Before Implementation)
+   story-to-playbook
+       │
+   📥 INPUTS:
+   • Validated user stories with acceptance criteria
+   • Target URLs and routes for features
+   • Test data and authentication requirements
+
+   📤 OUTPUTS:
+   • Browser test playbooks (step tables, selectors, assertions)
+   • Evidence capture plan (which steps need screenshots)
+   • Edge case scenarios (empty, error, permission states)
+
+   ⏰ TIMING: Playbooks drafted NOW, executed AFTER implementation (Stage 4a)
+
 2. ARCHITECTURE STAGE
-   arch-spec-author ──> risk-and-nfr-gate ──┬──> implementation-driver
+   arch-spec-author ──> risk-and-nfr-gate ──┬──> cross-layer-consistency-auditor (design)
+                                            ├──> implementation-driver
                                             └──> ui-scaffolder
 
    📥 INPUTS:
@@ -80,6 +100,30 @@ ______________________________________________________________________
    • `04-architecture-decision.yml` ← ADRs
    • `05-technical-debt.yml` ← Tech debt tracking
 
+3a. DESIGN CONSISTENCY CHECK (Before Implementation)
+   cross-layer-consistency-auditor ──┬──> arch-spec-author (if mismatches)
+                                     └──> implementation-driver (if approved)
+
+   📥 INPUTS:
+   • API contracts (OpenAPI) from Architecture
+   • Database schemas and migrations (proposed)
+   • Backend model definitions (Pydantic schemas)
+   • Frontend type definitions (TypeScript interfaces)
+
+   📤 OUTPUTS:
+   • Consistency audit report (all layers)
+   • Field-level comparison matrix
+   • Type compatibility verification
+   • Recommended fixes for mismatches
+
+   🔍 CHECKS:
+   • Naming consistency (snake_case → camelCase transformations OK)
+   • Type compatibility (DECIMAL vs float, UUID vs string)
+   • Nullability alignment (DB NULL vs API required)
+   • Generated vs manual types (frontend should generate from contract)
+
+   ⏰ TIMING: Run BEFORE implementation starts to catch contract mismatches early
+
 3. UI/UX DESIGN STAGE
    ui-scaffolder ──> a11y-guardian ──┬──> test-drafter
                                      └──> code-reviewer
@@ -92,7 +136,7 @@ ______________________________________________________________________
 
    📤 OUTPUTS:
    • UI contract (routes, components, states, responsive requirements)
-   • Component scaffolds (React/TS) with loading/empty/error states
+   • Component scaffolds (SvelteKit/TS) with loading/empty/error states
    • Typed mock data and fixtures
    • Storybook stories for all component states
    • Accessibility audit report (WCAG compliance)
@@ -100,7 +144,8 @@ ______________________________________________________________________
 4. IMPLEMENTATION STAGE
    implementation-driver ──┬──> test-drafter
                            ├──> ci-quality-gate (on failures)
-                           └──> code-reviewer
+                           ├──> browser-test-executor (4a)
+                           └──> cross-layer-consistency-auditor (4b)
 
    📥 INPUTS:
    • API contracts and data models (from Architecture)
@@ -123,6 +168,46 @@ ______________________________________________________________________
    • implementation-driver refactors while tests stay green
    • Repeat for each behavior
 
+4a. STORY VERIFICATION EXECUTION (After Implementation)
+   browser-test-executor ──> browser-test-gate ──┬──> implementation-driver (if bug)
+                                                 └──> code-reviewer (if passed)
+
+   📥 INPUTS:
+   • Browser test playbooks (from Stage 1a)
+   • Implemented feature (from Stage 4)
+   • Running application (local or staging)
+   • Test data and authentication tokens
+
+   📤 OUTPUTS:
+   • Execution reports with step-by-step results
+   • Screenshot evidence (success and failure states)
+   • Pass/fail verdict per scenario
+   • Bug reports for implementation mismatches
+
+   🖥️ MCP TOOLS:
+   • `microsoft/playwright-mcp` - Cross-browser automation
+   • `io.github.anthropics/chrome-devtools-mcp` - Chrome DevTools
+
+   ⏰ TIMING: Run AFTER implementation is complete, BEFORE code review
+
+4b. CODE CONSISTENCY CHECK (After Implementation)
+   cross-layer-consistency-auditor ──┬──> implementation-driver (if mismatches)
+                                     └──> code-reviewer (if approved)
+
+   📥 INPUTS:
+   • Actual database schema (implemented)
+   • Backend models and serializers (implemented)
+   • Frontend types and API clients (implemented)
+   • API contracts for reference
+
+   📤 OUTPUTS:
+   • Code consistency audit report
+   • Actual vs contract comparison
+   • Mismatch list with line references
+   • Required fixes before review
+
+   ⏰ TIMING: Run AFTER implementation, BEFORE code review
+
 5. TESTING STAGE (Supports TDD Red Phase)
    test-drafter ──> test-truth-and-stability-gate ──> code-reviewer
 
@@ -140,10 +225,10 @@ ______________________________________________________________________
    • Deterministic fixtures and test data
    • Coverage reports mapped to acceptance criteria
 
-   � ISSUE TEMPLATES:
+   📋 ISSUE TEMPLATES:
    • `06-test-case-gap.yml` ← Missing test coverage
 
-   �🔄 TDD INTEGRATION (Bidirectional with Implementation):
+   🔄 TDD INTEGRATION (Bidirectional with Implementation):
    • Tests written BEFORE implementation (Red phase) — test-drafter initiates
    • Tests follow AAA structure (Arrange → Act → Assert)
    • Behavior over implementation testing
@@ -206,12 +291,19 @@ Agents output content compatible with GitHub Issue Forms in `.github/ISSUE_TEMPL
 | -------------- | ------------- | ---------- | --------------- |
 | `01-feature-request.yml` | `requirements` | — | Requirements |
 | `02-user-story.yml` | `story-builder` | `story-quality-gate` | Requirements |
-| `03-bug-report.yml` | `implementation-driver` | `code-reviewer` | Implementation |
+| `03-bug-report.yml` | `implementation-driver`, `browser-test-gate` | `code-reviewer` | Implementation |
 | `04-architecture-decision.yml` | `arch-spec-author` | `risk-and-nfr-gate` | Architecture |
-| `05-technical-debt.yml` | `arch-spec-author` | `risk-and-nfr-gate` | Architecture |
+| `05-technical-debt.yml` | `arch-spec-author`, `cross-layer-consistency-auditor` | `risk-and-nfr-gate` | Architecture |
 | `06-test-case-gap.yml` | `test-drafter` | `test-truth-and-stability-gate` | Testing |
 | `07-release-request.yml` | `release-pipeline-author` | `prod-risk-and-rollback-gate` | Release & Ops |
 | `08-incident-report.yml` | `incident-scribe` | — | Release & Ops |
+
+### New Verification Workflows
+
+| Workflow | Primary Agent | Gate Agent | Purpose |
+| -------- | ------------- | ---------- | ------- |
+| Story → Browser Test | `story-to-playbook` | `browser-test-gate` | Verify stories via browser |
+| Consistency Audit | — | `cross-layer-consistency-auditor` | Verify DB/Backend/Frontend alignment |
 
 ### Workflow: Agent Output → Issue Creation
 
@@ -257,10 +349,18 @@ flowchart TB
         SB --> SQG
     end
 
+    subgraph PlaybookDraft["1a. Playbook Drafting"]
+        STP[story-to-playbook]
+    end
+
     subgraph Architecture["2. Architecture Stage"]
         ASA[arch-spec-author]
         RNG[risk-and-nfr-gate]
         ASA --> RNG
+    end
+
+    subgraph DesignConsistency["3a. Design Consistency Check"]
+        CLCA_DESIGN[cross-layer-consistency-auditor<br/>Design Check]
     end
 
     subgraph UIUX["3. UI/UX Design Stage"]
@@ -269,7 +369,7 @@ flowchart TB
         UIS --> A11Y
     end
 
-    subgraph Implementation["4. Implementation Stage (TDD)"]
+    subgraph Implementation["4. Implementation Stage - TDD"]
         ID[implementation-design]
         IDR[implementation-driver]
         CQG[ci-quality-gate]
@@ -277,7 +377,17 @@ flowchart TB
         IDR --> CQG
     end
 
-    subgraph Testing["5. Testing Stage (TDD Support)"]
+    subgraph StoryVerification["4a. Story Verification - After Implementation"]
+        BTE[browser-test-executor]
+        BTG[browser-test-gate]
+        BTE --> BTG
+    end
+
+    subgraph CodeConsistency["4b. Code Consistency Check"]
+        CLCA_CODE[cross-layer-consistency-auditor<br/>Code Check]
+    end
+
+    subgraph Testing["5. Testing Stage - TDD Support"]
         TD[test-drafter]
         TTSG[test-truth-and-stability-gate]
         TD --> TTSG
@@ -302,16 +412,28 @@ flowchart TB
         ROD --> IS
     end
 
-    %% Cross-stage connections
+    %% Cross-stage connections - Requirements to downstream
     REQ --> UIS
     REQ --> ASA
     SQG --> ASA
-    RNG --> IDR
+    SQG --> STP
+
+    %% Architecture to downstream
+    RNG --> CLCA_DESIGN
+    CLCA_DESIGN --> IDR
     RNG --> UIS
+
+    %% Implementation to post-implementation checks
+    IDR --> BTE
+    STP -.->|"playbooks ready"| BTE
+    IDR --> CLCA_CODE
+    BTG --> CR
+    CLCA_CODE --> CR
+
+    %% Other connections
     A11Y --> TD
     A11Y --> CR
     IDR --> TD
-    IDR --> CR
     CQG --> IDR
     TTSG --> CR
     MRA --> RPA
@@ -320,6 +442,14 @@ flowchart TB
     %% TDD Loop (Red → Green → Refactor)
     TD -.->|"Red: failing test"| IDR
     IDR -.->|"Green: minimal code"| TD
+
+    %% Story Verification Loop (after implementation)
+    BTG -.->|"Bug found"| IDR
+    BTG -.->|"Playbook issue"| STP
+
+    %% Consistency Fix Loops
+    CLCA_DESIGN -.->|"Design mismatch"| ASA
+    CLCA_CODE -.->|"Code mismatch"| IDR
 ```
 
 ______________________________________________________________________
@@ -328,15 +458,31 @@ ______________________________________________________________________
 
 The workflow supports iteration at multiple points:
 
-| Loop                | Trigger                     | Flow                                                             |
-|---------------------|-----------------------------|----------------------------------------------------------------- |
-| Story Refinement    | Quality issues found        | `story-quality-gate` -> `story-builder`                          |
-| Architecture Update | Risk/NFR gaps               | `risk-and-nfr-gate` -> `arch-spec-author`                        |
-| Accessibility Fix   | A11y audit fails            | `a11y-guardian` -> `ui-scaffolder`                               |
-| **TDD Red→Green**   | **Each behavior change**    | `test-drafter` -> `implementation-driver` -> `test-drafter`      |
-| Test Revision       | Low signal tests            | `test-truth-and-stability-gate` -> `test-drafter`                |
-| Review Fix          | Comments to address         | `code-reviewer` -> `review-comment-fixer` -> `code-reviewer`     |
-| Incident Follow-up  | Post-incident actions       | `incident-scribe` -> `story-builder`                             |
+| Loop                      | Trigger                     | Flow                                                             |
+|---------------------------|-----------------------------|----------------------------------------------------------------- |
+| Story Refinement          | Quality issues found        | `story-quality-gate` -> `story-builder`                          |
+| Playbook Drafting         | Stories validated           | `story-quality-gate` -> `story-to-playbook` (playbooks wait for implementation) |
+| Architecture Update       | Risk/NFR gaps               | `risk-and-nfr-gate` -> `arch-spec-author`                        |
+| **Design Consistency**    | **Contract mismatches**     | `cross-layer-consistency-auditor` -> `arch-spec-author` (Stage 3a) |
+| Accessibility Fix         | A11y audit fails            | `a11y-guardian` -> `ui-scaffolder`                               |
+| **TDD Red→Green**         | **Each behavior change**    | `test-drafter` -> `implementation-driver` -> `test-drafter`      |
+| **Story Verification**    | **Implementation complete** | `implementation-driver` -> `browser-test-executor` -> `browser-test-gate` (Stage 4a) |
+| **Code Consistency**      | **Code mismatches**         | `cross-layer-consistency-auditor` -> `implementation-driver` (Stage 4b) |
+| Test Revision             | Low signal tests            | `test-truth-and-stability-gate` -> `test-drafter`                |
+| Review Fix                | Comments to address         | `code-reviewer` -> `review-comment-fixer` -> `code-reviewer`     |
+| Incident Follow-up        | Post-incident actions       | `incident-scribe` -> `story-builder`                             |
+
+### Timing Summary
+
+| Stage | What Happens | When |
+|-------|--------------|------|
+| **1a. Playbook Drafting** | Create browser test playbooks | After stories validated, before implementation |
+| **3a. Design Consistency** | Verify contracts are consistent | After architecture, before implementation |
+| **4. Implementation** | Write code following TDD | After design consistency approved |
+| **4a. Story Verification** | Execute playbooks in browser | After implementation complete |
+| **4b. Code Consistency** | Verify code matches contracts | After implementation, before code review |
+| **5. Testing** | TDD support (Red phase happens in 4) | Continuous during implementation |
+| **6. Review** | Code review | After 4a and 4b gates pass |
 
 ### TDD Loop Detail (Red → Green → Refactor)
 
@@ -370,8 +516,12 @@ Different scenarios have different entry points:
 | Scenario                    | Start Agent                                | Path                                                       |
 | --------------------------- | ------------------------------------------ | ---------------------------------------------------------- |
 | New feature from idea       | `requirements`                             | Full lifecycle                                             |
+| **Draft playbooks early**   | `story-to-playbook`                        | Story → Playbook (then wait for implementation)            |
+| **Run browser tests**       | `browser-test-executor`                    | Execute playbooks after implementation                     |
 | Design-ready feature        | `ui-scaffolder` or `arch-spec-author`      | Skip requirements                                          |
 | **TDD-driven feature**      | `test-drafter`                             | Red -> Green -> Refactor loop with `implementation-driver` |
+| **Check design consistency**| `cross-layer-consistency-auditor`          | Audit contracts before implementation (Stage 3a)           |
+| **Check code consistency**  | `cross-layer-consistency-auditor`          | Audit code after implementation (Stage 4b)                 |
 | Bug fix                     | `test-drafter` (write failing test first)  | TDD path: Red -> Green                                     |
 | Test coverage improvement   | `test-drafter`                             | Testing only                                               |
 | Hotfix/emergency            | `implementation-driver` -> `code-reviewer` | Fast path (add tests after)                                |
@@ -385,6 +535,8 @@ ______________________________________________________________________
 
 - **requirements**: Feature one-pagers, acceptance criteria, risk analysis
 - **story-builder**: INVEST-compliant user stories with **testable acceptance criteria**
+- **story-to-playbook**: **Convert user stories to executable browser test playbooks**
+- **browser-test-executor**: **Execute playbooks in headless browser, capture screenshots**
 - **ui-scaffolder**: UI components, mock data, Storybook stories
 - **arch-spec-author**: API contracts, diagrams, ADRs, data models, **contract test stubs**
 - **implementation-design**: Technical specs without code
@@ -398,8 +550,10 @@ ______________________________________________________________________
 ### Gate Agents (Quality control)
 
 - **story-quality-gate**: INVEST validation, DoR checks, **testability verification**
+- **browser-test-gate**: **Validate browser test results, verify story satisfaction with evidence**
 - **a11y-guardian**: Accessibility audits
 - **risk-and-nfr-gate**: Security, threat model, NFR review
+- **cross-layer-consistency-auditor**: **Verify naming/type consistency across DB, backend, frontend**
 - **ci-quality-gate**: CI failure analysis and fixes; **coverage enforcement**
 - **test-truth-and-stability-gate**: Test quality validation, **AAA structure, determinism checks**
 - **code-reviewer**: Pre-merge code review

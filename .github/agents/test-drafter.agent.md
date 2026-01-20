@@ -23,6 +23,19 @@ handoffs:
 
       🟢 TDD GREEN PHASE: Write minimal code to pass the tests.
     send: false
+  - label: "→ Generate Browser Test Playbook"
+    agent: story-to-playbook
+    prompt: |
+      Convert user story acceptance criteria into browser test playbooks.
+
+      HANDOFF CONTEXT:
+      - Source: test-drafter agent
+      - Input: User stories with acceptance criteria, or E2E test scenarios
+      - Expected output: Executable playbooks with step tables and evidence plans
+      - Next step: browser-test-executor runs playbooks for visual verification
+
+      📸 BROWSER TESTS: For E2E scenarios that need visual verification.
+    send: false
   - label: "→ Validate Tests (REQUIRED)"
     agent: test-truth-and-stability-gate
     prompt: |

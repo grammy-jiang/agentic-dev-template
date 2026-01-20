@@ -16,6 +16,20 @@ handoffs:
       - Required fixes: See INVEST violations and DoR gaps above
       - Next step: Resubmit to story-quality-gate after fixes
     send: false
+  - label: "→ Draft Browser Playbooks (Stage 1a - RECOMMENDED)"
+    agent: story-to-playbook
+    prompt: |
+      Convert the approved user stories into browser test playbooks.
+
+      HANDOFF CONTEXT:
+      - Source: story-quality-gate agent (APPROVAL)
+      - Stage: 1a (Playbook Drafting)
+      - Input: INVEST-validated user stories with complete acceptance criteria
+      - Expected output: Browser test playbooks saved to tests/e2e/playbooks/
+      - Timing: Playbooks created NOW, executed AFTER implementation (Stage 4a)
+
+      📋 STAGE 1a: Draft playbooks now for later execution.
+    send: false
   - label: "→ Proceed to Architecture (if approved)"
     agent: arch-spec-author
     prompt: |

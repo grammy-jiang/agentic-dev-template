@@ -20,6 +20,19 @@ handoffs:
 
       ⚠️ BLOCKING GATE: Architecture must pass risk review before implementation.
     send: false
+  - label: "→ Verify Cross-Layer Consistency (recommended)"
+    agent: cross-layer-consistency-auditor
+    prompt: |
+      Audit the API contract and data models for naming/type consistency.
+
+      HANDOFF CONTEXT:
+      - Source: arch-spec-author agent
+      - Input: API contracts (OpenAPI), data models, database schema
+      - Expected output: Consistency audit ensuring DB/Backend/Frontend alignment
+      - Next step: Fix any mismatches before implementation
+
+      🔍 CONSISTENCY CHECK: Ensure all layers use identical names and compatible types.
+    send: false
 ---
 
 # Role
